@@ -1,11 +1,11 @@
 # 1. Wybieramy obraz Node.js (LTS)
-FROM node:20-alpine
+FROM node:20-bullseye
 
 # 2. Ustawiamy katalog roboczy w kontenerze
 WORKDIR /usr/src/app
 
 # 3. Instalacja build tools potrzebnych dla LightningCSS i innych paczek natywnych
-RUN apk add --no-cache python3 make g++ bash
+RUN apt-get update && apt-get install -y python3 make g++ bash && rm -rf /var/lib/apt/lists/*
 
 # 4. Kopiujemy package.json i package-lock.json / yarn.lock
 COPY package*.json ./

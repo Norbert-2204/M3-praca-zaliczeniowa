@@ -10,6 +10,7 @@ services:
       DATABASE_URL: ${DATABASE_URL}
     volumes:
       - .:/usr/src/app
+      - /usr/src/app/node_modules
     depends_on:
       postgres:
         condition: service_healthy
@@ -40,3 +41,44 @@ volumes:
 
 networks:
   node_sql_network:
+# version: "3.9"
+
+# services:
+#   db:
+#     image: postgres:18
+#     restart: always
+#     environment:
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: postgres
+#       POSTGRES_DB: devstockhub
+#     ports:
+#       - "5432:5432"
+#     volumes:
+#       - db-data:/var/lib/postgresql/data
+
+#   pgadmin:
+#     image: dpage/pgadmin4
+#     restart: always
+#     environment:
+#       PGADMIN_DEFAULT_EMAIL: admin@example.com
+#       PGADMIN_DEFAULT_PASSWORD: admin
+#     ports:
+#       - "8080:80"
+#     depends_on:
+#       - db
+
+#   app:
+#     build: .
+#     restart: always
+#     command: npm run dev
+#     ports:
+#       - "3000:3000"
+#     environment:
+#       DATABASE_URL: "postgresql://postgres:postgres0@db:5432/devstockhub"
+#     depends_on:
+#       - db
+#     volumes:
+#       - .:/app
+
+# volumes:
+#   db-data:
