@@ -24,13 +24,14 @@ const Footer = () => {
                 src={src}
                 alt={`badge-${idx}`}
                 fill
-                className="rounded-[5.38px] border"
+                sizes="64px"
+                className="object-contain"
               />
             </div>
           ))}
         </div>
       </div>
-      <nav className="flex gap-1">
+      <nav className="flex justify-center gap-1">
         <div className="flex flex-col gap-8">
           <h2 className="text-[20px] font-bold">Company</h2>
           <div className="flex flex-col gap-4 w-[191px]">

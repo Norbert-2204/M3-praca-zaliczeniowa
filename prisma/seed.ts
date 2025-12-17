@@ -12,31 +12,36 @@ async function main() {
           name: "Mouse",
           description: "Computer mice",
           image: "https://i.ibb.co/cK2dFPQC/Frame-6467.png",
-          exploreInfo: "Mouses for best experience",
+          exploreInfo:
+            "Discover a wide range of computer mice designed for precision and comfort. From ergonomic office models to high-performance gaming mice, we have options for every need. Enjoy smooth tracking, durable design, and modern technology. Upgrade your everyday experience today.",
         },
         {
           name: "Monitor",
           description: "Monitors",
           image: "https://i.ibb.co/7Jn2n4Ym/Frame-6468.png",
-          exploreInfo: "Best quality expirience",
+          exploreInfo:
+            "Explore high-quality monitors built for work, gaming, and entertainment. Experience sharp resolution, vivid colors, and smooth refresh rates. Our monitors improve productivity and visual comfort. Choose the perfect screen for your setup.",
         },
         {
           name: "Headphone",
           description: "Headphones",
           image: "https://i.ibb.co/zVm6p7cr/Frame-6470.png",
-          exploreInfo: "Premium sound for every style",
+          exploreInfo:
+            "Immerse yourself in premium sound with our headphone collection. Enjoy clear audio, deep bass, and comfortable designs for long sessions. Perfect for music, gaming, and calls. Elevate your listening experience.",
         },
         {
           name: "Keyboard",
           description: "keyboards",
           image: "https://i.ibb.co/DPKs9Q3k/Frame-6472.png",
-          exploreInfo: "Fastest and comfy keybords",
+          exploreInfo:
+            "Find keyboards that combine speed, comfort, and durability. Whether you prefer mechanical or classic designs, we have the right fit. Improve your typing accuracy and gaming performance. Designed for everyday efficiency.",
         },
         {
           name: "Webcam",
           description: "Webcams",
           image: "https://i.ibb.co/zTSDy2H3/Frame-6475.png",
-          exploreInfo: "Crystal-clear video calls",
+          exploreInfo:
+            "Upgrade your video communication with high-quality webcams. Enjoy sharp image quality and smooth video performance. Perfect for meetings, streaming, and online learning. Look professional in every call.",
         },
       ],
     });

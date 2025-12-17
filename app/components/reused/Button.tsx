@@ -1,20 +1,26 @@
+"use client";
+
 import { MouseEventHandler, ReactNode } from "react";
 
 interface ButtonProps {
   desc?: string;
   className?: string;
   onClick?: MouseEventHandler<HTMLButtonElement>;
-  variant?: "primary" | "secondary" | "ghost" | "icon";
-  sizes?: "big" | "medium" | "small";
+  variant?: "primary" | "secondary" | "ghost" | "icon" | "iconBig";
+  sizes?: "big" | "medium" | "small" | "icon" | "iconBig";
   icon?: ReactNode;
 }
 
 const VARIANTS = {
-  primary: "bg-orange-500 text-white rounded font-semibold cursor-pointer",
+  primary:
+    "bg-[#F29145] text-[#262626] rounded font-semibold cursor-pointer max-w-[174px] max-h-[60px] text-nowrap",
   secondary:
-    "text-orange-500 rounded font-semibold border border-orange-500 cursor-pointer",
-  ghost: "bg-transparent text-orange-500 rounded font-semibold cursor-pointer ",
-  icon: "bg-transparent cursor-pointer",
+    "text-[#F29145] text-[#F29145] rounded font-semibold border border-orange-500 cursor-pointer max-w-[174px] max-h-[60px] text-nowrap",
+  ghost:
+    "bg-transparent text-[#F29145] rounded font-semibold cursor-pointer max-w-[174px] max-h-[60px] text-nowrap",
+  icon: "bg-transparent cursor-pointer flex justify-center items-center",
+  iconBig:
+    "bg-[#F29145] text-[#262626] cursor-pointer flex justify-center items-center w-11 h-[74px] rounded",
 };
 
 const SIZE = {
@@ -22,6 +28,7 @@ const SIZE = {
   medium: "px-3 py-4",
   small: "px-2 py-4",
   icon: "w-6 h-6",
+  iconBig: "w-[7px] h-1",
 };
 
 const Button = ({
@@ -39,10 +46,10 @@ const Button = ({
   return (
     <button
       onClick={onClick}
-      className={`${variantClasses} ${sizeClasses} ${className}`}
+      className={`${variantClasses} ${sizeClasses} ${className} flex justify-center items-center`}
     >
-      {icon && <span>{icon}</span>}
-      {variant !== "icon" && desc}
+      {desc && <span>{desc}</span>}
+      {icon && <span className="flex">{icon}</span>}
     </button>
   );
 };
