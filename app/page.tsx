@@ -1,7 +1,9 @@
-import Footer from "./components/Footer";
-import Header from "./components/Header";
-import Carousel from "./components/Carousel";
-import Category from "./components/Category";
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+import Carousel from "@/components/home_page/Carousel";
+import Category from "@/components/home_page/Category";
+import Recomdendations from "@/components/home_page/Recomendations";
+import Brand from "@/components/home_page/Brand";
 
 export default async function Home() {
   const categoryRes = await fetch("http://localhost:3000/api/categories", {
@@ -19,7 +21,14 @@ export default async function Home() {
     throw new Error("Failed to fetch products");
   }
   const products = await productRes.json();
-  console.log(products);
+
+  const brandRes = await fetch("http://localhost:3000/api/brand", {
+    cache: "no-store",
+  });
+  if (!brandRes.ok) {
+    throw new Error("Failed to fetch brands");
+  }
+  const brands = await brandRes.json();
 
   return (
     <div>
@@ -27,6 +36,8 @@ export default async function Home() {
         <Header />
         <Carousel categories={categories} />
         <Category categories={categories} />
+        <Recomdendations products={products} categories={categories} />
+        <Brand brands={brands} />
         <Footer />
       </main>
     </div>

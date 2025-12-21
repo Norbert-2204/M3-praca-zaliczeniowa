@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import Button from "./reused/Button";
-import ArrowRight from "../icons/arrowRight";
-import capitalize from "../utils/Capitalize";
-import Left from "../icons/left";
-import Right from "../icons/rigth";
+import Button from "../reused/Button";
+import ArrowRight from "@/icons/arrowRight";
+import capitalize from "@/utils/Capitalize";
+import Left from "@/icons/left";
+import Right from "@/icons/rigth";
 
 interface Category {
   name: string;
@@ -26,7 +26,7 @@ const categoryImages = [
   "https://i.ibb.co/1fH1t4Wt/pngaaa-com-2946337.png",
 ];
 
-function Carousel({ categories }: CarouselProps) {
+const Carousel = ({ categories }: CarouselProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const total = categories.length;
 
@@ -102,5 +102,5 @@ function Carousel({ categories }: CarouselProps) {
       </div>
     </div>
   );
-}
+};
 export default Carousel;

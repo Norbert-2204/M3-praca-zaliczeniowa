@@ -7,7 +7,7 @@ interface ButtonProps {
   className?: string;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   variant?: "primary" | "secondary" | "ghost" | "icon" | "iconBig";
-  sizes?: "big" | "medium" | "small" | "icon" | "iconBig";
+  sizes?: "big" | "medium" | "small" | "verySmall" | "icon" | "iconBig";
   icon?: ReactNode;
 }
 
@@ -18,7 +18,7 @@ const VARIANTS = {
     "text-[#F29145] text-[#F29145] rounded font-semibold border border-orange-500 cursor-pointer max-w-[174px] max-h-[60px] text-nowrap",
   ghost:
     "bg-transparent text-[#F29145] rounded font-semibold cursor-pointer max-w-[174px] max-h-[60px] text-nowrap",
-  icon: "bg-transparent cursor-pointer flex justify-center items-center",
+  icon: " cursor-pointer flex justify-center items-center",
   iconBig:
     "bg-[#F29145] text-[#262626] cursor-pointer flex justify-center items-center w-11 h-[74px] rounded",
 };
@@ -26,7 +26,8 @@ const VARIANTS = {
 const SIZE = {
   big: "px-5 py-4",
   medium: "px-3 py-4",
-  small: "px-2 py-4",
+  small: "px-2 py-4 text-sm",
+  verySmall: "px-1.5 py-2 text-xs",
   icon: "w-6 h-6",
   iconBig: "w-[7px] h-1",
 };

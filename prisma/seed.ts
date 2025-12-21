@@ -50,16 +50,16 @@ async function main() {
 
     await prisma.brand.createMany({
       data: [
-        { name: "ROG", image: "https://i.ibb.co/FLgSzfSf/ROG-Logo.png" },
+        { name: "ROG", imageUrl: "https://i.ibb.co/HfDs42Pv/ROG-Logo.png" },
         {
           name: "Logitech",
-          image: "https://i.ibb.co/xt5pY4dY/Logitech-Logo.png",
+          imageUrl: "https://i.ibb.co/sdN7xZLL/Logitech-Logo.png",
         },
-        { name: "JBL", image: "https://i.ibb.co/B2yz6xr5/JBL-Logo.png" },
-        { name: "AOC", image: "https://i.ibb.co/1t6rdQ00/AOC-Logo.png" },
-        { name: "Razer", image: "https://i.ibb.co/My702J2X/Razer-Logo.png" },
-        { name: "Rexus", image: "https://i.ibb.co/JRkPp9G6/Rexus-Logo.png" },
-        { name: "no-brand", image: "" },
+        { name: "JBL", imageUrl: "https://i.ibb.co/RpBkjc56/JBL-Logo.png" },
+        { name: "AOC", imageUrl: "https://i.ibb.co/1t6rdQ00/AOC-Logo.png" },
+        { name: "Razer", imageUrl: "https://i.ibb.co/DgQVsNqz/AOC-Logo.png" },
+        { name: "Rexus", imageUrl: "https://i.ibb.co/jcSXgmY/Rexus-Logo.png" },
+        { name: "no-brand", imageUrl: "" },
       ],
     });
 

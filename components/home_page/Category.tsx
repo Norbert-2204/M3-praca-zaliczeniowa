@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import capitalize from "../utils/Capitalize";
+import capitalize from "@/utils/Capitalize";
 
 interface Category {
   name: string;

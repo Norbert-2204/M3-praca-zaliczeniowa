@@ -2,7 +2,7 @@
 
 // import { ShopCartIcon } from "../icons/ShopCart";
 import Button from "./reused/Button";
-import ShopCartIcon from "../icons/ShopCart";
+import ShopCartIcon from "@/icons/ShopCart";
 
 const Header = () => {
   return (
@@ -15,7 +15,7 @@ const Header = () => {
         <div className="flex justify-between items-center gap-7">
           <Button
             variant="icon"
-            icon={<ShopCartIcon className="text-white" />}
+            icon={<ShopCartIcon className="text-[#FCFCFC]" />}
           />
           <div className="bg-gray-700 p-4 w-10 h-10 rounded-full"></div>
         </div>

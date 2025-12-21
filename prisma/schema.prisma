@@ -58,7 +58,7 @@ model Category {
 model Brand {
   id        Int       @id @default(autoincrement())
   name      String    @db.VarChar(255)
-  image     String?   @db.Text
+  imageUrl  String?   @db.Text
   products  Product[]
 }
 
