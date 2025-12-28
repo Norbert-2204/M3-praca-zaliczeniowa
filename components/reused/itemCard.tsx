@@ -36,29 +36,37 @@ const ItemCard = ({
       className={`flex flex-col px-4 pb-5 pt-4 ${
         brand ? "gap-7" : "gap-[18px]"
       } justify-center ${brand ? "items-center" : "items-start"} ${
-        brand ? "w-[220px]" : "w-[300px]"
+        brand ? "w-[220px]" : "w-[220px] md:w-[300px]"
       } ${
         brand ? "h-[190px]" : "h-auto"
       } bg-[#262626] border border-[#383B42] rounded`}
     >
       <div
-        className={`relative flex items-center justify-center ${
-          brand ? "w-[110px] h-[57px]" : "w-full aspect-4/3"
+        className={`relative flex items-center justify-center shrink-0 ${
+          brand ? "w-[110px] h-[57px]" : "w-full h-40"
         }
          ${bg ? "bg-white" : "bg-[#262626]"}
          `}
       >
-        <Image
-          loading="eager"
-          src={item.imageUrl || imageError}
-          alt={item.name}
-          width={brand ? 55 : undefined}
-          height={brand ? 29 : undefined}
-          fill={brand ? false : true}
-          style={brand ? { width: "auto", height: "auto" } : {}}
-          sizes="(max-width: 181px), height: auto"
-          className="object-contain"
-        />
+        {brand ? (
+          <Image
+            loading="eager"
+            src={item.imageUrl || imageError}
+            alt={item.name}
+            width={220}
+            height={180}
+            className="w-full h-full object-contain"
+          />
+        ) : (
+          <Image
+            loading="eager"
+            src={item.imageUrl || imageError}
+            alt={item.name}
+            fill
+            sizes="(max-width: 183px)"
+            className="object-contain"
+          />
+        )}
 
         {shop && (
           <Button

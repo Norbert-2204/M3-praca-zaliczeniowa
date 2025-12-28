@@ -58,8 +58,7 @@ const Recomdendations = ({ products, categories }: ProductProps) => {
   }
   return (
     <div className="flex flex-col gap-8 px-10">
-      <Slider title="Recomendation" />
-      <div className="flex gap-8">
+      <Slider title="Recomendation" shop={true}>
         {randomProducts.map((product) => {
           const categoryName = categories.find(
             (cat) => cat.id === product.categoryId
@@ -77,7 +76,7 @@ const Recomdendations = ({ products, categories }: ProductProps) => {
             />
           );
         })}
-      </div>
+      </Slider>
     </div>
   );
 };

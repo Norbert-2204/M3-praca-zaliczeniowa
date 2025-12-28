@@ -17,7 +17,7 @@ const Category = ({ categories }: CategoryProps) => {
   return (
     <div className="flex flex-col items-start justify-center px-10 gap-8 py-[100px] w-full">
       <h2 className="text-[28px]">Category</h2>
-      <div className="flex justify-center gap-16 w-full">
+      <div className="flex justify-center gap-16 w-full flex-wrap">
         {categories.map((cat, idx) => {
           return (
             <div

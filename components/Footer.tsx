@@ -10,14 +10,14 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="px-15 py-[140px] bg-[#222327] flex justify-between">
+    <footer className="px-15 py-[140px] bg-[#222327] flex flex-col xl:flex-row  justify-center xl:justify-between items-start ">
       <div className="flex flex-col gap-6 items-start">
         <h1 className="text-4xl font-bold ">
           <span className="text-[#F29145]">Nexus</span>
           <span>Hub</span>
         </h1>
         <h2>© 2023 NexusHub. All rights reserved.</h2>
-        <div className="flex gap-3">
+        <div className="flex gap-3 flex-wrap">
           {badges.map((src, idx) => (
             <div key={idx} className="relative w-16 h-12">
               <Image
@@ -31,7 +31,7 @@ const Footer = () => {
           ))}
         </div>
       </div>
-      <nav className="flex justify-center gap-1">
+      <nav className="flex flex-col justify-center gap-1 lg:flex-row">
         <div className="flex flex-col gap-8">
           <h2 className="text-[20px] font-bold">Company</h2>
           <div className="flex flex-col gap-4 w-[191px]">
