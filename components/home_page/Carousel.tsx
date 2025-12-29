@@ -45,9 +45,7 @@ const Carousel = ({ categories }: CarouselProps) => {
 
   return (
     <div className="px-6 xl:px-10 flex flex-col items-center">
-      {/* VIEWPORT */}
       <div className="relative w-full h-[452px] overflow-hidden bg-[#222327] rounded border border-[#383B42]">
-        {/* ARROWS */}
         <Button
           variant="iconBig"
           onClick={prev}
@@ -61,8 +59,6 @@ const Carousel = ({ categories }: CarouselProps) => {
           icon={<Right />}
           className="absolute right-0 top-1/2 -translate-y-1/2 z-10"
         />
-
-        {/* TRACK */}
         <div
           className="flex h-[452px] transition-transform duration-500 ease-in-out"
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
@@ -78,7 +74,6 @@ const Carousel = ({ categories }: CarouselProps) => {
                 px-6 xl:px-[120px]
               "
             >
-              {/* TEXT */}
               <div className="flex flex-col gap-6 max-w-[450px] text-center sm:text-left ">
                 <h2 className="text-[32px]">{capitalize(cat.name)}</h2>
                 <p className="text-[#E7E7E7]">{capitalize(cat.exploreInfo)}</p>
@@ -86,8 +81,6 @@ const Carousel = ({ categories }: CarouselProps) => {
                   <Button desc="Explore category" icon={<ArrowRight />} />
                 </div>
               </div>
-
-              {/* IMAGE */}
               <div className="relative w-full max-w-[300px] xl:max-w-[450px] md:aspect-3/5 ">
                 <Image
                   src={categoryImages[idx]}
@@ -101,8 +94,6 @@ const Carousel = ({ categories }: CarouselProps) => {
           ))}
         </div>
       </div>
-
-      {/* DOTS */}
       <div className="flex gap-4 pt-6">
         {categories.map((_, idx) => (
           <div
