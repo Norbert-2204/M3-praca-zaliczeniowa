@@ -1,6 +1,6 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import LoginAuth from "@/components/login/LoginAuth";
+import Login from "@/components/login/Login";
 
 const LoginPage = () => {
   return (
@@ -11,10 +11,7 @@ const LoginPage = () => {
           <span className="text-[#F29145]">Nexus</span>
           <span>Hub</span>
         </h1>
-        <LoginAuth
-          label="Email or phone number"
-          placeholder="Email or phone number"
-        />
+        <Login label="Password" placeholder="Password" />
       </main>
       <Footer />
     </>

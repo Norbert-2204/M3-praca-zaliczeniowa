@@ -9,6 +9,7 @@ interface ButtonProps {
   variant?: "primary" | "secondary" | "ghost" | "icon" | "iconBig";
   sizes?: "big" | "medium" | "small" | "verySmall" | "icon" | "iconBig";
   icon?: ReactNode;
+  type?: "button" | "submit";
 }
 
 const VARIANTS = {
@@ -35,6 +36,7 @@ const SIZE = {
 const Button = ({
   desc = "",
   className = "",
+  type = "button",
   onClick = () => {},
   variant = "primary" as "primary" | "secondary" | "ghost" | "icon",
   sizes = "medium",
@@ -47,6 +49,7 @@ const Button = ({
   return (
     <button
       onClick={onClick}
+      type={type}
       className={`${variantClasses} ${sizeClasses} ${className} flex justify-center items-center`}
     >
       {desc && <span>{desc}</span>}

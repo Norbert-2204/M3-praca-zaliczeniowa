@@ -1,14 +1,21 @@
 "use client";
 
-// import { ShopCartIcon } from "../icons/ShopCart";
 import Button from "./reused/Button";
 import ShopCartIcon from "@/icons/ShopCart";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
+  const router = useRouter();
+  const homePage = () => {
+    router.push("/");
+  };
   return (
     <header className="flex flex-col px-10 py-8 gap-10">
       <div className="flex justify-between ">
-        <h1 className="text-xl font-bold md:text-4xl ">
+        <h1
+          onClick={homePage}
+          className="text-xl font-bold md:text-4xl cursor-pointer "
+        >
           <span className="text-[#F29145]">Devstock</span>
           <span>Hub</span>
         </h1>

@@ -8,3 +8,7 @@ const adapter = new PrismaPg({ connectionString });
 const prisma = new PrismaClient({ adapter });
 
 export { prisma };
+
+// import { PrismaClient } from "@prisma/client";
+
+// export const prisma = new PrismaClient();

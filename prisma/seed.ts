@@ -74,6 +74,7 @@ async function main() {
         email: "test@example.com",
         address: "some street 45/32",
         password: hashedPassword,
+        phone: "123456789",
         avatar: "https://i.ibb.co/0jjGpHKz/indian-5154773.png",
       },
     });
