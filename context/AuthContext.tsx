@@ -1,6 +1,11 @@
 "use client";
-
-import { createContext, useContext, useState, ReactNode } from "react";
+import {
+  useEffect,
+  useState,
+  createContext,
+  useContext,
+  ReactNode,
+} from "react";
 
 export interface User {
   id: number;
@@ -8,7 +13,6 @@ export interface User {
   lastName?: string;
   email: string;
   phone?: string;
-  address?: string;
   avatar?: string;
 }
 
@@ -27,6 +31,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const logout = () => {
     setUser(null);
   };
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await fetch("/api/auth/user");
+        const data = await res.json();
+        if (data.user) setUser(data.user);
+      } catch (err) {
+        console.error("Failed to fetch user:", err);
+      }
+    };
+    fetchUser();
+  }, []);
 
   return (
     <AuthContext.Provider

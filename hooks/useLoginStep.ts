@@ -10,13 +10,12 @@ interface UseLoginStepProps {
 
 export const useLoginStep = ({ type }: UseLoginStepProps) => {
   const router = useRouter();
-  const { user, setUser } = useAuth();
+  const { setUser } = useAuth();
 
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
 
   const submit = async () => {
     setError("");
@@ -29,6 +28,7 @@ export const useLoginStep = ({ type }: UseLoginStepProps) => {
 
       try {
         setLoading(true);
+
         const res = await fetch("/api/auth/check_user", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -36,15 +36,14 @@ export const useLoginStep = ({ type }: UseLoginStepProps) => {
         });
 
         const data = await res.json();
-        console.log(data);
 
         if (!data.exists) {
-          setError("User not found");
+          setError("Email or phone is invalid");
           return false;
         }
 
-        setUser(data.user);
-        setSuccess(true);
+        localStorage.setItem("loginIdentifier", identifier);
+
         router.push("/login/password");
         return true;
       } catch (err) {
@@ -54,25 +53,34 @@ export const useLoginStep = ({ type }: UseLoginStepProps) => {
       } finally {
         setLoading(false);
       }
-    } else if (type === "login") {
+    }
+
+    if (type === "login") {
       if (!password) {
         setError("Password is required");
         return false;
       }
 
+      const loginIdentifier = localStorage.getItem("loginIdentifier");
+
+      if (!loginIdentifier) {
+        setError("Session expired");
+        return false;
+      }
+
       try {
         setLoading(true);
+
         const res = await fetch("/api/auth/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            identifier: user?.email || user?.phone,
+            identifier: loginIdentifier,
             password,
           }),
         });
 
         const data = await res.json();
-        console.log(data);
 
         if (!res.ok) {
           setError(data.error || "Invalid password");
@@ -80,7 +88,9 @@ export const useLoginStep = ({ type }: UseLoginStepProps) => {
         }
 
         setUser(data.user);
-        setSuccess(true);
+        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.removeItem("loginIdentifier");
+
         router.push("/");
         return true;
       } catch (err) {
@@ -91,6 +101,8 @@ export const useLoginStep = ({ type }: UseLoginStepProps) => {
         setLoading(false);
       }
     }
+
+    return false;
   };
 
   return {
@@ -100,7 +112,6 @@ export const useLoginStep = ({ type }: UseLoginStepProps) => {
     setPassword,
     error,
     loading,
-    success,
     submit,
   };
 };

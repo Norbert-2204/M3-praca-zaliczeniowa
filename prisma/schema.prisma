@@ -5,8 +5,7 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client"
-  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+  provider = "prisma-client-js"
   output   = "../app/generated/prisma"
 }
 
@@ -17,11 +16,12 @@ datasource db {
 
 model User {
   id         Int      @id @default(autoincrement())
-  firstName  String   @db.VarChar(255)
+  firstName  String?  @db.VarChar(255)
   lastName   String?  @db.VarChar(255)
   email      String   @unique @db.VarChar(255)
   password   String   @db.Text
-  phone      String?  @unique @db.VarChar(9)
+  phone      String   @unique @db.VarChar(20)
+  region     String?  @db.Text
   address    String?  @db.Text
   avatar     String?  @db.Text
   cartItems  CartItem[]

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "../../../lib/prisma";
+import { cookies } from "next/headers";
 
 export async function POST(req: Request) {
   try {
@@ -27,14 +28,24 @@ export async function POST(req: Request) {
       return NextResponse.json({ exists: false });
     }
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       exists: true,
       type: isEmail ? "email" : "phone",
-      user: user,
+      user,
     });
+    const cookieStore = await cookies();
+    cookieStore.set({
+      name: "pendingUser",
+      value: String(user.id),
+      path: "/",
+      httpOnly: true,
+      sameSite: "lax",
+      maxAge: 60 * 5,
+    });
+
+    return response;
   } catch (error) {
     console.error("CHECK_USER_ERROR:", error);
-
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }

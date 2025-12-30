@@ -1,6 +1,9 @@
 "use client";
 
-import { ChangeEventHandler } from "react";
+import { ChangeEventHandler, useState } from "react";
+import Button from "./Button";
+import EyeOpen from "@/icons/eyeOpen";
+import EyeClosed from "@/icons/eyeClosed";
 
 interface InputProps {
   label?: string;
@@ -12,6 +15,8 @@ interface InputProps {
   variant?: "box" | "underline" | "checkbox";
   name?: string;
   placeholder?: string;
+  error?: string;
+  sizes?: "small" | "medium" | "large";
 }
 
 const VARIANTS = {
@@ -27,6 +32,12 @@ const VARIANTS = {
              after:opacity-0 checked:after:opacity-100`,
 };
 
+const SIZES = {
+  small: "px-2 py-2",
+  medium: "px-3 py-3",
+  large: "px-5 py-[14px]",
+};
+
 const Input = ({
   label = "",
   className = "",
@@ -37,8 +48,16 @@ const Input = ({
   variant = "box",
   name,
   placeholder,
+  error,
+  sizes = "large",
 }: InputProps) => {
   const variantClasses = VARIANTS[variant] || VARIANTS.box;
+  const sizesClasses = SIZES[sizes] || SIZES.large;
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handlePassword = () => {
+    setShowPassword((prev) => !prev);
+  };
 
   if (variant === "checkbox") {
     return (
@@ -55,17 +74,34 @@ const Input = ({
     );
   }
 
+  const isPassword = type === "password";
+
   return (
-    <label className="flex flex-col gap-1">
+    <label className="flex flex-col gap-1 relative">
       {label && <span>{label}</span>}
       <input
         name={name}
-        type={type}
+        type={isPassword ? (showPassword ? "text" : "password") : type}
         value={value}
         onChange={onChange}
-        className={`${variantClasses} ${className}`}
+        className={`${variantClasses} ${sizesClasses} ${className}`}
         placeholder={placeholder}
       />
+      {isPassword && (
+        <Button
+          onClick={handlePassword}
+          className="absolute top-9 right-4"
+          variant="icon"
+          icon={showPassword ? <EyeOpen /> : <EyeClosed />}
+        />
+      )}
+      <p
+        className={`${
+          error ? "opacity-100" : "opacity-0"
+        } text-[#EF4444] text-[12px] h-5`}
+      >
+        {error || ""}
+      </p>
     </label>
   );
 };

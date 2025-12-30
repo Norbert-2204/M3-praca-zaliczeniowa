@@ -15,7 +15,7 @@ const Login = ({ label, placeholder }: LoginProps) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    submit();
+    await submit();
   };
 
   return (
@@ -35,8 +35,8 @@ const Login = ({ label, placeholder }: LoginProps) => {
               onChange={(e) => setPassword(e.target.value)}
               label={label}
               placeholder={placeholder}
+              type="password"
             />
-            {error && <span className="text-[#EF4444] text-sm">{error}</span>}
           </div>
 
           <div className="flex justify-between">
