@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { PrismaClient } from "../app/generated/prisma/client";
+import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
@@ -75,6 +75,7 @@ async function main() {
         address: "some street 45/32",
         password: hashedPassword,
         phone: "123456789",
+        region: "PL",
         avatar: "https://i.ibb.co/0jjGpHKz/indian-5154773.png",
       },
     });

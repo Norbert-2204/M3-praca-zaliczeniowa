@@ -2,7 +2,7 @@
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import bcrypt from "bcryptjs";
+import { useRouter } from "next/navigation";
 
 import Input from "@/components/reused/Input";
 import Button from "@/components/reused/Button";
@@ -62,18 +62,32 @@ const RegisterPage = () => {
     },
   });
 
+  const router = useRouter();
+
   const onSubmit = async (data: RegisterForm) => {
     try {
-      const hashedPassword = await bcrypt.hash(data.password, 10);
+      const res = await fetch("/api/user/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: data.email,
+          phone: data.phone,
+          password: data.password,
+          region: data.region,
+        }),
+      });
 
-      const newUser = {
-        email: data.email,
-        phone: data.phone,
-        password: hashedPassword,
-        region: data.region,
-      };
-      console.log(newUser);
+      const result = await res.json();
+
+      if (!res.ok) {
+        console.log(result.message);
+        return;
+      }
+
       reset();
+      router.push("/register/thankyou");
     } catch (error) {
       console.log(error);
     }

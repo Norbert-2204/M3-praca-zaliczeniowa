@@ -17,6 +17,14 @@ const Header = () => {
     router.push("/login");
   };
 
+  const handleLogout = async () => {
+    const res = await fetch("/api/auth/logout", { method: "POST" });
+
+    if (res.ok) {
+      router.push("/");
+    }
+  };
+
   return (
     <header className="flex flex-col px-10 py-8 gap-10">
       <div className="flex justify-between ">
@@ -29,6 +37,9 @@ const Header = () => {
         </h1>
         {isLoggedIn ? (
           <div className="flex justify-between items-center gap-5 md:gap-7">
+            <div>
+              <Button onClick={handleLogout} desc="Logout" />
+            </div>
             <Button
               variant="icon"
               icon={<ShopCartIcon className="text-[#FCFCFC]" />}

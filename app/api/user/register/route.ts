@@ -22,9 +22,29 @@ export async function POST(req: Request) {
 
     if (userExist) {
       return NextResponse.json(
-        { message: "User already exists" },
+        { message: "User with this email o phone already exists" },
         { status: 409 }
       );
     }
-  } catch (error) {}
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    console.log("Data: ", email, phone, hashedPassword, region);
+    const user = await prisma.user.create({
+      data: {
+        email,
+        phone,
+        password: hashedPassword,
+        region,
+      },
+    });
+    console.log("user: ", user);
+
+    return NextResponse.json(
+      { message: "User successfully registered", userId: user.id },
+      { status: 201 }
+    );
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ message: "Server error" }, { status: 500 });
+  }
 }
