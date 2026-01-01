@@ -15,19 +15,23 @@ interface Category {
   exploreInfo: string;
 }
 
-interface CarouselProps {
-  categories: Category[];
+interface Product {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  stock: number;
+  imageUrl: string;
+  categoryId: number;
+  brandId: number;
 }
 
-const categoryImages = [
-  "https://i.ibb.co/gZrffcgH/pngaaa-com-2910757.png",
-  "https://i.ibb.co/sdF5yKZw/pngaaa-com-1241714.png",
-  "https://i.ibb.co/4n1fwtyZ/pngaaa-com-904170.png",
-  "https://i.ibb.co/kVFq6yFb/pngaaa-com-3429402.png",
-  "https://i.ibb.co/1fH1t4Wt/pngaaa-com-2946337.png",
-];
+interface FullProps {
+  categories: Category[];
+  products: Product[];
+}
 
-const Carousel = ({ categories }: CarouselProps) => {
+const Carousel = ({ categories, products }: FullProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const total = categories.length;
 
@@ -44,65 +48,68 @@ const Carousel = ({ categories }: CarouselProps) => {
   };
 
   return (
-    <div className="px-6 xl:px-10 flex flex-col items-center">
-      <div className="relative w-full h-[452px] overflow-hidden bg-[#222327] rounded border border-[#383B42]">
-        <Button
-          variant="iconBig"
-          onClick={prev}
-          icon={<Left />}
-          className="absolute left-0 top-1/2 -translate-y-1/2 z-10"
-        />
-
-        <Button
-          variant="iconBig"
-          onClick={next}
-          icon={<Right />}
-          className="absolute right-0 top-1/2 -translate-y-1/2 z-10"
-        />
-        <div
-          className="flex h-[452px] transition-transform duration-500 ease-in-out"
-          style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-        >
-          {categories.map((cat, idx) => (
-            <div
-              key={idx}
-              className="
+    <div>
+      <div className="px-6 xl:px-10 flex flex-col items-center">
+        <div className="relative w-full h-[452px] overflow-hidden bg-[#222327] rounded border border-[#383B42]">
+          <Button
+            variant="iconBig"
+            onClick={prev}
+            icon={<Left />}
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10"
+          />
+          <Button
+            variant="iconBig"
+            onClick={next}
+            icon={<Right />}
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10"
+          />
+          <div
+            className="flex h-[452px] transition-transform duration-500 ease-in-out"
+            style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+          >
+            {categories.map((cat, idx) => (
+              <div
+                key={idx}
+                className="
                 w-full h-full shrink-0
                 flex flex-col md:flex-row
                 items-center justify-center
                 gap-10
                 px-6 xl:px-[120px]
               "
-            >
-              <div className="flex flex-col gap-6 max-w-[450px] text-center sm:text-left ">
-                <h2 className="text-[32px]">{capitalize(cat.name)}</h2>
-                <p className="text-[#E7E7E7]">{capitalize(cat.exploreInfo)}</p>
-                <div className="flex justify-center xl:justify-start">
-                  <Button desc="Explore category" icon={<ArrowRight />} />
+              >
+                <div className="flex flex-col gap-6 max-w-[450px] text-center sm:text-left ">
+                  <h2 className="text-[32px]">{capitalize(cat.name)}</h2>
+                  <p className="text-[#E7E7E7]">
+                    {capitalize(cat.exploreInfo)}
+                  </p>
+                  <div className="flex justify-center xl:justify-start">
+                    <Button desc="Explore category" icon={<ArrowRight />} />
+                  </div>
+                </div>
+                <div className="relative w-full max-w-[300px] xl:max-w-[450px] md:aspect-3/5 ">
+                  <Image
+                    src={products[idx].imageUrl}
+                    alt={`category-${idx}`}
+                    fill
+                    className="object-contain max-h-full"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1280px) 450px, 300px"
+                  />
                 </div>
               </div>
-              <div className="relative w-full max-w-[300px] xl:max-w-[450px] md:aspect-3/5 ">
-                <Image
-                  src={categoryImages[idx]}
-                  alt={`category-${idx}`}
-                  fill
-                  className="object-contain max-h-full"
-                  priority
-                />
-              </div>
-            </div>
+            ))}
+          </div>
+        </div>
+        <div className="flex gap-4 pt-6">
+          {categories.map((_, idx) => (
+            <div
+              key={idx}
+              className={`w-3 h-3 rounded-full ${
+                idx === currentIndex ? "bg-orange-500" : "bg-[#383B42]"
+              }`}
+            />
           ))}
         </div>
-      </div>
-      <div className="flex gap-4 pt-6">
-        {categories.map((_, idx) => (
-          <div
-            key={idx}
-            className={`w-3 h-3 rounded-full ${
-              idx === currentIndex ? "bg-orange-500" : "bg-[#383B42]"
-            }`}
-          />
-        ))}
       </div>
     </div>
   );

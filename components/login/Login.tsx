@@ -36,6 +36,8 @@ const Login = ({ label, placeholder }: LoginProps) => {
               label={label}
               placeholder={placeholder}
               type="password"
+              error={error}
+              isError={true}
             />
           </div>
 

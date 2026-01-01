@@ -16,7 +16,8 @@ interface InputProps {
   name?: string;
   placeholder?: string;
   error?: string;
-  sizes?: "small" | "medium" | "large";
+  sizes?: "small" | "medium" | "large" | "dropdown";
+  isError?: boolean;
 }
 
 const VARIANTS = {
@@ -36,6 +37,7 @@ const SIZES = {
   small: "px-2 py-2",
   medium: "px-3 py-3",
   large: "px-5 py-[14px]",
+  dropdown: "px-4.5 py-3.5 rounded-tl-md rounded-bl-md",
 };
 
 const Input = ({
@@ -50,6 +52,7 @@ const Input = ({
   placeholder,
   error,
   sizes = "large",
+  isError = false,
 }: InputProps) => {
   const variantClasses = VARIANTS[variant] || VARIANTS.box;
   const sizesClasses = SIZES[sizes] || SIZES.large;
@@ -95,13 +98,17 @@ const Input = ({
           icon={showPassword ? <EyeOpen /> : <EyeClosed />}
         />
       )}
-      <p
-        className={`${
-          error ? "opacity-100" : "opacity-0"
-        } text-[#EF4444] text-[12px] h-5`}
-      >
-        {error || ""}
-      </p>
+      {isError ? (
+        <p
+          className={`${
+            error ? "opacity-100" : "opacity-0"
+          } text-[#EF4444] text-[12px] h-5`}
+        >
+          {error || ""}
+        </p>
+      ) : (
+        ""
+      )}
     </label>
   );
 };

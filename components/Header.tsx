@@ -1,10 +1,14 @@
 "use client";
 
-import Button from "./reused/Button";
-import ShopCartIcon from "@/icons/ShopCart";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import Image from "next/image";
+
+import Button from "./reused/Button";
+import ShopCartIcon from "@/icons/ShopCart";
+import Alert from "./alert/Alert";
+import Close from "@/icons/close";
 
 const Header = () => {
   const router = useRouter();
@@ -61,11 +65,19 @@ const Header = () => {
         )}
       </div>
       <nav className="flex gap-10 md:gap-12 text-sm  md:text-[16px]">
-        <a className="text-[#F29145]">Home</a>
-        <a>Product</a>
-        <a>Contact</a>
+        <Link href="/" className="text-[#F29145]">
+          Home
+        </Link>
+        <Link href="/product">Product</Link>
+        <Link href="/">Contact</Link>
       </nav>
       <hr className="text-[#383B42]" />
+      {/* <Alert
+        variant="primary"
+        types="success"
+        icon={<Close />}
+        pDesc="Product successfully added"
+      /> */}
     </header>
   );
 };

@@ -43,6 +43,7 @@ const Login = ({ label, placeholder }: LoginProps) => {
               label={label}
               placeholder={placeholder}
               error={error}
+              isError={true}
             />
           </div>
           <div className="flex flex-col flex-1 w-full h-full">

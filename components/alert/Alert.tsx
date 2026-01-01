@@ -16,7 +16,7 @@ interface AlertProps {
 }
 
 const DIVARIANTS = {
-  primary: "flex justify-evenly items-center p-[18] border rounded w-full",
+  primary: "flex justify-between items-center p-[18] border rounded w-full",
   success: "text-[#86EFAD]",
   fail: "text-[#DC2626]",
 };
@@ -48,9 +48,17 @@ const Alert = ({
 
   return (
     <div className={`${variantClasses} ${typeClasses} ${className}`}>
-      <div>{typeIcons}</div>
-      <p>{pDesc}</p>
-      <Button desc={desc} icon={icon} type={type} onClick={onClick} />
+      <div className="flex gap-4">
+        <div>{typeIcons}</div>
+        <p>{pDesc}</p>
+      </div>
+      <Button
+        desc={desc}
+        icon={icon}
+        type={type}
+        onClick={onClick}
+        variant="icon"
+      />
     </div>
   );
 };

@@ -119,6 +119,7 @@ const RegisterPage = () => {
                   label="Email"
                   placeholder="Your Email"
                   error={fieldState.error?.message}
+                  isError={true}
                 />
               )}
             />
@@ -131,6 +132,7 @@ const RegisterPage = () => {
                   label="Mobile Number"
                   placeholder="+(Code country) 9 digit mobile number"
                   error={fieldState.error?.message}
+                  isError={true}
                 />
               )}
             />
@@ -144,6 +146,7 @@ const RegisterPage = () => {
                   label="Password"
                   placeholder="Password"
                   error={fieldState.error?.message}
+                  isError={true}
                 />
               )}
             />
@@ -157,6 +160,7 @@ const RegisterPage = () => {
                   label="Confirm Password"
                   placeholder="Confirm Password"
                   error={fieldState.error?.message}
+                  isError={true}
                 />
               )}
             />

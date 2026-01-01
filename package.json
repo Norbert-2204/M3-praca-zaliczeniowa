@@ -6,7 +6,6 @@
     "dev:docker": "docker-compose up -d",
     "stop:docker": "docker-compose down",
     "seed": "tsx prisma/seed.ts",
-    "prod:full": "npm run build && npm run seed",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
