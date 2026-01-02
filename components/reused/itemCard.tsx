@@ -36,7 +36,7 @@ const ItemCard = ({
       className={`flex flex-col px-4 pb-5 pt-4 ${
         brand ? "gap-7" : "gap-[18px]"
       } justify-center ${brand ? "items-center" : "items-start"} ${
-        brand ? "w-[220px]" : "w-[220px] md:w-[300px]"
+        brand ? "w-[220px]" : "w-[220px] lg:w-[300px]"
       } ${
         brand ? "h-[190px]" : "h-auto"
       } bg-[#262626] border border-[#383B42] rounded`}

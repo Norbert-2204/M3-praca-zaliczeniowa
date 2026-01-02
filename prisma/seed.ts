@@ -59,7 +59,7 @@ async function main() {
         { name: "AOC", imageUrl: "https://i.ibb.co/DgQVsNqz/AOC-Logo.png" },
         { name: "Razer", imageUrl: "https://i.ibb.co/tMvxmw9k/Razer-Logo.png" },
         { name: "Rexus", imageUrl: "https://i.ibb.co/jcSXgmY/Rexus-Logo.png" },
-        { name: "no-brand", imageUrl: "" },
+        { name: "Other", imageUrl: "" },
       ],
     });
 

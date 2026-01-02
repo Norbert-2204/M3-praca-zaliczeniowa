@@ -1,7 +1,8 @@
 "use client";
 
-import { ReactEventHandler, useState } from "react";
+import { useEffect, useState } from "react";
 import Pagination from "./Pagination";
+import { useFilters } from "@/context/FilterContext";
 
 import Button from "../reused/Button";
 import Dropdown from "../reused/Dropdown";
@@ -26,17 +27,21 @@ interface Category {
 }
 
 interface ProductPops {
-  products: Product[];
   category: Category[];
+  products: Product[];
 }
 
-const Products = ({ products, category }: ProductPops) => {
+const Products = ({ category, products }: ProductPops) => {
   const [quantity, setQuantity] = useState(9);
   const [currentPage, setCurrentPage] = useState(1);
+  const { setProducts, filteredProducts } = useFilters();
+  const totalPages = Math.ceil(filteredProducts.length / quantity);
 
-  const totalPages = Math.ceil(products.length / quantity);
+  useEffect(() => {
+    setProducts(products);
+  }, [products, setProducts]);
 
-  const paginatedProducts = products.slice(
+  const paginatedProducts = filteredProducts.slice(
     (currentPage - 1) * quantity,
     currentPage * quantity
   );
@@ -61,7 +66,7 @@ const Products = ({ products, category }: ProductPops) => {
 
   return (
     <div className="flex flex-col p-10 border-l border-[#383B42] gap-12 w-full">
-      <div className="flex gap-15">
+      <div className="flex flex-col md:flex-row gap-15">
         <div className="flex justify-center items-center gap-4">
           <h2 className="text-nowrap text-xl font-semibold">Sort by</h2>
           <Dropdown
@@ -72,11 +77,11 @@ const Products = ({ products, category }: ProductPops) => {
               { label: "Cheapest", value: "cheapest" },
               { label: "Priciest", value: "priciest" },
             ]}
-            className="bg-[#262626]! rounded"
+            className="bg-[#262626]! rounded max-w-[102px]"
           />
         </div>
         <div className="flex justify-center items-center gap-4">
-          <h2 className="text-nowrap text-xl font-semibold">Show</h2>
+          <h2 className="text-nowrap text-xl font-semibold ">Show</h2>
           <Dropdown
             variant="custom"
             size="small"
@@ -91,7 +96,7 @@ const Products = ({ products, category }: ProductPops) => {
             ]}
             value={quantity}
             onChange={handleQuantityChange}
-            className="bg-[#262626]! rounded"
+            className="bg-[#262626]! rounded max-w-[102px]"
           />
         </div>
       </div>
@@ -113,7 +118,7 @@ const Products = ({ products, category }: ProductPops) => {
           );
         })}
       </div>
-      <div className="flex justify-between">
+      <div className="flex flex-col sm:flex-row gap-5 md:gap-0 justify-between">
         <div className="flex gap-2.5">
           {Pagination(currentPage, totalPages).map((page, idx) =>
             page === "..." ? (

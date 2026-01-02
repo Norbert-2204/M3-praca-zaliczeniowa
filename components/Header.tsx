@@ -61,7 +61,12 @@ const Header = () => {
             )}
           </div>
         ) : (
-          <Button onClick={loginPage} desc="Sign in" className="w-[121px]" />
+          <Button
+            onClick={loginPage}
+            sizes="small"
+            desc="Sign in"
+            className="md:px-5 md:py-4"
+          />
         )}
       </div>
       <nav className="flex gap-10 md:gap-12 text-sm  md:text-[16px]">
