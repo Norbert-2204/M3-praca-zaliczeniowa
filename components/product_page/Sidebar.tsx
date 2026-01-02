@@ -28,7 +28,7 @@ const SideBar = () => {
             { label: "Brand", value: "brand" },
           ]}
           value={selectFilter}
-          onChange={(val) => setSelectFilter(val)}
+          onChange={(val) => setSelectFilter(String(val))}
           isDark={true}
         />
         {selectFilter === "category" ? (
@@ -180,7 +180,7 @@ const SideBar = () => {
               { label: "EUR", value: "eur" },
             ]}
             value={selectCurrency}
-            onChange={(val) => setSelectCurrency(val)}
+            onChange={(val) => setSelectCurrency(String(val))}
             fullWidth={false}
             className="bg-[#262626]! border border-[#616674]"
           />
@@ -199,7 +199,7 @@ const SideBar = () => {
               { label: "EUR", value: "eur" },
             ]}
             value={selectCurrency}
-            onChange={(val) => setSelectCurrency(val)}
+            onChange={(val) => setSelectCurrency(String(val))}
             fullWidth={false}
             className="bg-[#262626]! border border-[#616674] "
           />

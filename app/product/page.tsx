@@ -23,7 +23,7 @@ const ProductPage = async () => {
   return (
     <>
       <Header />
-      <div className="pt-10">
+      <div className="pt-10 pb-7">
         <div className="flex border-t border-[#383B42]">
           <SideBar />
           <Products products={products} category={categories} />

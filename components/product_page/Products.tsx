@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { ReactEventHandler, useState } from "react";
+import Pagination from "./Pagination";
 
 import Button from "../reused/Button";
 import Dropdown from "../reused/Dropdown";
@@ -30,10 +31,36 @@ interface ProductPops {
 }
 
 const Products = ({ products, category }: ProductPops) => {
-  const [quantity, setQuantity] = useState("9");
+  const [quantity, setQuantity] = useState(9);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalPages = Math.ceil(products.length / quantity);
+
+  const paginatedProducts = products.slice(
+    (currentPage - 1) * quantity,
+    currentPage * quantity
+  );
+
+  const handleNext = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (currentPage < totalPages) {
+      setCurrentPage((prev) => prev + 1);
+    }
+  };
+
+  const handlePrevious = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (currentPage > 1) setCurrentPage((prev) => prev - 1);
+  };
+
+  const handleQuantityChange = (val: string | number) => {
+    const qty = Number(val);
+    setQuantity(qty);
+    setCurrentPage(1);
+  };
 
   return (
-    <div className="flex flex-col p-10 border-l border-[#383B42] gap-12">
+    <div className="flex flex-col p-10 border-l border-[#383B42] gap-12 w-full">
       <div className="flex gap-15">
         <div className="flex justify-center items-center gap-4">
           <h2 className="text-nowrap text-xl font-semibold">Sort by</h2>
@@ -54,24 +81,22 @@ const Products = ({ products, category }: ProductPops) => {
             variant="custom"
             size="small"
             options={[
-              { label: "1", value: "1" },
-              { label: "2", value: "2" },
-              { label: "3", value: "3" },
-              { label: "4", value: "4" },
-              { label: "5", value: "5" },
-              { label: "6", value: "6" },
-              { label: "7", value: "7" },
-              { label: "8", value: "8" },
-              { label: "9", value: "9" },
+              { label: "3", value: 3 },
+              { label: "4", value: 4 },
+              { label: "5", value: 5 },
+              { label: "6", value: 6 },
+              { label: "7", value: 7 },
+              { label: "8", value: 8 },
+              { label: "9", value: 9 },
             ]}
             value={quantity}
-            onChange={(val) => setQuantity(val)}
+            onChange={handleQuantityChange}
             className="bg-[#262626]! rounded"
           />
         </div>
       </div>
       <div className="flex flex-wrap gap-12">
-        {products.map((p) => {
+        {paginatedProducts.map((p) => {
           const categoryName = category.find(
             (cat) => cat.id === p.categoryId
           )?.name;
@@ -89,20 +114,39 @@ const Products = ({ products, category }: ProductPops) => {
         })}
       </div>
       <div className="flex justify-between">
-        <div>Placeholder</div>
+        <div className="flex gap-2.5">
+          {Pagination(currentPage, totalPages).map((page, idx) =>
+            page === "..." ? (
+              <span key={idx} className="text-[#FCFCFC] px-2">
+                ...
+              </span>
+            ) : (
+              <Button
+                key={idx}
+                desc={page.toString()}
+                variant={page === currentPage ? "primary" : "ghost"}
+                sizes="pagination"
+                onClick={() => setCurrentPage(Number(page))}
+                className="text-[#FCFCFC] w-11 h-11"
+              />
+            )
+          )}
+        </div>
         <div className="flex gap-8">
           <Button
             variant="ghost"
             desc="Previous"
             icon={<ArrowLeft />}
             sizes="average"
-            className="text-[#FCFCFC] flex-row-reverse border "
+            onClick={handlePrevious}
+            className="text-[#FCFCFC] flex-row-reverse border"
           />
           <Button
             variant="ghost"
             desc="Next"
             icon={<ArrowRight />}
             sizes="average"
+            onClick={handleNext}
             className="text-[#FCFCFC] border w-[110px]"
           />
         </div>

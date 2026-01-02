@@ -5,14 +5,14 @@ import { countries } from "@/utils/countries";
 
 interface Option {
   label: string;
-  value: string;
+  value: string | number;
 }
 
 interface DropdownProps {
   label?: string;
   className?: string;
-  value?: string;
-  onChange?: (value: string) => void;
+  value?: string | number;
+  onChange?: (value: string | number) => void;
   variant?: "countries" | "custom";
   options?: Option[];
   placeholder?: string;
