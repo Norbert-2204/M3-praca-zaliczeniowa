@@ -18,15 +18,18 @@ interface DropdownProps {
   placeholder?: string;
   size?: "small" | "medium" | "large" | "input";
   error?: string;
+  fullWidth?: boolean;
+  isError?: boolean;
+  isDark?: boolean;
 }
 
 const VARIANTS = {
   countries: "bg-[#262626] border border-[#616674] rounded w-full",
-  custom: "bg-transparent w-full",
+  custom: "bg-transparent",
 };
 
 const SIZES = {
-  small: "px-2 py-2 text-sm",
+  small: "px-4 py-2.5 text-sm",
   medium: "px-3 py-3",
   large: "px-3.5 py-4.5",
   input: "px-4.5 py-[16.5px] border-l-none rounded-tr-md rounded-br-md",
@@ -42,6 +45,9 @@ const Dropdown = ({
   placeholder = "Select...",
   size = "medium",
   error,
+  fullWidth = true,
+  isError = false,
+  isDark = false,
 }: DropdownProps) => {
   const [selected, setSelected] = useState(value || (options[0]?.value ?? ""));
 
@@ -54,14 +60,18 @@ const Dropdown = ({
   const sizeClasses = SIZES[size] || "";
 
   return (
-    <label className="flex flex-col gap-1 w-full">
+    <label className={`flex flex-col gap-1 ${fullWidth ? "w-full" : ""}`}>
       {label && <span className="font-medium text-[18px]">{label}</span>}
       <select
         value={selected}
         onChange={handleChange}
-        className={`${variantClasses} ${sizeClasses} ${className} outline-none`}
+        className={`${variantClasses} ${sizeClasses} ${className} ${
+          fullWidth ? "w-full" : ""
+        } outline-none`}
       >
-        <option value="">{placeholder}</option>
+        <option disabled value="">
+          {placeholder}
+        </option>
 
         {variant === "countries" &&
           countries.map((c) => (
@@ -75,20 +85,23 @@ const Dropdown = ({
             <option
               key={opt.value}
               value={opt.value}
-              className="text-[#262626]"
+              className={`${isDark ? "text-[#262626]" : ""}`}
             >
               {opt.label}
             </option>
           ))}
       </select>
-
-      <p
-        className={`${
-          error ? "opacity-100" : "opacity-0"
-        } text-[#EF4444] text-[12px] h-5`}
-      >
-        {error || ""}
-      </p>
+      {isError ? (
+        <p
+          className={`${
+            error ? "opacity-100" : "opacity-0"
+          } text-[#EF4444] text-[12px] h-5`}
+        >
+          {error || ""}
+        </p>
+      ) : (
+        ""
+      )}
     </label>
   );
 };

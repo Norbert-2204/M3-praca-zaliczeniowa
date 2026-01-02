@@ -174,6 +174,7 @@ const RegisterPage = () => {
                   variant="countries"
                   size="large"
                   error={fieldState.error?.message}
+                  isError={true}
                 />
               )}
             />

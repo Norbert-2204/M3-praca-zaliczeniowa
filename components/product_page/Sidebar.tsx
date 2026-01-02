@@ -11,6 +11,7 @@ import MinusSmall from "@/icons/minusSmall";
 const SideBar = () => {
   const [loadMore, setLoadMore] = useState(false);
   const [selectFilter, setSelectFilter] = useState("category");
+  const [filter, setFilter] = useState("all");
   const [selectCurrency, setSelectCurrency] = useState("usd");
 
   const handleLoadMore = () => {
@@ -18,7 +19,7 @@ const SideBar = () => {
   };
 
   return (
-    <div className="max-w-[363px] min-w-[320px] flex flex-col p-10 sticky right-0 gap-13">
+    <div className="max-w-[363px] min-w-[320px] flex flex-col p-4 sm:p-10 sticky right-0 gap-13">
       <div>
         <Dropdown
           variant="custom"
@@ -28,17 +29,48 @@ const SideBar = () => {
           ]}
           value={selectFilter}
           onChange={(val) => setSelectFilter(val)}
+          isDark={true}
         />
         {selectFilter === "category" ? (
           <div className="flex flex-col gap-5 p-2">
-            <Input variant="checkbox" label="All" />
-            <Input variant="checkbox" label="Mouse" />
-            <Input variant="checkbox" label="Keyboard" />
-            <Input variant="checkbox" label="Monitor" />
-            <Input variant="checkbox" label="Headphone" />
+            <Input
+              variant="checkbox"
+              label="All"
+              checked={filter === "all"}
+              onChange={() => setFilter("all")}
+            />
+            <Input
+              variant="checkbox"
+              label="Mouse"
+              checked={filter === "mouse"}
+              onChange={() => setFilter("mouse")}
+            />
+            <Input
+              variant="checkbox"
+              label="Keyboard"
+              checked={filter === "keyboard"}
+              onChange={() => setFilter("keyboard")}
+            />
+            <Input
+              variant="checkbox"
+              label="Monitor"
+              checked={filter === "monitor"}
+              onChange={() => setFilter("monitor")}
+            />
+            <Input
+              variant="checkbox"
+              label="Headphone"
+              checked={filter === "headphone"}
+              onChange={() => setFilter("headphone")}
+            />
             {loadMore ? (
               <div className="flex flex-col gap-5 ">
-                <Input variant="checkbox" label="Webcam" />
+                <Input
+                  variant="checkbox"
+                  label="Webcam"
+                  checked={filter === "webcam"}
+                  onChange={() => setFilter("webcam")}
+                />
                 <Button
                   onClick={handleLoadMore}
                   variant="ghost"
@@ -59,16 +91,56 @@ const SideBar = () => {
           </div>
         ) : (
           <div className="flex flex-col gap-5 p-2">
-            <Input variant="checkbox" label="All" />
-            <Input variant="checkbox" label="ROG" />
-            <Input variant="checkbox" label="AOC" />
-            <Input variant="checkbox" label="Rexus" />
-            <Input variant="checkbox" label="Razer" />
+            <Input
+              variant="checkbox"
+              label="All"
+              checked={filter === "all"}
+              onChange={() => setFilter("all")}
+            />
+            <Input
+              variant="checkbox"
+              label="ROG"
+              checked={filter === "rog"}
+              onChange={() => setFilter("rog")}
+            />
+            <Input
+              variant="checkbox"
+              label="AOC"
+              checked={filter === "aoc"}
+              onChange={() => setFilter("aoc")}
+            />
+            <Input
+              variant="checkbox"
+              label="Rexus"
+              checked={filter === "rexus"}
+              onChange={() => setFilter("rexus")}
+            />
+            <Input
+              variant="checkbox"
+              label="Razer"
+              checked={filter === "razer"}
+              onChange={() => setFilter("razer")}
+            />
             {loadMore ? (
               <div className="flex flex-col gap-5 ">
-                <Input variant="checkbox" label="JBL" />
-                <Input variant="checkbox" label="Logitech" />
-                <Input variant="checkbox" label="Other" />
+                <Input
+                  variant="checkbox"
+                  label="JBL"
+                  checked={filter === "jbl"}
+                  onChange={() => setFilter("jbl")}
+                />
+                <Input
+                  variant="checkbox"
+                  label="Logitech"
+                  checked={filter === "logitech"}
+                  onChange={() => setFilter("logitech")}
+                />
+                <Input
+                  variant="checkbox"
+                  label="Other"
+                  checked={filter === "other"}
+                  onChange={() => setFilter("other")}
+                />
                 <Button
                   onClick={handleLoadMore}
                   variant="ghost"
@@ -90,21 +162,46 @@ const SideBar = () => {
         )}
       </div>
       <div className="flex flex-col gap-4 px-2.5">
-        <Dropdown variant="custom" />
-        <div className="flex items-start ">
-          <Input className="bg-[#262626] rounded-none" sizes="dropdown" />
+        <Dropdown
+          variant="custom"
+          options={[{ label: "Price", value: "price" }]}
+        />
+        <div className="flex items-start w-full">
+          <Input
+            className="bg-[#262626] rounded-none max-w-[145px]"
+            sizes="dropdown"
+            placeholder="$ 10.00"
+          />
           <Dropdown
             variant="custom"
             size="input"
-            className="bg-[#262626]! border border-[#616674] w-[107px]!"
+            options={[
+              { label: "USD", value: "usd" },
+              { label: "EUR", value: "eur" },
+            ]}
+            value={selectCurrency}
+            onChange={(val) => setSelectCurrency(val)}
+            fullWidth={false}
+            className="bg-[#262626]! border border-[#616674]"
           />
         </div>
-        <div className="flex">
-          <Input className="bg-[#262626] rounded-none" sizes="dropdown" />
+        <div className="flex items-start w-full">
+          <Input
+            className="bg-[#262626] rounded-none max-w-[145px]"
+            sizes="dropdown"
+            placeholder="$ 20.00"
+          />
           <Dropdown
             variant="custom"
             size="input"
-            className="bg-[#262626]! border border-[#616674] w-[107px]!"
+            options={[
+              { label: "USD", value: "usd" },
+              { label: "EUR", value: "eur" },
+            ]}
+            value={selectCurrency}
+            onChange={(val) => setSelectCurrency(val)}
+            fullWidth={false}
+            className="bg-[#262626]! border border-[#616674] "
           />
         </div>
       </div>

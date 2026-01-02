@@ -7,7 +7,14 @@ interface ButtonProps {
   className?: string;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   variant?: "primary" | "secondary" | "ghost" | "icon" | "iconBig";
-  sizes?: "big" | "medium" | "small" | "verySmall" | "icon" | "iconBig";
+  sizes?:
+    | "big"
+    | "medium"
+    | "average"
+    | "small"
+    | "verySmall"
+    | "icon"
+    | "iconBig";
   icon?: ReactNode;
   type?: "button" | "submit";
 }
@@ -27,6 +34,7 @@ const VARIANTS = {
 const SIZE = {
   big: "px-5 py-4",
   medium: "px-3 py-4",
+  average: "px-2.5 py-5",
   small: "px-2 py-4 text-sm",
   verySmall: "px-1.5 py-2 text-xs",
   icon: "w-6 h-6",

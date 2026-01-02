@@ -8,7 +8,13 @@ const ArrowRight = (props: SVGProps<SVGSVGElement>) => (
     fill="none"
     {...props}
   >
-    <path d="M17 12L7 12M17 12L13 16M17 12L13 8" stroke="currentColor" />
+    <path
+      d="M17 12L7 12M17 12L13 16M17 12L13 8"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
   </svg>
 );
 export default ArrowRight;
