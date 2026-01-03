@@ -1,55 +1,41 @@
+import { Suspense } from "react";
+import { FiltersProvider } from "@/context/FilterContext";
+import Loading from "@/components/reused/Loading";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SideBar from "@/components/product_page/Sidebar";
 import Products from "@/components/product_page/Products";
-
-interface Category {
-  id: number;
-  name: string;
-}
-
-interface Brand {
-  id: number;
-  name: string;
-}
-
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  stock: number;
-  imageUrl: string;
-  categoryId: number;
-  brandId: number;
-}
+import { Product, Category, Brand } from "@/utils/Types";
+import FetchTypes from "@/utils/FetchTypes";
+import ProductsInitializer from "@/components/product_page/ProductInitialize";
+import { CurrencyProvider } from "@/context/CurrencyContext";
 
 const ProductPage = async () => {
-  const productsRes = await fetch("http://localhost:3000/api/product", {
-    cache: "no-store",
-  });
-  const products: Product[] = await productsRes.json();
+  const { categoryRes, productRes, brandRes } = await FetchTypes();
 
-  const categoriesRes = await fetch("http://localhost:3000/api/categories", {
-    cache: "no-store",
-  });
-  const categories: Category[] = await categoriesRes.json();
+  const products: Product[] = await productRes.json();
 
-  const brandsRes = await fetch("http://localhost:3000/api/brand", {
-    cache: "no-store",
-  });
-  const brands: Brand[] = await brandsRes.json();
+  const categories: Category[] = await categoryRes.json();
+
+  const brands: Brand[] = await brandRes.json();
 
   return (
     <>
-      <Header />
-      <div className="pt-10 pb-7">
-        <div className="flex flex-col lg:flex-row border-t justify-center border-[#383B42]">
-          <SideBar categories={categories} brands={brands} />
-          <Products products={products} category={categories} />
+      <FiltersProvider>
+        <ProductsInitializer products={products} />
+        <Header />
+        <div className="pt-10 pb-7">
+          <div className="flex flex-col lg:flex-row border-t justify-center border-[#383B42]">
+            <CurrencyProvider>
+              <SideBar categories={categories} brands={brands} />
+              <Suspense fallback={<Loading />}>
+                <Products products={products} category={categories} />
+              </Suspense>
+            </CurrencyProvider>
+          </div>
         </div>
-      </div>
-      <Footer />
+        <Footer />
+      </FiltersProvider>
     </>
   );
 };

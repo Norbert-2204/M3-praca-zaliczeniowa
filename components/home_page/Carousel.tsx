@@ -7,23 +7,13 @@ import ArrowRight from "@/icons/arrowRight";
 import capitalize from "@/utils/Capitalize";
 import Left from "@/icons/left";
 import Right from "@/icons/rigth";
+import { Product } from "@/utils/Types";
 
 interface Category {
   name: string;
   description: string;
   image: string;
   exploreInfo: string;
-}
-
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  stock: number;
-  imageUrl: string;
-  categoryId: number;
-  brandId: number;
 }
 
 interface FullProps {

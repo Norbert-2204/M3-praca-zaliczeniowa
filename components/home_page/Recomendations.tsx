@@ -3,22 +3,7 @@
 import { useEffect, useState } from "react";
 import ItemCard from "../reused/itemCard";
 import Slider from "../reused/Slider";
-
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  stock: number;
-  imageUrl: string;
-  categoryId: number;
-  brandId: number;
-}
-
-interface Category {
-  id: number;
-  name: string;
-}
+import { Product, Category } from "@/utils/Types";
 
 interface ProductProps {
   products: Product[];

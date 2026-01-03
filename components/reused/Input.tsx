@@ -9,7 +9,7 @@ interface InputProps {
   label?: string;
   className?: string;
   onChange?: ChangeEventHandler<HTMLInputElement>;
-  value?: string;
+  value?: string | number;
   checked?: boolean;
   type?: string;
   variant?: "box" | "underline" | "checkbox";

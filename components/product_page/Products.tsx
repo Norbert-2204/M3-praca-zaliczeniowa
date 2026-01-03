@@ -3,28 +3,15 @@
 import { useEffect, useState } from "react";
 import Pagination from "./Pagination";
 import { useFilters } from "@/context/FilterContext";
+import { useCurrency } from "@/context/CurrencyContext";
 
 import Button from "../reused/Button";
 import Dropdown from "../reused/Dropdown";
 import ItemCard from "../reused/itemCard";
 import ArrowLeft from "@/icons/arrowLeft";
 import ArrowRight from "@/icons/arrowRight";
-
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  stock: number;
-  imageUrl: string;
-  categoryId: number;
-  brandId: number;
-}
-
-interface Category {
-  id: number;
-  name: string;
-}
+import { Product, Category } from "@/utils/Types";
+import Loading from "../reused/Loading";
 
 interface ProductPops {
   category: Category[];
@@ -34,12 +21,21 @@ interface ProductPops {
 const Products = ({ category, products }: ProductPops) => {
   const [quantity, setQuantity] = useState(9);
   const [currentPage, setCurrentPage] = useState(1);
-  const { setProducts, filteredProducts } = useFilters();
+  const { setProducts, filteredProducts, setSort } = useFilters();
+  const { currency, convertPrice } = useCurrency();
   const totalPages = Math.ceil(filteredProducts.length / quantity);
 
   useEffect(() => {
     setProducts(products);
   }, [products, setProducts]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filteredProducts]);
+
+  if (filteredProducts.length === 0) {
+    return <Loading />;
+  }
 
   const paginatedProducts = filteredProducts.slice(
     (currentPage - 1) * quantity,
@@ -77,7 +73,10 @@ const Products = ({ category, products }: ProductPops) => {
               { label: "Cheapest", value: "cheapest" },
               { label: "Priciest", value: "priciest" },
             ]}
-            className="bg-[#262626]! rounded max-w-[102px]"
+            onChange={(val) =>
+              setSort(val as "latest" | "cheapest" | "priciest")
+            }
+            className="bg-[#262626]! rounded max-w-[115px]"
           />
         </div>
         <div className="flex justify-center items-center gap-4">
@@ -110,7 +109,8 @@ const Products = ({ category, products }: ProductPops) => {
               key={p.id}
               item={p}
               shop={true}
-              price={p.price}
+              price={convertPrice(p.price)}
+              currency={currency}
               itemName={categoryName}
               id={p.id}
               bg={true}

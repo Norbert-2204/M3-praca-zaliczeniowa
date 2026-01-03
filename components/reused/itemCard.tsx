@@ -19,6 +19,7 @@ interface ItemCardProps {
   price?: number;
   brand?: boolean;
   bg?: boolean;
+  currency?: string;
 }
 
 const ItemCard = ({
@@ -29,6 +30,7 @@ const ItemCard = ({
   price,
   id,
   bg = false,
+  currency = "USD",
 }: ItemCardProps) => {
   return (
     <div
@@ -81,7 +83,7 @@ const ItemCard = ({
       {shop && (
         <div className="flex flex-col items-start justify-center gap-2">
           <p className="whitespace-nowrap">{item.name}</p>
-          <h3>{`$${price}`}</h3>
+          <h3>{`${currency === "USD" ? "$" : "€"}${price}`}</h3>
         </div>
       )}
     </div>

@@ -2,21 +2,13 @@
 
 import { useState } from "react";
 import { useFilters } from "@/context/FilterContext";
+import { useCurrency } from "@/context/CurrencyContext";
 import Button from "../reused/Button";
 import Input from "../reused/Input";
 import Dropdown from "../reused/Dropdown";
 import PlusSmall from "@/icons/plusSmall";
 import MinusSmall from "@/icons/minusSmall";
-
-interface Category {
-  id: number;
-  name: string;
-}
-
-interface Brand {
-  id: number;
-  name: string;
-}
+import { Category, Brand } from "@/utils/Types";
 
 interface SideBarProps {
   categories: Category[];
@@ -29,7 +21,13 @@ const SideBar = ({ categories, brands }: SideBarProps) => {
     selectedBrands,
     setSelectedCategories,
     setSelectedBrands,
+    priceFrom,
+    priceTo,
+    setPriceFrom,
+    setPriceTo,
   } = useFilters();
+
+  const { currency, setCurrency } = useCurrency();
 
   const [loadMore, setLoadMore] = useState(false);
   const [mode, setMode] = useState<"category" | "brand">("category");
@@ -46,6 +44,15 @@ const SideBar = ({ categories, brands }: SideBarProps) => {
         ? selectedItems.filter((x) => x !== id)
         : [...selectedItems, id]
     );
+  };
+
+  const handlePriceFrom = (val: string | number) => {
+    const num = Number(val);
+    setPriceFrom(isNaN(num) ? null : num);
+  };
+  const handlePriceTo = (val: string | number) => {
+    const num = Number(val);
+    setPriceTo(isNaN(num) ? null : num);
   };
 
   return (
@@ -86,6 +93,54 @@ const SideBar = ({ categories, brands }: SideBarProps) => {
           onClick={() => setLoadMore((p) => !p)}
           className="justify-start p-0 text-[#E7E7E7]"
         />
+      </div>
+      <div className="flex flex-col gap-4 px-2.5">
+        <Dropdown
+          variant="custom"
+          options={[{ label: "Price", value: "price" }]}
+        />
+        <div className="flex items-start w-full">
+          <Input
+            className="bg-[#262626] rounded-none max-w-[145px]"
+            sizes="dropdown"
+            placeholder="$ 10.00"
+            value={priceFrom ?? ""}
+            onChange={(e) => handlePriceFrom(e.target.value)}
+          />
+          <Dropdown
+            variant="custom"
+            size="input"
+            options={[
+              { label: "USD", value: "USD" },
+              { label: "EUR", value: "EUR" },
+            ]}
+            value={currency}
+            onChange={(val) => setCurrency(val as "USD" | "EUR")}
+            fullWidth={false}
+            className="bg-[#262626]! border border-[#616674]"
+          />
+        </div>
+        <div className="flex items-start w-full">
+          <Input
+            className="bg-[#262626] rounded-none max-w-[145px]"
+            sizes="dropdown"
+            placeholder="$ 20.00"
+            value={priceTo ?? ""}
+            onChange={(e) => handlePriceTo(e.target.value)}
+          />
+          <Dropdown
+            variant="custom"
+            size="input"
+            options={[
+              { label: "USD", value: "USD" },
+              { label: "EUR", value: "EUR" },
+            ]}
+            value={currency}
+            onChange={(val) => setCurrency(val as "USD" | "EUR")}
+            fullWidth={false}
+            className="bg-[#262626]! border border-[#616674] "
+          />
+        </div>
       </div>
     </aside>
   );

@@ -76,6 +76,7 @@ const RegisterPage = () => {
           phone: data.phone,
           password: data.password,
           region: data.region,
+          avatar: "https://i.ibb.co/0jjGpHKz/indian-5154773.png",
         }),
       });
 
