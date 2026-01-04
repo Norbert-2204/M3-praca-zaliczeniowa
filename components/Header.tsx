@@ -20,6 +20,9 @@ const Header = () => {
   const loginPage = () => {
     router.push("/login");
   };
+  const cartPage = () => {
+    router.push("/cart");
+  };
 
   const handleLogout = async () => {
     const res = await fetch("/api/auth/logout", { method: "POST" });
@@ -46,6 +49,7 @@ const Header = () => {
             </div>
             <Button
               variant="icon"
+              onClick={cartPage}
               icon={<ShopCartIcon className="text-[#FCFCFC]" />}
             />
             {user?.avatar ? (

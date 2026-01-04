@@ -1,8 +1,9 @@
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 const FetchTypes = async () => {
   const [categoryRes, productRes, brandRes] = await Promise.all([
-    fetch("http://localhost:3000/api/categories", { cache: "no-store" }),
-    fetch("http://localhost:3000/api/product", { cache: "no-store" }),
-    fetch("http://localhost:3000/api/brand", { cache: "no-store" }),
+    fetch(`${baseUrl}/api/categories`, { cache: "no-store" }),
+    fetch(`${baseUrl}/api/product`, { cache: "no-store" }),
+    fetch(`${baseUrl}/api/brand`, { cache: "no-store" }),
   ]);
 
   if (!categoryRes.ok) throw new Error("Failed to fetch categories");

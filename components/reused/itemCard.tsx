@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Button from "../reused/Button";
 import ShopCartIcon from "@/icons/ShopCart";
+import { addToCart } from "@/utils/AddToCart";
 
 const imageError = "https://i.ibb.co/twJkJxGK/pngaaa-com-5273700.png";
 
@@ -32,6 +33,17 @@ const ItemCard = ({
   bg = false,
   currency = "USD",
 }: ItemCardProps) => {
+  const handleAddToCart = async () => {
+    if (!id) return;
+
+    try {
+      await addToCart(id);
+      console.log("Product added to cart");
+    } catch (error) {
+      console.error("Add to cart failed", error);
+    }
+  };
+
   return (
     <div
       key={id}
@@ -74,6 +86,7 @@ const ItemCard = ({
           <Button
             variant="icon"
             icon={<ShopCartIcon className="text-[#FCFCFC]" />}
+            onClick={handleAddToCart}
             className="bg-[#262626] absolute left-4 top-4 rounded p-4"
           />
         )}

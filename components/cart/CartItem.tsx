@@ -1,45 +1,65 @@
+"use client";
 import Input from "../reused/Input";
 import Button from "../reused/Button";
 import Image from "next/image";
 import Trash from "@/icons/trash";
 import PlusSmall from "@/icons/plusSmall";
 import MinusSmall from "@/icons/minusSmall";
+import { CartItemProps } from "@/utils/Types";
+import { updateQuantity } from "@/utils/AddToCart";
+import deleteFromCart from "@/utils/DeleteFromCart";
 
-const itemPlaceholder = {
-  name: "Myszka X33-R",
-  imageUrl: "https://i.ibb.co/jPjq6vXq/pngaaa-com-2946152.png",
-  category: "Webcam",
-  price: 33.55,
-};
+const CartItem = ({
+  id,
+  name,
+  price,
+  imageUrl,
+  category,
+  quantity,
+}: CartItemProps) => {
+  const handleUpdateQuantity = async () => {
+    if (!id) return;
 
-const CartItem = () => {
+    try {
+      await updateQuantity(id, +1);
+      window.location.reload();
+      console.log("Product quantity updated");
+    } catch (error) {
+      console.error("Update quantity failed", error);
+    }
+  };
+
+  const handleRemove = async () => {
+    await deleteFromCart(id);
+    window.location.reload();
+  };
+
   return (
     <div className="flex flex-col gap-6 w-full ">
       <Input variant="checkbox" />
       <div className="flex flex-col sm:flex-row bg-[#262626] p-6 rounded gap-8 flex-1">
         <div className="flex justify-center items-center p-3 relative bg-white w-[172px] h-[138px] rounded">
-          <Image
-            src={itemPlaceholder.imageUrl}
-            alt="1"
-            width={148}
-            height={114}
-          />
+          <Image src={imageUrl} alt="1" width={148} height={114} />
         </div>
         <div className="flex flex-1">
           <div className="flex flex-col flex-1">
             <div className="flex flex-col gap-4">
               <div className="flex justify-between">
-                <h2>{itemPlaceholder.name}</h2>
-                <Button variant="icon" icon={<Trash />} />
+                <h2>{name}</h2>
+                <Button
+                  variant="icon"
+                  icon={<Trash />}
+                  onClick={handleRemove}
+                />
               </div>
               <Button
-                desc={itemPlaceholder.category}
+                desc={category}
                 sizes="verySmall"
                 className="bg-[#E5610A]! text-[#FDEDD7] w-[66px]"
               />
             </div>
             <div className="flex flex-col sm:flex-row justify-between sm:items-center">
-              <h2>${itemPlaceholder.price}</h2>
+              <h2>${price}</h2>
               <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
                 <Button variant="ghost" desc="Write note" />
                 <hr className="block sm:hidden w-full border-[#848A97]" />
@@ -50,11 +70,12 @@ const CartItem = () => {
                     icon={<MinusSmall />}
                     className="sm:flex-0"
                   />
-                  10
+                  {quantity}
                   <Button
                     variant="icon"
                     icon={<PlusSmall />}
                     className="sm:flex-0"
+                    onClick={handleUpdateQuantity}
                   />
                 </div>
               </div>

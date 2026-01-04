@@ -19,3 +19,14 @@ export interface Brand {
   id: number;
   name: string;
 }
+
+export interface CartItemProps {
+  id: number;
+  productId: number;
+  name: string;
+  price: number;
+  quantity: number;
+  imageUrl: string;
+  category: string;
+  brand: string;
+}
