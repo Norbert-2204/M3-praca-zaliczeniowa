@@ -37,7 +37,7 @@ const SIZE = {
   medium: "px-3 py-4",
   average: "px-2.5 py-5",
   small: "px-2 py-4 text-sm",
-  verySmall: "px-1.5 py-2 text-xs",
+  verySmall: "px-1.5 py-2.5 text-xs",
   pagination: "p-2.5",
   icon: "w-6 h-6",
   iconBig: "w-[7px] h-1",
