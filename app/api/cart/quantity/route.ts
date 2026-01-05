@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "../../../lib/prisma";
 import { getUserId } from "../../../lib/getId";
+
 export async function PATCH(req: Request) {
   try {
     const userId = await getUserId();

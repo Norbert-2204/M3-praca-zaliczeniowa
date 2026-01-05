@@ -20,6 +20,8 @@ export async function GET() {
             imageUrl: true,
             category: { select: { id: true, name: true } },
             brand: { select: { id: true, name: true } },
+            categoryId: true,
+            brandId: true,
           },
         },
       },
@@ -36,6 +38,8 @@ export async function GET() {
         imageUrl: item.product.imageUrl,
         category: item.product.category.name,
         brand: item.product.brand.name,
+        brandId: item.product.brand.id,
+        categoryId: item.product.category.id,
       }))
     );
   } catch (error) {
@@ -75,6 +79,8 @@ export async function POST(req: NextRequest) {
               imageUrl: true,
               category: { select: { id: true, name: true } },
               brand: { select: { id: true, name: true } },
+              categoryId: true,
+              brandId: true,
             },
           },
         },
@@ -93,6 +99,8 @@ export async function POST(req: NextRequest) {
             imageUrl: true,
             category: { select: { id: true, name: true } },
             brand: { select: { id: true, name: true } },
+            categoryId: true,
+            brandId: true,
           },
         },
       },

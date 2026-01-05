@@ -11,7 +11,7 @@ const MinusSmall = (props: SVGProps<SVGSVGElement>) => (
     <path
       d="M7 12L17 12"
       stroke="#E7E7E7"
-      strokeWidth={1.5}
+      strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />

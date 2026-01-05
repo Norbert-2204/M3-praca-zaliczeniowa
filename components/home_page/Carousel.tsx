@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+
 import Image from "next/image";
 import Button from "../reused/Button";
 import ArrowRight from "@/icons/arrowRight";
@@ -10,6 +12,7 @@ import Right from "@/icons/rigth";
 import { Product } from "@/utils/Types";
 
 interface Category {
+  id: number;
   name: string;
   description: string;
   image: string;
@@ -24,6 +27,12 @@ interface FullProps {
 const Carousel = ({ categories, products }: FullProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const total = categories.length;
+
+  const router = useRouter();
+
+  const handleExplore = (categoryId: number) => {
+    router.push(`/product?category=${categoryId}`);
+  };
 
   const prev = () => {
     if (currentIndex > 0) {
@@ -74,7 +83,11 @@ const Carousel = ({ categories, products }: FullProps) => {
                     {capitalize(cat.exploreInfo)}
                   </p>
                   <div className="flex justify-center xl:justify-start">
-                    <Button desc="Explore category" icon={<ArrowRight />} />
+                    <Button
+                      desc="Explore category"
+                      icon={<ArrowRight />}
+                      onClick={() => handleExplore(cat.id)}
+                    />
                   </div>
                 </div>
                 <div className="relative w-full max-w-[300px] xl:max-w-[450px] md:aspect-3/5 ">

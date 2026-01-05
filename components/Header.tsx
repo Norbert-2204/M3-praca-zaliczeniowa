@@ -3,26 +3,22 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
+import { useAlert } from "@/context/AlertContext";
 import Image from "next/image";
 
 import Button from "./reused/Button";
 import ShopCartIcon from "@/icons/ShopCart";
 import Alert from "./alert/Alert";
-import Close from "@/icons/close";
 
 const Header = () => {
   const router = useRouter();
   const { user, isLoggedIn } = useAuth();
+  const { alert, removeAlert } = useAlert();
+  const isVisible = Boolean(alert);
 
-  const homePage = () => {
-    router.push("/");
-  };
-  const loginPage = () => {
-    router.push("/login");
-  };
-  const cartPage = () => {
-    router.push("/cart");
-  };
+  const homePage = () => router.push("/");
+  const loginPage = () => router.push("/login");
+  const cartPage = () => router.push("/cart");
 
   const handleLogout = async () => {
     const res = await fetch("/api/auth/logout", { method: "POST" });
@@ -33,7 +29,7 @@ const Header = () => {
   };
 
   return (
-    <header className="flex flex-col px-10 py-8 gap-10">
+    <header className="flex flex-col px-10 py-8 gap-10 relative overflow-hidden">
       <div className="flex justify-between ">
         <h1
           onClick={homePage}
@@ -51,6 +47,7 @@ const Header = () => {
               variant="icon"
               onClick={cartPage}
               icon={<ShopCartIcon className="text-[#FCFCFC]" />}
+              bgColors="none"
             />
             {user?.avatar ? (
               <Image
@@ -73,6 +70,7 @@ const Header = () => {
           />
         )}
       </div>
+
       <nav className="flex gap-10 md:gap-12 text-sm  md:text-[16px]">
         <Link href="/" className="text-[#F29145]">
           Home
@@ -81,12 +79,26 @@ const Header = () => {
         <Link href="/">Contact</Link>
       </nav>
       <hr className="text-[#383B42]" />
-      {/* <Alert
-        variant="primary"
-        types="success"
-        icon={<Close />}
-        pDesc="Product successfully added"
-      /> */}
+
+      <div
+        className={`flex flex-col gap-2 transition-all duration-300 ease-out
+              ${
+                isVisible
+                  ? "translate-x-0 opacity-100"
+                  : "translate-x-full opacity-0"
+              }
+            `}
+      >
+        {alert && (
+          <Alert
+            pDesc={alert.message}
+            alertType={alert.alertType}
+            onClick={() => removeAlert()}
+            buttonType="button"
+            desc="X"
+          />
+        )}
+      </div>
     </header>
   );
 };

@@ -11,9 +11,9 @@ const Close = (props: SVGProps<SVGSVGElement>) => (
     <path
       d="M18.25 0.75L0.75 18.25M0.750037 0.75L18.2501 18.25"
       stroke="#FCFCFC"
-      stroke-width={1.5}
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 );

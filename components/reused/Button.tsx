@@ -18,11 +18,13 @@ interface ButtonProps {
     | "iconBig";
   icon?: ReactNode;
   type?: "button" | "submit";
+  bgColors?: "standard" | "dark" | "black" | "none";
+  colors?: "standard" | "orange" | "white";
 }
 
 const VARIANTS = {
   primary:
-    "bg-[#F29145] text-[#262626] rounded font-semibold cursor-pointer max-w-[174px] max-h-[60px] text-nowrap",
+    " text-[#262626] rounded font-semibold cursor-pointer max-w-[174px] max-h-[60px] text-nowrap",
   secondary:
     "text-[#F29145] text-[#F29145] rounded font-semibold border border-orange-500 cursor-pointer max-w-[174px] max-h-[60px] text-nowrap",
   ghost:
@@ -30,6 +32,19 @@ const VARIANTS = {
   icon: " cursor-pointer flex justify-center items-center",
   iconBig:
     "bg-[#F29145] text-[#262626] cursor-pointer flex justify-center items-center w-11 h-[74px] rounded",
+};
+
+const BGCOLORS = {
+  standard: "bg-[#F29145]",
+  dark: "bg-[#E5610A]",
+  black: "bg-[#262626]",
+  none: "bg-transparent",
+};
+
+const COLORS = {
+  standard: "text-[#262626]",
+  orange: "text-[#F29145]",
+  white: "text-[#FCFCFC]",
 };
 
 const SIZE = {
@@ -51,8 +66,12 @@ const Button = ({
   variant = "primary" as "primary" | "secondary" | "ghost" | "icon",
   sizes = "medium",
   icon,
+  bgColors = "standard" as "standard" | "dark" | "black" | "none",
+  colors = "standard" as "standard" | "orange" | "white",
 }: ButtonProps) => {
   const variantClasses = VARIANTS[variant] || VARIANTS.primary;
+  const bgColorsClasses = BGCOLORS[bgColors] || BGCOLORS.standard;
+  const colorsClasses = COLORS[colors] || COLORS.standard;
   const sizeClasses =
     variant === "icon" ? SIZE.icon : SIZE[sizes] || SIZE.medium;
 
@@ -60,7 +79,7 @@ const Button = ({
     <button
       onClick={onClick}
       type={type}
-      className={`${variantClasses} ${sizeClasses} ${className} flex justify-center items-center`}
+      className={`${variantClasses} ${sizeClasses} ${className} ${bgColorsClasses} ${colorsClasses} flex justify-center items-center`}
     >
       {desc && <span>{desc}</span>}
       {icon && <span className="flex">{icon}</span>}

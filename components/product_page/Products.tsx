@@ -11,7 +11,6 @@ import ItemCard from "../reused/itemCard";
 import ArrowLeft from "@/icons/arrowLeft";
 import ArrowRight from "@/icons/arrowRight";
 import { Product, Category } from "@/utils/Types";
-import Loading from "../reused/Loading";
 
 interface ProductPops {
   category: Category[];
@@ -32,10 +31,6 @@ const Products = ({ category, products }: ProductPops) => {
   useEffect(() => {
     setCurrentPage(1);
   }, [filteredProducts]);
-
-  if (filteredProducts.length === 0) {
-    return <Loading />;
-  }
 
   const paginatedProducts = filteredProducts.slice(
     (currentPage - 1) * quantity,
@@ -99,63 +94,73 @@ const Products = ({ category, products }: ProductPops) => {
           />
         </div>
       </div>
-      <div className="flex flex-wrap gap-12">
-        {paginatedProducts.map((p) => {
-          const categoryName = category.find(
-            (cat) => cat.id === p.categoryId
-          )?.name;
-          return (
-            <ItemCard
-              key={p.id}
-              item={p}
-              shop={true}
-              price={convertPrice(p.price)}
-              currency={currency}
-              itemName={categoryName}
-              id={p.id}
-              bg={true}
-            />
-          );
-        })}
-      </div>
-      <div className="flex flex-col sm:flex-row gap-5 md:gap-0 justify-between">
-        <div className="flex gap-2.5">
-          {Pagination(currentPage, totalPages).map((page, idx) =>
-            page === "..." ? (
-              <span key={idx} className="text-[#FCFCFC] px-2">
-                ...
-              </span>
-            ) : (
-              <Button
-                key={idx}
-                desc={page.toString()}
-                variant={page === currentPage ? "primary" : "ghost"}
-                sizes="pagination"
-                onClick={() => setCurrentPage(Number(page))}
-                className="text-[#FCFCFC] w-11 h-11"
+      {filteredProducts.length === 0 ? (
+        <div className="flex flex-wrap items-center justify-center gap-12">
+          <h1 className="text-5xl">No products found</h1>
+        </div>
+      ) : (
+        <div className="flex flex-wrap gap-12">
+          {paginatedProducts.map((p) => {
+            const categoryName = category.find(
+              (cat) => cat.id === p.categoryId
+            )?.name;
+            return (
+              <ItemCard
+                key={p.id}
+                item={p}
+                shop={true}
+                price={convertPrice(p.price)}
+                currency={currency}
+                itemName={categoryName}
+                id={p.id}
+                bg={true}
               />
-            )
-          )}
+            );
+          })}
         </div>
-        <div className="flex gap-8">
-          <Button
-            variant="ghost"
-            desc="Previous"
-            icon={<ArrowLeft />}
-            sizes="average"
-            onClick={handlePrevious}
-            className="text-[#FCFCFC] flex-row-reverse border"
-          />
-          <Button
-            variant="ghost"
-            desc="Next"
-            icon={<ArrowRight />}
-            sizes="average"
-            onClick={handleNext}
-            className="text-[#FCFCFC] border w-[110px]"
-          />
+      )}
+      {filteredProducts.length === 0 ? (
+        ""
+      ) : (
+        <div className="flex flex-col sm:flex-row gap-5 md:gap-0 justify-between">
+          <div className="flex gap-2.5">
+            {Pagination(currentPage, totalPages).map((page, idx) =>
+              page === "..." ? (
+                <span key={idx} className="text-[#FCFCFC] px-2">
+                  ...
+                </span>
+              ) : (
+                <Button
+                  key={idx}
+                  desc={page.toString()}
+                  variant={page === currentPage ? "primary" : "ghost"}
+                  sizes="pagination"
+                  onClick={() => setCurrentPage(Number(page))}
+                  className="text-[#FCFCFC] w-11 h-11"
+                />
+              )
+            )}
+          </div>
+          <div className="flex gap-8">
+            <Button
+              variant="ghost"
+              desc="Previous"
+              icon={<ArrowLeft />}
+              sizes="average"
+              onClick={handlePrevious}
+              className="text-[#FCFCFC] flex-row-reverse border"
+            />
+            <Button
+              variant="ghost"
+              desc="Next"
+              icon={<ArrowRight />}
+              sizes="average"
+              onClick={handleNext}
+              className="text-[#FCFCFC] border w-[110px]"
+            />
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

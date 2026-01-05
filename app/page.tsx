@@ -8,6 +8,7 @@ import Brand from "@/components/home_page/Brand";
 import Loading from "@/components/reused/Loading";
 import { Product } from "@/utils/Types";
 import FetchTypes from "@/utils/FetchTypes";
+import { FiltersProvider } from "@/context/FilterContext";
 
 export default async function Home() {
   const { categoryRes, productRes, brandRes } = await FetchTypes();
@@ -24,20 +25,22 @@ export default async function Home() {
   return (
     <div>
       <main>
-        <Header />
-        <Suspense fallback={<Loading />}>
-          <Carousel categories={categories} products={carouselProducts} />
-        </Suspense>
-        <Suspense fallback={<Loading />}>
-          <Category categories={categories} />
-        </Suspense>
-        <Suspense fallback={<Loading />}>
-          <Recomdendations products={products} categories={categories} />
-        </Suspense>
-        <Suspense fallback={<Loading />}>
-          <Brand brands={brands} />
-        </Suspense>
-        <Footer />
+        <FiltersProvider>
+          <Header />
+          <Suspense fallback={<Loading />}>
+            <Carousel categories={categories} products={carouselProducts} />
+          </Suspense>
+          <Suspense fallback={<Loading />}>
+            <Category categories={categories} />
+          </Suspense>
+          <Suspense fallback={<Loading />}>
+            <Recomdendations products={products} categories={categories} />
+          </Suspense>
+          <Suspense fallback={<Loading />}>
+            <Brand brands={brands} />
+          </Suspense>
+          <Footer />
+        </FiltersProvider>
       </main>
     </div>
   );

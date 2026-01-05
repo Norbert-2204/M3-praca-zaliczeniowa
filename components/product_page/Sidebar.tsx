@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useFilters } from "@/context/FilterContext";
 import { useCurrency } from "@/context/CurrencyContext";
+import { usePathname } from "next/navigation";
 import Button from "../reused/Button";
 import Input from "../reused/Input";
 import Dropdown from "../reused/Dropdown";
@@ -26,6 +27,7 @@ const SideBar = ({ categories, brands }: SideBarProps) => {
     setPriceFrom,
     setPriceTo,
   } = useFilters();
+  const pathname = usePathname();
 
   const { currency, setCurrency } = useCurrency();
 
@@ -39,20 +41,54 @@ const SideBar = ({ categories, brands }: SideBarProps) => {
     mode === "category" ? setSelectedCategories : setSelectedBrands;
 
   const toggle = (id: number) => {
-    setSelectedItems(
-      selectedItems.includes(id)
-        ? selectedItems.filter((x) => x !== id)
-        : [...selectedItems, id]
-    );
+    const newSelected = selectedItems.includes(id)
+      ? selectedItems.filter((x) => x !== id)
+      : [...selectedItems, id];
+    setSelectedItems(newSelected);
+
+    const params = new URLSearchParams(window.location.search);
+    if (newSelected.length > 0) {
+      params.set(mode, newSelected.join(","));
+    } else {
+      params.delete(mode);
+    }
+
+    if (priceFrom) params.set("priceFrom", priceFrom.toString());
+    else params.delete("priceFrom");
+
+    if (priceTo) params.set("priceTo", priceTo.toString());
+    else params.delete("priceTo");
+
+    window.history.replaceState({}, "", `${pathname}?${params.toString()}`);
+  };
+
+  const handleSelectAll = () => {
+    setSelectedItems([]);
+
+    const params = new URLSearchParams(window.location.search);
+    params.delete(mode);
+
+    if (priceFrom) params.set("priceFrom", priceFrom.toString());
+    if (priceTo) params.set("priceTo", priceTo.toString());
+
+    window.history.replaceState({}, "", `${pathname}?${params.toString()}`);
   };
 
   const handlePriceFrom = (val: string | number) => {
-    const num = Number(val);
-    setPriceFrom(isNaN(num) ? null : num);
+    if (val === "" || val === null || val === undefined) {
+      setPriceFrom(null);
+    } else {
+      const num = Number(val);
+      setPriceFrom(isNaN(num) ? null : num);
+    }
   };
   const handlePriceTo = (val: string | number) => {
-    const num = Number(val);
-    setPriceTo(isNaN(num) ? null : num);
+    if (val === "" || val === null || val === undefined) {
+      setPriceTo(null);
+    } else {
+      const num = Number(val);
+      setPriceTo(isNaN(num) ? null : num);
+    }
   };
 
   return (
@@ -73,7 +109,7 @@ const SideBar = ({ categories, brands }: SideBarProps) => {
           variant="checkbox"
           label="All"
           checked={selectedItems.length === 0}
-          onChange={() => setSelectedItems([])}
+          onChange={handleSelectAll}
         />
 
         {items.slice(0, loadMore ? undefined : 4).map((item) => (

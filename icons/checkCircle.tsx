@@ -11,9 +11,9 @@ const CheckCircle = (props: SVGProps<SVGSVGElement>) => (
     <path
       d="M70.8333 37.5L41.6666 66.6667L29.1664 54.1667M87.5 50C87.5 70.7107 70.7107 87.5 50 87.5C29.2893 87.5 12.5 70.7107 12.5 50C12.5 29.2893 29.2893 12.5 50 12.5C70.7107 12.5 87.5 29.2893 87.5 50Z"
       stroke="#86EFAD"
-      stroke-width="4"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="4"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 );

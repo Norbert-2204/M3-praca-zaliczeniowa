@@ -93,9 +93,10 @@ const Input = ({
       {isPassword && (
         <Button
           onClick={handlePassword}
-          className="absolute top-9 right-4"
+          className="absolute top-10.5 right-4"
           variant="icon"
           icon={showPassword ? <EyeOpen /> : <EyeClosed />}
+          bgColors="none"
         />
       )}
       {isError ? (

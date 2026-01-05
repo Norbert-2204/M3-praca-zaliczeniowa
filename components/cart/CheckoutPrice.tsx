@@ -1,11 +1,23 @@
 import Button from "../reused/Button";
+import { useCart } from "@/context/CartContext";
+import { CartItemProps } from "@/utils/Types";
 
-interface CheckoutPriceProps {
-  totalPrice: number;
-  totalQuantity: number;
-}
+const CheckoutPrice = ({ cartItems }: { cartItems: CartItemProps[] }) => {
+  const { selectedId } = useCart();
 
-const CheckoutPrice = ({ totalPrice, totalQuantity }: CheckoutPriceProps) => {
+  const selectedItems = cartItems.filter((item) =>
+    selectedId.includes(item.id)
+  );
+
+  const totalQuantity = selectedItems.reduce(
+    (sum, item) => sum + item.quantity,
+    0
+  );
+
+  const totalPrice = selectedItems.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
   return (
     <div className="flex flex-col p-6 bg-[#262626] rounded w-full max-w-[423px] gap-6 max-h-[330px]">
       <div className="flex flex-col gap-4.5">

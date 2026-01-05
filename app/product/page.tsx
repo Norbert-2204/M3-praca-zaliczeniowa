@@ -1,6 +1,4 @@
-import { Suspense } from "react";
 import { FiltersProvider } from "@/context/FilterContext";
-import Loading from "@/components/reused/Loading";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SideBar from "@/components/product_page/Sidebar";
@@ -28,9 +26,7 @@ const ProductPage = async () => {
           <div className="flex flex-col lg:flex-row border-t justify-center border-[#383B42]">
             <CurrencyProvider>
               <SideBar categories={categories} brands={brands} />
-              <Suspense fallback={<Loading />}>
-                <Products products={products} category={categories} />
-              </Suspense>
+              <Products products={products} category={categories} />
             </CurrencyProvider>
           </div>
         </div>

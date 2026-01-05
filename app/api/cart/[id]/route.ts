@@ -8,9 +8,8 @@ export async function DELETE(
 ) {
   try {
     const params = await context.params;
-    console.log("params", params);
     const cartItemId = Number(params.id);
-    console.log("Parsed ID:", cartItemId);
+
     if (isNaN(cartItemId)) {
       return NextResponse.json(
         { error: "Invalid cart item id" },

@@ -29,4 +29,7 @@ export interface CartItemProps {
   imageUrl: string;
   category: string;
   brand: string;
+  brandId: number;
+  categoryId: number;
+  filterType?: "category" | "brand";
 }
