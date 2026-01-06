@@ -3,6 +3,8 @@
 import Image from "next/image";
 import capitalize from "@/utils/Capitalize";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
+import { useAlert } from "@/context/AlertContext";
 
 interface Category {
   id: number;
@@ -17,7 +19,14 @@ interface CategoryProps {
 
 const Category = ({ categories }: CategoryProps) => {
   const router = useRouter();
+  const { addAlert } = useAlert();
+  const { isLoggedIn } = useAuth();
+
   const handleClick = (categoryId: number) => {
+    if (!isLoggedIn) {
+      addAlert("You must be logged in to see this page", "warning");
+      return;
+    }
     router.push(`/product?category=${categoryId}`);
   };
 

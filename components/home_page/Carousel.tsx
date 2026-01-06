@@ -10,6 +10,8 @@ import capitalize from "@/utils/Capitalize";
 import Left from "@/icons/left";
 import Right from "@/icons/rigth";
 import { Product } from "@/utils/Types";
+import { useAlert } from "@/context/AlertContext";
+import { useAuth } from "@/context/AuthContext";
 
 interface Category {
   id: number;
@@ -29,8 +31,14 @@ const Carousel = ({ categories, products }: FullProps) => {
   const total = categories.length;
 
   const router = useRouter();
+  const { addAlert } = useAlert();
+  const { isLoggedIn } = useAuth();
 
   const handleExplore = (categoryId: number) => {
+    if (!isLoggedIn) {
+      addAlert("You must be logged in to see this page", "warning");
+      return;
+    }
     router.push(`/product?category=${categoryId}`);
   };
 

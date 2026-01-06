@@ -8,6 +8,7 @@ import Button from "../reused/Button";
 import ShopCartIcon from "@/icons/ShopCart";
 import { addToCart } from "@/utils/AddToCart";
 import { useAlert } from "@/context/AlertContext";
+import { useAuth } from "@/context/AuthContext";
 
 const imageError = "https://i.ibb.co/twJkJxGK/pngaaa-com-5273700.png";
 
@@ -15,7 +16,7 @@ interface BaseItem {
   name: string;
   imageUrl: string;
   categoryId: number;
-  brandId: number;
+  id: number;
 }
 
 interface ItemCardProps {
@@ -45,9 +46,15 @@ const ItemCard = ({
   const { setSelectedCategories, setSelectedBrands } = useFilters();
   const router = useRouter();
   const pathname = usePathname();
+  const { isLoggedIn } = useAuth();
 
   const handleFilterClick = () => {
-    const filterId = filterType === "category" ? item.categoryId : item.brandId;
+    if (!isLoggedIn) {
+      addAlert("You must be logged in to see this page", "warning");
+      return;
+    }
+
+    const filterId = filterType === "category" ? item.categoryId : item.id;
 
     if (!filterId) return;
 
@@ -60,33 +67,37 @@ const ItemCard = ({
   };
 
   const handleAddToCart = async () => {
+    if (!isLoggedIn) {
+      addAlert("You must be logged in to add items to your cart", "warning");
+      return;
+    }
     if (!id) return;
 
     try {
       await addToCart(id);
       addAlert(`${item.name} added to cart!`, "success");
-      console.log("Product added to cart");
     } catch (error) {
       console.error("Add to cart failed", error);
     }
   };
   const handleBrandClick = (brandId: number) => {
-    console.log(brandId);
+    if (!isLoggedIn) {
+      addAlert("You must be logged in see this page", "warning");
+      return;
+    }
     router.push(`/product?brand=${brandId}`);
   };
-  console.log(item.brandId);
 
   return (
     <div
       key={id}
       className={`flex flex-col px-4 pb-5 pt-4 ${
         brand
-          ? "gap-7 cursor-pointer items-center w-[220px] h-[190px]"
+          ? "gap-7 items-center w-[220px] h-[190px]"
           : "gap-4.5 items-start w-[220px] lg:w-[300px] h-auto"
       } justify-center bg-[#262626] border border-[#383B42] rounded`}
     >
       <div
-        onClick={brand ? () => handleBrandClick(item.brandId) : undefined}
         className={`relative flex items-center justify-center shrink-0 ${
           brand ? "w-[110px] h-[57px]" : "w-full h-40"
         }
@@ -94,8 +105,8 @@ const ItemCard = ({
          `}
       >
         <div
-          onClick={brand ? () => handleBrandClick(item.brandId) : undefined}
-          className="w-[220px] h-[190px] absolute z-10 -top-9"
+          onClick={brand ? () => handleBrandClick(item.id) : undefined}
+          className="w-[220px] h-[190px] absolute z-10 -top-9 cursor-pointer"
         ></div>
         {brand ? (
           <Image
@@ -122,7 +133,7 @@ const ItemCard = ({
             variant="icon"
             icon={<ShopCartIcon className="text-[#FCFCFC]" />}
             onClick={handleAddToCart}
-            className=" absolute left-4 top-4 rounded p-4"
+            className=" absolute left-4 top-4 rounded p-4 z-100"
             bgColors="black"
           />
         )}

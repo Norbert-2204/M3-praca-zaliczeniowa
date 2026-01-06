@@ -1,0 +1,20 @@
+import { SVGProps } from "react";
+const Warning = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M12.25 17.9046V17.9166M12.25 5.83333V14.2917M23.5 11.875C23.5 17.8811 18.4632 22.75 12.25 22.75C6.0368 22.75 1 17.8811 1 11.875C1 5.8689 6.0368 1 12.25 1C18.4632 1 23.5 5.8689 23.5 11.875Z"
+      stroke="#CA9A04"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+export default Warning;

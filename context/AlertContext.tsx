@@ -5,11 +5,11 @@ import { createContext, ReactNode, useContext, useRef, useState } from "react";
 export interface AlertItem {
   id: string;
   message: string;
-  alertType?: "success" | "fail";
+  alertType?: "success" | "fail" | "warning";
 }
 
 interface AlertContextType {
-  addAlert: (message: string, type?: "success" | "fail") => void;
+  addAlert: (message: string, type?: "success" | "fail" | "warning") => void;
   alert: AlertItem | null;
   removeAlert: () => void;
 }
@@ -30,7 +30,10 @@ export const AlertProvider = ({ children }: AlertProviderProps) => {
   const [alert, setAlert] = useState<AlertItem | null>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const addAlert = (message: string, type: "success" | "fail" = "success") => {
+  const addAlert = (
+    message: string,
+    type: "success" | "fail" | "warning" = "success"
+  ) => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }

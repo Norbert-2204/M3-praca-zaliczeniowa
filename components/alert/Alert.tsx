@@ -4,6 +4,7 @@ import Button from "../reused/Button";
 import { MouseEventHandler, ReactNode } from "react";
 import Check from "@/icons/check";
 import Denied from "@/icons/denied";
+import Warning from "@/icons/warning";
 
 interface AlertProps {
   desc?: string;
@@ -11,9 +12,9 @@ interface AlertProps {
   className?: string;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   variant?: "primary";
-  alertType?: "success" | "fail";
+  alertType?: "success" | "fail" | "warning";
   icon?: ReactNode;
-  iconType?: "success" | "fail";
+  iconType?: "success" | "fail" | "warning";
   buttonType?: "button" | "submit";
   bgColors?: "none";
   colors?: "white";
@@ -26,11 +27,13 @@ const DIVARIANTS = {
 const TYPES = {
   success: "bg-[#295B40] border border-[#22C55E] text-[#86EFAD]",
   fail: "bg-[#FEF2F2] border border-[#F87171] text-[#DC2626]",
+  warning: "bg-[#FEF9E8] border border-[#FAC215] text-[#CA9A04]",
 };
 
 const ICONS = {
   success: <Check />,
   fail: <Denied />,
+  warning: <Warning />,
 };
 
 const Alert = ({
@@ -62,7 +65,7 @@ const Alert = ({
         variant="icon"
         sizes="small"
         bgColors="none"
-        colors="white"
+        colors={alertType === "success" ? "white" : "standard"}
       />
     </div>
   );

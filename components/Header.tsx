@@ -19,14 +19,7 @@ const Header = () => {
   const homePage = () => router.push("/");
   const loginPage = () => router.push("/login");
   const cartPage = () => router.push("/cart");
-
-  const handleLogout = async () => {
-    const res = await fetch("/api/auth/logout", { method: "POST" });
-
-    if (res.ok) {
-      router.push("/");
-    }
-  };
+  const profilePage = () => router.push("/settings");
 
   return (
     <header className="flex flex-col px-10 py-8 gap-10 relative overflow-hidden">
@@ -40,9 +33,6 @@ const Header = () => {
         </h1>
         {isLoggedIn ? (
           <div className="flex justify-between items-center gap-5 md:gap-7">
-            <div>
-              <Button onClick={handleLogout} desc="Logout" />
-            </div>
             <Button
               variant="icon"
               onClick={cartPage}
@@ -50,13 +40,18 @@ const Header = () => {
               bgColors="none"
             />
             {user?.avatar ? (
-              <Image
-                src={user.avatar}
-                alt="avatar"
-                width={40}
-                height={40}
-                className="object-cover rounded-full"
-              />
+              <div
+                onClick={profilePage}
+                className="rounded-full z-10 cursor-pointer"
+              >
+                <Image
+                  src={user.avatar}
+                  alt="avatar"
+                  width={40}
+                  height={40}
+                  className="object-cover rounded-full"
+                />
+              </div>
             ) : (
               <div className="bg-gray-700 p-4 w-10 h-10 rounded-full"></div>
             )}
@@ -70,15 +65,27 @@ const Header = () => {
           />
         )}
       </div>
-
-      <nav className="flex gap-10 md:gap-12 text-sm  md:text-[16px]">
-        <Link href="/" className="text-[#F29145]">
-          Home
-        </Link>
-        <Link href="/product">Product</Link>
-        <Link href="/">Contact</Link>
-      </nav>
-      <hr className="text-[#383B42]" />
+      {isLoggedIn ? (
+        <div className="flex flex-col gap-8">
+          <nav className="flex gap-10 md:gap-12 text-sm  md:text-[16px]">
+            <Link href="/" className="text-[#F29145]">
+              Home
+            </Link>
+            <Link href="/product">Product</Link>
+            <Link href="/">Contact</Link>
+          </nav>
+          <hr className="text-[#383B42]" />
+        </div>
+      ) : (
+        <div className="flex flex-col gap-8">
+          <nav className="flex gap-10 md:gap-12 text-sm  md:text-[16px]">
+            <Link href="/" className="text-[#F29145]">
+              Home
+            </Link>
+          </nav>
+          <hr className="text-[#383B42]" />
+        </div>
+      )}
 
       <div
         className={`flex flex-col gap-2 transition-all duration-300 ease-out
@@ -89,15 +96,26 @@ const Header = () => {
               }
             `}
       >
-        {alert && (
-          <Alert
-            pDesc={alert.message}
-            alertType={alert.alertType}
-            onClick={() => removeAlert()}
-            buttonType="button"
-            desc="X"
-          />
-        )}
+        {isLoggedIn
+          ? alert && (
+              <Alert
+                pDesc={alert.message}
+                alertType={alert.alertType}
+                onClick={() => removeAlert()}
+                buttonType="button"
+                desc="X"
+              />
+            )
+          : alert && (
+              <Alert
+                pDesc={alert.message}
+                alertType={alert.alertType}
+                onClick={() => removeAlert()}
+                buttonType="button"
+                iconType="warning"
+                desc="X"
+              />
+            )}
       </div>
     </header>
   );

@@ -8,6 +8,7 @@ import EmptyCart from "@/components/cart/EmptyCart";
 import CartClient from "@/components/cart/CartClient";
 import { CartProvider } from "@/context/CartContext";
 import { FiltersProvider } from "@/context/FilterContext";
+import ProtectPage from "@/components/ProtectPage";
 
 const Cart = async () => {
   const cookieStore = await cookies();
@@ -32,16 +33,17 @@ const Cart = async () => {
     <>
       <FiltersProvider>
         <CartProvider>
-          <Header />
-          {cartItems.length === 0 ? (
-            <div className="flex items-center justify-center flex-wrap p-10">
-              <EmptyCart />
-            </div>
-          ) : (
-            <CartClient cartItems={cartItems} />
-          )}
-
-          <Footer />
+          <ProtectPage>
+            <Header />
+            {cartItems.length === 0 ? (
+              <div className="flex items-center justify-center flex-wrap p-10">
+                <EmptyCart />
+              </div>
+            ) : (
+              <CartClient cartItems={cartItems} />
+            )}
+            <Footer />
+          </ProtectPage>
         </CartProvider>
       </FiltersProvider>
     </>
