@@ -64,6 +64,16 @@ const Input = ({
     setShowPassword((prev) => !prev);
   };
 
+  if (type === "file") {
+    return (
+      <input
+        type="file"
+        placeholder="Upload photo"
+        className={`${onChange} ${className} py-2.5 px-5 border w-[145px] rounded cursor-pointer`}
+      />
+    );
+  }
+
   if (variant === "checkbox") {
     return (
       <label className={"inline-flex items-center gap-2 cursor-pointer"}>

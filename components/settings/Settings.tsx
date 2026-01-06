@@ -84,7 +84,7 @@ const Settings = () => {
       lastName: user?.lastName,
       email: user?.email,
       address: user?.address,
-      phone: user?.phone,
+      phone: maskPhone(user?.phone),
       region: user?.region,
       password: "",
       newPassword: "",
@@ -128,11 +128,27 @@ const Settings = () => {
     }
   };
 
+  const updateAvatar = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("avatar", file);
+
+    const res = await fetch("/api/user/avatar", {
+      method: "POST",
+      body: formData,
+    });
+
+    const result = await res.json();
+    if (!res.ok)
+      return addAlert(result.error || "Failed to update avatar", "fail");
+
+    addAlert("Avatar updated successfully");
+  };
+
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col gap-12 p-6 bg-[#262626] border border-[#383B42] w-full max-w-[972px]"
-    >
+    <div className="flex flex-col gap-12 p-6 bg-[#262626] border border-[#383B42] w-full max-w-[972px]">
       <div className="flex flex-col gap-2">
         <h1 className="text-2xl">My Profile</h1>
         <p>Organize profile info for account control and security</p>
@@ -151,7 +167,7 @@ const Settings = () => {
               />
             )}
           </div>
-          <div>
+          <div className="relative">
             <Button
               desc="Upload photo"
               variant="ghost"
@@ -159,9 +175,17 @@ const Settings = () => {
               sizes="averageReverse"
               className="border rounded"
             />
+            <Input
+              onChange={updateAvatar}
+              type="file"
+              className="absolute opacity-0 top-0 z-10 cursor-pointer"
+            />
           </div>
         </div>
-        <div className="flex flex-col gap-8 w-full">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col gap-8 w-full"
+        >
           <Controller
             name="firstName"
             control={control}
@@ -300,9 +324,9 @@ const Settings = () => {
               <Button desc="Update profile" type="submit" />
             </div>
           </div>
-        </div>
+        </form>
       </div>
-    </form>
+    </div>
   );
 };
 export default Settings;
