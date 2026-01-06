@@ -1,5 +1,5 @@
 import { SVGProps } from "react";
-const ShopCartIcon = (props: SVGProps<SVGSVGElement>) => (
+const TransactionCart = (props: SVGProps<SVGSVGElement>) => (
   <svg
     width="26"
     height="26"
@@ -17,4 +17,4 @@ const ShopCartIcon = (props: SVGProps<SVGSVGElement>) => (
     />
   </svg>
 );
-export default ShopCartIcon;
+export default TransactionCart;

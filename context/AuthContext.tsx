@@ -14,6 +14,12 @@ export interface User {
   email: string;
   phone?: string;
   avatar?: string;
+  region?: string;
+  address?: string;
+  cartItems?: [];
+  orders?: [];
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 interface AuthContextType {

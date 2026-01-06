@@ -18,6 +18,7 @@ interface InputProps {
   error?: string;
   sizes?: "small" | "medium" | "large" | "dropdown";
   isError?: boolean;
+  settings?: boolean;
 }
 
 const VARIANTS = {
@@ -53,6 +54,7 @@ const Input = ({
   error,
   sizes = "large",
   isError = false,
+  settings = false,
 }: InputProps) => {
   const variantClasses = VARIANTS[variant] || VARIANTS.box;
   const sizesClasses = SIZES[sizes] || SIZES.large;
@@ -64,7 +66,7 @@ const Input = ({
 
   if (variant === "checkbox") {
     return (
-      <label className="inline-flex items-center gap-2 cursor-pointer">
+      <label className={"inline-flex items-center gap-2 cursor-pointer"}>
         <input
           type="checkbox"
           name={name}
@@ -77,20 +79,69 @@ const Input = ({
     );
   }
 
-  const isPassword = type === "password";
+  if (settings && isError) {
+    return (
+      <label className="flex flex-col items-center w-full relative">
+        <div className="flex w-full justify-between items-center">
+          {label && <span>{label}</span>}
+          <input
+            name={name}
+            type={
+              type === "password" ? (showPassword ? "text" : "password") : type
+            }
+            value={value}
+            onChange={onChange}
+            className={`${variantClasses} ${sizesClasses} ${className} ${
+              settings ? "w-full" : ""
+            }`}
+            placeholder={placeholder}
+          />
+        </div>
+
+        {type === "password" && (
+          <Button
+            onClick={handlePassword}
+            className="absolute top-4 right-4"
+            variant="icon"
+            icon={showPassword ? <EyeOpen /> : <EyeClosed />}
+            bgColors="none"
+          />
+        )}
+        {isError ? (
+          <p
+            className={`${
+              error ? "opacity-100" : "opacity-0"
+            } text-[#EF4444] text-[12px] h-5 self-end`}
+          >
+            {error || ""}
+          </p>
+        ) : (
+          ""
+        )}
+      </label>
+    );
+  }
 
   return (
-    <label className="flex flex-col gap-1 relative">
+    <label
+      className={
+        settings
+          ? "flex items-center w-full justify-between"
+          : "flex flex-col gap-1 relative"
+      }
+    >
       {label && <span>{label}</span>}
       <input
         name={name}
-        type={isPassword ? (showPassword ? "text" : "password") : type}
+        type={type === "password" ? (showPassword ? "text" : "password") : type}
         value={value}
         onChange={onChange}
-        className={`${variantClasses} ${sizesClasses} ${className}`}
+        className={`${variantClasses} ${sizesClasses} ${className} ${
+          settings ? "w-full" : ""
+        }`}
         placeholder={placeholder}
       />
-      {isPassword && (
+      {type === "password" && (
         <Button
           onClick={handlePassword}
           className="absolute top-10.5 right-4"

@@ -10,6 +10,7 @@ interface ButtonProps {
   sizes?:
     | "big"
     | "medium"
+    | "averageReverse"
     | "average"
     | "small"
     | "verySmall"
@@ -24,11 +25,11 @@ interface ButtonProps {
 
 const VARIANTS = {
   primary:
-    " text-[#262626] rounded font-semibold cursor-pointer max-w-[174px] max-h-[60px] text-nowrap",
+    "rounded font-semibold cursor-pointer max-w-[174px] max-h-[60px] text-nowrap",
   secondary:
-    "text-[#F29145] text-[#F29145] rounded font-semibold border border-orange-500 cursor-pointer max-w-[174px] max-h-[60px] text-nowrap",
+    "rounded font-semibold border border-orange-500 cursor-pointer max-w-[174px] max-h-[60px] text-nowrap",
   ghost:
-    "bg-transparent text-[#F29145] rounded font-semibold cursor-pointer max-w-[174px] max-h-[60px] text-nowrap",
+    "bg-transparent rounded font-semibold cursor-pointer max-w-[174px] max-h-[60px] text-nowrap",
   icon: " cursor-pointer flex justify-center items-center",
   iconBig:
     "bg-[#F29145] text-[#262626] cursor-pointer flex justify-center items-center w-11 h-[74px] rounded",
@@ -50,6 +51,7 @@ const COLORS = {
 const SIZE = {
   big: "px-5 py-4",
   medium: "px-3 py-4",
+  averageReverse: "px-5 py-2.5",
   average: "px-2.5 py-5",
   small: "px-2 py-4 text-sm",
   verySmall: "px-1.5 py-2.5 text-xs",

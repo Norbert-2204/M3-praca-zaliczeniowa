@@ -21,6 +21,12 @@ export async function GET() {
         firstName: true,
         lastName: true,
         avatar: true,
+        region: true,
+        address: true,
+        cartItems: true,
+        orders: true,
+        createdAt: true,
+        updatedAt: true,
       },
     });
 

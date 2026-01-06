@@ -21,6 +21,8 @@ interface DropdownProps {
   fullWidth?: boolean;
   isError?: boolean;
   isDark?: boolean;
+  defaultValue?: string | number;
+  isUpdate?: boolean;
 }
 
 const VARIANTS = {
@@ -48,8 +50,12 @@ const Dropdown = ({
   fullWidth = true,
   isError = false,
   isDark = false,
+  isUpdate = false,
+  defaultValue = "",
 }: DropdownProps) => {
-  const [selected, setSelected] = useState(value || (options[0]?.value ?? ""));
+  const [selected, setSelected] = useState(
+    isUpdate ? defaultValue || "" : value || (options[0]?.value ?? "")
+  );
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelected(e.target.value);
@@ -58,6 +64,55 @@ const Dropdown = ({
 
   const variantClasses = VARIANTS[variant] || "";
   const sizeClasses = SIZES[size] || "";
+
+  if (isUpdate) {
+    return (
+      <label className="flex flex-col items-center w-full">
+        <div className="flex w-full justify-between items-center">
+          {label && <span className="font-medium text-[18px]">{label}</span>}
+          <select
+            value={selected}
+            onChange={handleChange}
+            className={`${variantClasses} ${sizeClasses} ${className} w-full max-w-[400px] outline-none`}
+          >
+            <option disabled value="">
+              {placeholder}
+            </option>
+
+            {variant === "countries" &&
+              countries.map((c) => (
+                <option key={c.code} value={c.code}>
+                  {c.name}
+                </option>
+              ))}
+
+            {variant === "custom" &&
+              options.map((opt) => (
+                <option
+                  key={opt.value}
+                  value={opt.value}
+                  className={`${isDark ? "text-[#262626]" : ""}`}
+                >
+                  {opt.label}
+                </option>
+              ))}
+          </select>
+        </div>
+
+        {isError ? (
+          <p
+            className={`${
+              error ? "opacity-100" : "opacity-0"
+            } text-[#EF4444] text-[12px] self-end h-5`}
+          >
+            {error || ""}
+          </p>
+        ) : (
+          ""
+        )}
+      </label>
+    );
+  }
 
   return (
     <label className={`flex flex-col gap-1 ${fullWidth ? "w-full" : ""}`}>
