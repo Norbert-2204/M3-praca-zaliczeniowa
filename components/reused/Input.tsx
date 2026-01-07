@@ -69,7 +69,8 @@ const Input = ({
       <input
         type="file"
         placeholder="Upload photo"
-        className={`${onChange} ${className} py-2.5 px-5 border w-[145px] rounded cursor-pointer`}
+        onChange={onChange}
+        className={` ${className} py-2.5 px-5 border w-[145px] rounded cursor-pointer`}
       />
     );
   }
@@ -92,7 +93,7 @@ const Input = ({
   if (settings && isError) {
     return (
       <label className="flex flex-col items-center w-full relative">
-        <div className="flex w-full justify-between items-center">
+        <div className="flex flex-col sm:flex-row w-full gap-2 sm:gap-0 justify-between items-center">
           {label && <span>{label}</span>}
           <input
             name={name}
@@ -111,7 +112,7 @@ const Input = ({
         {type === "password" && (
           <Button
             onClick={handlePassword}
-            className="absolute top-4 right-4"
+            className="absolute top-10 right-8 sm:top-4 sm:right-4"
             variant="icon"
             icon={showPassword ? <EyeOpen /> : <EyeClosed />}
             bgColors="none"

@@ -20,8 +20,8 @@ const UserProfile = () => {
   };
 
   return (
-    <div className="flex flex-col rounded border border-[#383B42] w-[320px] bg-[#262626] p-6 gap-6 items-start">
-      <div className="flex gap-6">
+    <div className="flex flex-col rounded border border-[#383B42] w-60 sm:w-[320px] bg-[#262626] p-6 gap-6 items-start">
+      <div className="flex flex-col sm:flex-row gap-6">
         <div className="rounded-full">
           {user?.avatar && (
             <Image

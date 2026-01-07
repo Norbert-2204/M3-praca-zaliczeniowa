@@ -68,7 +68,7 @@ const Dropdown = ({
   if (isUpdate) {
     return (
       <label className="flex flex-col items-center w-full">
-        <div className="flex w-full justify-between items-center">
+        <div className="flex flex-col sm:flex-row w-full gap-2 sm:gap-0 justify-between items-center">
           {label && <span className="font-medium text-[18px]">{label}</span>}
           <select
             value={selected}

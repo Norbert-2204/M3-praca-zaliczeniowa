@@ -129,10 +129,13 @@ const Settings = () => {
   };
 
   const updateAvatar = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("reakcja");
     const file = e.target.files?.[0];
     if (!file) return;
+    console.log("file", file);
 
     const formData = new FormData();
+    console.log("formData: ", formData);
     formData.append("avatar", file);
 
     const res = await fetch("/api/user/avatar", {
@@ -141,6 +144,7 @@ const Settings = () => {
     });
 
     const result = await res.json();
+    console.log("result: ", result);
     if (!res.ok)
       return addAlert(result.error || "Failed to update avatar", "fail");
 
@@ -154,7 +158,7 @@ const Settings = () => {
         <p>Organize profile info for account control and security</p>
         <hr className="text-[#383B42] w-full" />
       </div>
-      <div className="flex gap-12">
+      <div className="flex flex-col xl:flex-row gap-12">
         <div className="flex flex-col items-center gap-6 ">
           <div className="rounded-full">
             {user?.avatar && (
@@ -174,11 +178,12 @@ const Settings = () => {
               colors="white"
               sizes="averageReverse"
               className="border rounded"
+              onClick={() => console.log("sprawdzam")}
             />
             <Input
               onChange={updateAvatar}
               type="file"
-              className="absolute opacity-0 top-0 z-10 cursor-pointer"
+              className=" cursor-pointer"
             />
           </div>
         </div>
@@ -291,7 +296,7 @@ const Settings = () => {
                     settings={true}
                     isError={true}
                     type="password"
-                    placeholder="Current password"
+                    placeholder="Password"
                     error={fieldState.error?.message}
                   />
                 )}
@@ -313,13 +318,14 @@ const Settings = () => {
                 )}
               />
             </div>
-            <div className="flex gap-4 self-end">
+            <div className="flex flex-col sm:flex-row gap-4 self-center sm:self-end">
               <Button
                 desc="Reset"
                 colors="white"
                 variant="ghost"
                 className="border border-[#41444F] w-[132px]"
                 sizes="averageReverse"
+                onClick={() => reset()}
               />
               <Button desc="Update profile" type="submit" />
             </div>

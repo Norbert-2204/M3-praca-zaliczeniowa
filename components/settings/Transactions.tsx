@@ -5,7 +5,7 @@ import TransactionCard from "./TransacionCard";
 const Transactions = () => {
   const { user } = useAuth();
   return (
-    <div className="flex flex-col w-full gap-8">
+    <div className="flex flex-col items-center sm:items-stretch w-full gap-8">
       <div className="flex flex-col max-w-[470px]  items-center justify-center gap-3">
         <h2 className="text-[#F29145] font-semibold text-lg">Transaction</h2>
         <hr className="border-b-2 border-[#F29145] w-full" />
