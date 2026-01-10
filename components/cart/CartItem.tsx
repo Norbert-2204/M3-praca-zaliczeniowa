@@ -8,23 +8,18 @@ import Trash from "@/icons/trash";
 import PlusSmall from "@/icons/plusSmall";
 import MinusSmall from "@/icons/minusSmall";
 
-import { CartItemProps } from "@/utils/Types";
+import { CartItemProps, Product } from "@/utils/Types";
 import { updateQuantity } from "@/utils/AddToCart";
 import deleteFromCart from "@/utils/DeleteFromCart";
 import { useFilters } from "@/context/FilterContext";
 import { usePathname, useRouter } from "next/navigation";
 
-const CartItem = ({
-  id,
-  name,
-  price,
-  imageUrl,
-  category,
-  brandId,
-  categoryId,
-  quantity,
-  filterType = "category",
-}: CartItemProps) => {
+interface CartItemFullProps {
+  cartItem: CartItemProps;
+  product: Product;
+}
+
+const CartItem = ({ cartItem, product }: CartItemFullProps) => {
   const { toggleItem, isSelected, updateQuantityInCart, removeItemFromCart } =
     useCart();
 
@@ -32,18 +27,19 @@ const CartItem = ({
   const router = useRouter();
   const pathname = usePathname();
 
-  const handleFilterClick = () => {
-    const test = {
-      id: id,
-      name: name,
-      price: price,
-      category: category,
-      brandId: brandId,
-      categoryId: categoryId,
-      quantity: quantity,
-    };
-    console.log("Data", test);
+  const {
+    id,
+    name,
+    price,
+    imageUrl,
+    category,
+    brandId,
+    categoryId,
+    quantity,
+    filterType = "category",
+  } = cartItem;
 
+  const handleFilterClick = () => {
     const filterId = filterType === "category" ? categoryId : brandId;
 
     if (!filterId) return;
@@ -61,6 +57,7 @@ const CartItem = ({
 
     try {
       const data = await updateQuantity(id, +1);
+      if (data.newQuantity > product.stock) return;
       updateQuantityInCart(id, data.newQuantity);
     } catch (error) {
       console.error("Update quantity failed", error);
@@ -87,6 +84,10 @@ const CartItem = ({
     removeItemFromCart(id);
   };
 
+  const handleProductDetail = () => {
+    router.push(`/product/${product.id}`);
+  };
+
   return (
     <div className="flex flex-col gap-6 w-full ">
       <Input
@@ -95,7 +96,10 @@ const CartItem = ({
         onChange={() => toggleItem(id)}
       />
       <div className="flex flex-col sm:flex-row bg-[#262626] p-6 rounded gap-8 flex-1">
-        <div className="flex justify-center items-center p-3 relative bg-white w-[172px] h-[138px] rounded">
+        <div
+          onClick={handleProductDetail}
+          className="flex justify-center items-center p-3 relative bg-white w-[172px] h-[138px] rounded cursor-pointer"
+        >
           <Image
             loading="eager"
             src={imageUrl}

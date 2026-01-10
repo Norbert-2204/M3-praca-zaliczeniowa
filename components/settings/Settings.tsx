@@ -14,16 +14,13 @@ const settingsSchema = z
     firstName: z
       .string()
       .min(3, "Name must have at least 3 letters")
-      .optional(),
+      .regex(/^[^\d]*$/, "Name cannot contain numbers"),
     lastName: z
       .string()
       .min(3, "Last name must have at least 3 letters")
-      .optional(),
+      .regex(/^[^\d]*$/, "Last name cannot contain numbers"),
     email: z.string().email("Invalid email").optional(),
-    address: z
-      .string()
-      .min(8, "Address must have at least 8 characters")
-      .optional(),
+    address: z.string().min(8, "Address must have at least 8 characters"),
     phone: z
       .string()
       .regex(
@@ -69,10 +66,8 @@ const Settings = () => {
 
   const maskPhone = (phone?: string) => {
     if (!phone) return "";
-
     const visibleDigits = 2;
     const maskedLength = phone.length - visibleDigits;
-
     return "*".repeat(maskedLength) + phone.slice(-visibleDigits);
   };
 
@@ -84,7 +79,7 @@ const Settings = () => {
       lastName: user?.lastName,
       email: user?.email,
       address: user?.address,
-      phone: maskPhone(user?.phone),
+      phone: user?.phone,
       region: user?.region,
       password: "",
       newPassword: "",
@@ -190,6 +185,7 @@ const Settings = () => {
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col gap-8 w-full"
+          noValidate
         >
           <Controller
             name="firstName"
@@ -198,10 +194,11 @@ const Settings = () => {
               <Input
                 {...field}
                 label="Name"
-                isError={true}
+                onChange={(e) => field.onChange(e.target.value)}
+                isError={!!fieldState.error}
                 settings={true}
                 className="max-w-[400px]"
-                placeholder={user?.firstName}
+                placeholder={user?.firstName || "First name"}
                 error={fieldState.error?.message}
               />
             )}
@@ -213,10 +210,11 @@ const Settings = () => {
               <Input
                 {...field}
                 label="Last name"
+                onChange={(e) => field.onChange(e.target.value)}
                 className="max-w-[400px]"
                 settings={true}
-                isError={true}
-                placeholder={user?.lastName}
+                isError={!!fieldState.error}
+                placeholder={user?.lastName || "Last name"}
                 error={fieldState.error?.message}
               />
             )}
@@ -244,10 +242,11 @@ const Settings = () => {
               <Input
                 {...field}
                 label="Address"
+                onChange={(e) => field.onChange(e.target.value)}
                 className="max-w-[400px]"
                 settings={true}
-                isError={true}
-                placeholder={user?.address}
+                isError={!!fieldState.error}
+                placeholder={user?.address || "Address"}
                 error={fieldState.error?.message}
               />
             )}

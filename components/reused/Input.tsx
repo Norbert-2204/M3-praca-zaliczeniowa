@@ -100,7 +100,7 @@ const Input = ({
             type={
               type === "password" ? (showPassword ? "text" : "password") : type
             }
-            value={value}
+            value={value || ""}
             onChange={onChange}
             className={`${variantClasses} ${sizesClasses} ${className} ${
               settings ? "w-full" : ""
@@ -145,7 +145,7 @@ const Input = ({
       <input
         name={name}
         type={type === "password" ? (showPassword ? "text" : "password") : type}
-        value={value}
+        value={value || ""}
         onChange={onChange}
         className={`${variantClasses} ${sizesClasses} ${className} ${
           settings ? "w-full" : ""

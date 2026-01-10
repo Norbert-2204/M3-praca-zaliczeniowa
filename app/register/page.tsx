@@ -9,6 +9,7 @@ import Button from "@/components/reused/Button";
 import Dropdown from "@/components/reused/Dropdown";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ProtectPage from "@/components/ProtectPage";
 
 const registerSchema = z
   .object({
@@ -48,6 +49,7 @@ const RegisterPage = () => {
     control,
     reset,
     formState: { errors },
+    setError,
   } = useForm<RegisterForm>({
     resolver: zodResolver(registerSchema),
     mode: "onSubmit",
@@ -83,8 +85,21 @@ const RegisterPage = () => {
       const result = await res.json();
 
       if (!res.ok) {
-        console.log(result.message);
-        return;
+        if (res.status === 409) {
+          if (result.message.includes("email")) {
+            setError("email", {
+              type: "manual",
+              message: "Email already exists",
+            });
+          }
+          if (result.message.includes("phone")) {
+            setError("phone", {
+              type: "manual",
+              message: "Phone number already exists",
+            });
+          }
+          return;
+        }
       }
 
       reset();
@@ -96,125 +111,127 @@ const RegisterPage = () => {
 
   return (
     <>
-      <Header />
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col justify-center items-center px-10 py-[77px] gap-8"
-      >
-        <h1 className="text-4xl font-bold ">
-          <span className="text-[#F29145]">Nexus</span>
-          <span>Hub</span>
-        </h1>
-        <div className="bg-[#262626] border border-[#383B42] flex flex-col p-6 rounded gap-8 max-w-md">
-          <div className="flex flex-col gap-5">
-            <h2 className="text-2xl">Create Account</h2>
-            <hr className="text-[#383B42]" />
-          </div>
-          <div className="flex flex-col gap-6">
-            <Controller
-              name="email"
-              control={control}
-              render={({ field, fieldState }) => (
-                <Input
-                  {...field}
-                  label="Email"
-                  placeholder="Your Email"
-                  error={fieldState.error?.message}
-                  isError={true}
-                />
-              )}
-            />
-            <Controller
-              name="phone"
-              control={control}
-              render={({ field, fieldState }) => (
-                <Input
-                  {...field}
-                  label="Mobile Number"
-                  placeholder="+(Code country) 9 digit mobile number"
-                  error={fieldState.error?.message}
-                  isError={true}
-                />
-              )}
-            />
-            <Controller
-              name="password"
-              control={control}
-              render={({ field, fieldState }) => (
-                <Input
-                  {...field}
-                  type="password"
-                  label="Password"
-                  placeholder="Password"
-                  error={fieldState.error?.message}
-                  isError={true}
-                />
-              )}
-            />
-            <Controller
-              name="confirmPassword"
-              control={control}
-              render={({ field, fieldState }) => (
-                <Input
-                  {...field}
-                  type="password"
-                  label="Confirm Password"
-                  placeholder="Confirm Password"
-                  error={fieldState.error?.message}
-                  isError={true}
-                />
-              )}
-            />
-            <Controller
-              name="region"
-              control={control}
-              render={({ field, fieldState }) => (
-                <Dropdown
-                  {...field}
-                  label="Country or region"
-                  variant="countries"
-                  size="large"
-                  error={fieldState.error?.message}
-                  isError={true}
-                />
-              )}
-            />
-            <div className="flex flex-col">
-              <div className="flex justify-center items-center gap-4">
-                <Controller
-                  name="privacy"
-                  control={control}
-                  render={({ field }) => (
-                    <Input
-                      variant="checkbox"
-                      checked={field.value}
-                      onChange={(e) => field.onChange(e.target.checked)}
-                    />
-                  )}
-                />
-                <p className="text-wrap">
-                  By creating an account and check, you agree to the{" "}
-                  <span className="text-[#F29145]">Conditions of Use</span> and{" "}
-                  <span className="text-[#F29145]">Privacy Notice.</span>
+      <ProtectPage check={true}>
+        <Header />
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col justify-center items-center px-10 py-[77px] gap-8"
+        >
+          <h1 className="text-4xl font-bold ">
+            <span className="text-[#F29145]">Nexus</span>
+            <span>Hub</span>
+          </h1>
+          <div className="bg-[#262626] border border-[#383B42] flex flex-col p-6 rounded gap-8 max-w-md">
+            <div className="flex flex-col gap-5">
+              <h2 className="text-2xl">Create Account</h2>
+              <hr className="text-[#383B42]" />
+            </div>
+            <div className="flex flex-col gap-6">
+              <Controller
+                name="email"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <Input
+                    {...field}
+                    label="Email"
+                    placeholder="Your Email"
+                    error={fieldState.error?.message}
+                    isError={true}
+                  />
+                )}
+              />
+              <Controller
+                name="phone"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <Input
+                    {...field}
+                    label="Mobile Number"
+                    placeholder="+(Code country) 9 digit mobile number"
+                    error={fieldState.error?.message}
+                    isError={true}
+                  />
+                )}
+              />
+              <Controller
+                name="password"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <Input
+                    {...field}
+                    type="password"
+                    label="Password"
+                    placeholder="Password"
+                    error={fieldState.error?.message}
+                    isError={true}
+                  />
+                )}
+              />
+              <Controller
+                name="confirmPassword"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <Input
+                    {...field}
+                    type="password"
+                    label="Confirm Password"
+                    placeholder="Confirm Password"
+                    error={fieldState.error?.message}
+                    isError={true}
+                  />
+                )}
+              />
+              <Controller
+                name="region"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <Dropdown
+                    {...field}
+                    label="Country or region"
+                    variant="countries"
+                    size="large"
+                    error={fieldState.error?.message}
+                    isError={true}
+                  />
+                )}
+              />
+              <div className="flex flex-col">
+                <div className="flex justify-center items-center gap-4">
+                  <Controller
+                    name="privacy"
+                    control={control}
+                    render={({ field }) => (
+                      <Input
+                        variant="checkbox"
+                        checked={field.value}
+                        onChange={(e) => field.onChange(e.target.checked)}
+                      />
+                    )}
+                  />
+                  <p className="text-wrap">
+                    By creating an account and check, you agree to the{" "}
+                    <span className="text-[#F29145]">Conditions of Use</span>{" "}
+                    and <span className="text-[#F29145]">Privacy Notice.</span>
+                  </p>
+                </div>
+                <p
+                  className={`${
+                    errors.privacy ? "opacity-100" : "opacity-0"
+                  } text-[#EF4444] text-[12px] h-5`}
+                >
+                  {errors.privacy?.message}
                 </p>
               </div>
-              <p
-                className={`${
-                  errors.privacy ? "opacity-100" : "opacity-0"
-                } text-[#EF4444] text-[12px] h-5`}
-              >
-                {errors.privacy?.message}
-              </p>
+              <Button
+                type="submit"
+                desc="Create Account"
+                className="w-full! max-w-none!"
+              />
             </div>
-            <Button
-              type="submit"
-              desc="Create Account"
-              className="w-full! max-w-none!"
-            />
           </div>
-        </div>
-      </form>
-      <Footer />
+        </form>
+        <Footer />
+      </ProtectPage>
     </>
   );
 };

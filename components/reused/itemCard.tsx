@@ -88,6 +88,10 @@ const ItemCard = ({
     router.push(`/product?brand=${brandId}`);
   };
 
+  const handleProductDetail = () => {
+    router.push(`/product/${id}`);
+  };
+
   return (
     <div
       key={id}
@@ -118,14 +122,19 @@ const ItemCard = ({
             className="w-full h-full object-contain"
           />
         ) : (
-          <Image
-            loading="eager"
-            src={item.imageUrl || imageError}
-            alt={item.name}
-            fill
-            sizes="(max-width: 183px)"
-            className="object-contain"
-          />
+          <div
+            onClick={handleProductDetail}
+            className="relative w-full h-full z-10 cursor-pointer"
+          >
+            <Image
+              loading="eager"
+              src={item.imageUrl || imageError}
+              alt={item.name}
+              fill
+              sizes="(max-width: 183px)"
+              className="object-contain"
+            />
+          </div>
         )}
 
         {shop && (

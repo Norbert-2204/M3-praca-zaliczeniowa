@@ -54,6 +54,7 @@ const Slider = ({ title, children }: SliderProps) => {
             desc={seeAll ? "See less" : "See all"}
             variant="ghost"
             icon={seeAll ? <ArrowLeft /> : <ArrowRight />}
+            colors="orange"
           />
         )}
       </div>

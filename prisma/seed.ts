@@ -69,8 +69,8 @@ async function main() {
 
     await prisma.user.create({
       data: {
-        firstName: "Test",
-        lastName: "User",
+        firstName: "Jan",
+        lastName: "Kowalski",
         email: "test@example.com",
         address: "some street 45/32",
         password: hashedPassword,
@@ -89,7 +89,8 @@ async function main() {
         // ---------------------
         {
           name: "ROG Keris Wireless",
-          description: "Lightweight gaming mouse with precision tracking.",
+          description:
+            "The ROG Keris Wireless is a high-performance gaming mouse designed for precision and speed. Its lightweight build allows effortless control, while the advanced sensor ensures accurate tracking in fast-paced games. Ergonomic shape and customizable buttons make it perfect for extended gaming sessions.",
           price: 79.99,
           stock: 50,
           imageUrl: "https://i.ibb.co/wrpj4kCS/Nice-Png-razer-png-2157462.png",
@@ -98,7 +99,8 @@ async function main() {
         },
         {
           name: "Logitech G305",
-          description: "Wireless gaming mouse with HERO sensor.",
+          description:
+            "Logitech G305 is a wireless gaming mouse featuring the HERO sensor for exceptional accuracy and speed. Its compact and lightweight design ensures comfort for long gaming sessions. The responsive buttons and reliable wireless connection give you the competitive edge in every match.",
           price: 59.99,
           stock: 80,
           imageUrl: "https://i.ibb.co/gFBYZqXz/Image-2.png",
@@ -107,7 +109,8 @@ async function main() {
         },
         {
           name: "Razer Viper Mini",
-          description: "Ultra-lightweight wired gaming mouse.",
+          description:
+            "The Razer Viper Mini is an ultra-lightweight wired gaming mouse designed for swift and precise movements. Its ambidextrous design accommodates all grip styles, while the high-precision sensor ensures flawless tracking, making it ideal for gamers seeking speed, accuracy, and comfort in one device.",
           price: 39.99,
           stock: 120,
           imageUrl: "https://i.ibb.co/KcfYQ8bC/pngaaa-com-5347470.png",
@@ -116,7 +119,8 @@ async function main() {
         },
         {
           name: "Razer GM500",
-          description: "Ergonomic gaming mouse with RGB.",
+          description:
+            "The Razer GM500 combines ergonomic comfort with advanced RGB lighting to enhance gaming performance. Its smooth tracking sensor delivers precise movements, while the durable buttons withstand intense gameplay. Perfect for competitive gamers who demand accuracy, style, and reliability in one mouse.",
           price: 49.99,
           stock: 60,
           imageUrl: "https://i.ibb.co/gZrffcgH/pngaaa-com-2910757.png",
@@ -125,7 +129,8 @@ async function main() {
         },
         {
           name: "Rexus Daxa Pro",
-          description: "High-speed mouse with adjustable DPI.",
+          description:
+            "Rexus Daxa Pro is a high-speed gaming mouse built for gamers seeking precision and control. With adjustable DPI settings, ergonomic design, and responsive buttons, it ensures comfort during marathon gaming sessions. Its durable construction and smooth sensor make it a reliable companion for competitive play.",
           price: 34.99,
           stock: 75,
           imageUrl: "https://i.ibb.co/Nd46VMdr/Image.png",
@@ -138,7 +143,8 @@ async function main() {
         // ---------------------
         {
           name: "AOC 24G2U",
-          description: "24-inch 144Hz IPS gaming monitor.",
+          description:
+            "The AOC 24G2U is a 24-inch IPS gaming monitor delivering a smooth 144Hz refresh rate for competitive gameplay. Its wide viewing angles, vivid colors, and low input lag make every frame crisp and responsive. Designed for extended sessions, it combines ergonomic adjustments and a sleek, gamer-friendly aesthetic.",
           price: 209.99,
           stock: 40,
           imageUrl: "https://i.ibb.co/sdF5yKZw/pngaaa-com-1241714.png",
@@ -147,7 +153,8 @@ async function main() {
         },
         {
           name: "ROG Strix XG27AQ",
-          description: "27-inch 1440p gaming monitor with HDR.",
+          description:
+            "ROG Strix XG27AQ is a 27-inch 1440p gaming monitor with HDR support, providing stunning visuals and vibrant colors. Its high refresh rate ensures smooth motion, while adaptive sync eliminates screen tearing. The adjustable stand and customizable RGB lighting make it ideal for immersive and comfortable gaming setups.",
           price: 499.99,
           stock: 20,
           imageUrl: "https://i.ibb.co/wFDtNQ6W/Image-3.png",
@@ -156,16 +163,18 @@ async function main() {
         },
         {
           name: "ROG Display 24",
-          description: "Full HD productivity monitor.",
+          description:
+            "The ROG Display 24 is a Full HD monitor designed for productivity and casual gaming. With a clear IPS panel, fast response time, and adjustable ergonomics, it offers excellent color accuracy and comfortable viewing angles. Ideal for multitasking, content creation, or enjoying games with crisp visuals and smooth performance.",
           price: 149.99,
           stock: 70,
           imageUrl: "https://i.ibb.co/bRJpbYDv/Image-5.png",
           categoryId: 2,
-          brandId: 1, // Logitech
+          brandId: 1, // ROG
         },
         {
           name: "Razer Raptor 27",
-          description: "Premium 144Hz gaming display.",
+          description:
+            "Razer Raptor 27 is a premium 144Hz gaming monitor delivering ultra-smooth performance with vivid, high-contrast visuals. Its sleek, slim design and customizable RGB lighting enhance any gaming setup. Equipped with adaptive sync technology and ergonomic adjustments, it ensures responsive gameplay and a comfortable, immersive experience.",
           price: 699.99,
           stock: 15,
           imageUrl: "https://i.ibb.co/67Q8DBPq/pngaaa-com-1241817.png",
@@ -174,7 +183,8 @@ async function main() {
         },
         {
           name: "Rexus Vision 27",
-          description: "High-refresh monitor for smooth gameplay.",
+          description:
+            "The Rexus Vision 27 is a high-refresh monitor optimized for smooth gameplay and productivity. Its 27-inch panel delivers vibrant colors and sharp details, while ergonomic features provide comfortable viewing. Designed for gamers and multitaskers alike, it offers precise tracking, minimal motion blur, and a reliable, visually immersive experience.",
           price: 189.99,
           stock: 30,
           imageUrl: "https://i.ibb.co/PG0n8y7M/pngaaa-com-8043265.png",
@@ -187,7 +197,8 @@ async function main() {
         // ---------------------
         {
           name: "JBL Quantum 400",
-          description: "Immersive gaming headset with surround sound.",
+          description:
+            "JBL Quantum 400 delivers immersive gaming sound with precise directional audio for competitive advantage. Its comfortable over-ear design and adjustable headband allow long gaming sessions without fatigue. Equipped with a detachable boom mic and customizable audio profiles, it ensures crystal-clear communication and rich, powerful sound.",
           price: 99.99,
           stock: 50,
           imageUrl: "https://i.ibb.co/JF2SDDMS/Image-6.png",
@@ -196,7 +207,8 @@ async function main() {
         },
         {
           name: "ROG Delta",
-          description: "High-resolution quad DAC gaming headset.",
+          description:
+            "ROG Delta is a high-resolution gaming headset featuring a quad DAC for unmatched audio fidelity. With customizable RGB lighting and an ergonomic design, it provides long-lasting comfort. Its advanced microphone ensures clear communication, making it perfect for competitive gaming and immersive audio experiences across every game and media.",
           price: 169.99,
           stock: 40,
           imageUrl: "https://i.ibb.co/MxjgZX4g/pngaaa-com-4181478.png",
@@ -205,7 +217,8 @@ async function main() {
         },
         {
           name: "Logitech G Pro X",
-          description: "Pro-grade microphone and sound tuning.",
+          description:
+            "Logitech G Pro X headset delivers pro-grade audio with finely tuned sound profiles. Its durable construction and memory foam ear pads offer long-term comfort for extended sessions. Equipped with a detachable Blue VO!CE microphone, it provides studio-quality voice clarity, making it ideal for gamers and content creators who demand precision and immersive sound.",
           price: 129.99,
           stock: 65,
           imageUrl: "https://i.ibb.co/4n1fwtyZ/pngaaa-com-904170.png",
@@ -214,7 +227,8 @@ async function main() {
         },
         {
           name: "JBL mini portable headset",
-          description: "Cooling-gel cushions for long running sessions.",
+          description:
+            "JBL Mini Portable Headset offers lightweight, on-the-go audio with cooling-gel cushions for maximum comfort. Perfect for mobile gaming or commuting, it delivers clear sound and balanced bass. Its compact design ensures easy portability, while its durable build and intuitive controls provide an effortless and enjoyable listening experience wherever you are.",
           price: 79.99,
           stock: 15,
           imageUrl: "https://i.ibb.co/sdZbR6td/pngaaa-com-2434521.png",
@@ -223,7 +237,8 @@ async function main() {
         },
         {
           name: "Rexus Thundervox",
-          description: "RGB gaming headset with powerful bass.",
+          description:
+            "Rexus Thundervox RGB gaming headset provides powerful bass and immersive sound for intense gaming sessions. Its vibrant RGB lighting enhances your setup, while soft ear cushions and adjustable headband offer long-term comfort. Designed for precision and style, it ensures clear communication and deep audio, making it perfect for both casual and competitive players.",
           price: 49.99,
           stock: 100,
           imageUrl: "https://i.ibb.co/jvK5KXkS/pngaaa-com-904062.png",
@@ -236,7 +251,8 @@ async function main() {
         // ---------------------
         {
           name: "Logitech Strix Scope RX",
-          description: "Mechanical gaming keyboard.",
+          description:
+            "The Logitech Strix Scope RX is a mechanical gaming keyboard designed for precision and durability. Featuring responsive switches, customizable RGB lighting, and a comfortable typing experience, it allows gamers to execute commands quickly while maintaining long-term comfort, making it ideal for intense gaming sessions and daily use.",
           price: 40.99,
           stock: 40,
           imageUrl: "https://i.ibb.co/35JxBc7M/Image-1.png",
@@ -245,7 +261,8 @@ async function main() {
         },
         {
           name: "Logitech G213",
-          description: "Durable membrane keyboard with lighting zones.",
+          description:
+            "Logitech G213 is a durable membrane keyboard with dedicated lighting zones that enhance the gaming experience. It offers quiet keystrokes, spill resistance, and programmable keys, allowing gamers to customize controls while enjoying consistent performance during extended gaming sessions or everyday typing tasks.",
           price: 151.99,
           stock: 70,
           imageUrl: "https://i.ibb.co/kVFq6yFb/pngaaa-com-3429402.png",
@@ -254,7 +271,8 @@ async function main() {
         },
         {
           name: "Razer BlackWidow V3",
-          description: "Iconic mechanical switches and RGB.",
+          description:
+            "Razer BlackWidow V3 is a legendary mechanical keyboard equipped with Razer Green switches for tactile feedback and speed. Featuring customizable RGB lighting, durable keycaps, and ergonomic design, it is perfect for professional gamers seeking fast response, reliability, and a visually immersive setup for every gaming scenario.",
           price: 139.99,
           stock: 50,
           imageUrl: "https://i.ibb.co/PvhRC7Qr/Image-4.png",
@@ -263,7 +281,8 @@ async function main() {
         },
         {
           name: "AOC Legionare MX5",
-          description: "Affordable mechanical keyboard with metal plate.",
+          description:
+            "AOC Legionare MX5 is an affordable mechanical keyboard with a solid metal plate and responsive switches. It offers reliable performance for gaming and typing, combined with backlit keys for enhanced visibility in low-light conditions, making it a versatile and sturdy option for both beginners and competitive players.",
           price: 49.99,
           stock: 80,
           imageUrl: "https://i.ibb.co/KcSVkJ9n/pngaaa-com-3429346.png",
@@ -272,12 +291,13 @@ async function main() {
         },
         {
           name: "REDRAGON Typing Pro",
-          description: "High quality typing keyboard for gaming.",
+          description:
+            "REDRAGON Typing Pro is a high-quality keyboard built for gaming and productivity. Featuring tactile mechanical switches, customizable backlighting, and ergonomic key layout, it delivers precision and comfort for long typing or gaming sessions. Its robust construction ensures durability while enhancing the overall desktop setup.",
           price: 59.99,
           stock: 26,
           imageUrl: "https://i.ibb.co/v4kkZ7d3/pngaaa-com-3026601.png",
           categoryId: 4,
-          brandId: 7, // Brandless
+          brandId: 7,
         },
 
         // ---------------------
@@ -285,7 +305,8 @@ async function main() {
         // ---------------------
         {
           name: "Logitech C920",
-          description: "Full HD webcam with autofocus.",
+          description:
+            "The Logitech C920 is a Full HD webcam with autofocus, designed for clear video calls, streaming, and content creation. It delivers crisp image quality, accurate colors, and smooth performance in various lighting conditions, making it perfect for professional meetings, online classes, and high-quality streaming setups.",
           price: 69.99,
           stock: 100,
           imageUrl: "https://i.ibb.co/jPjq6vXq/pngaaa-com-2946152.png",
@@ -294,7 +315,8 @@ async function main() {
         },
         {
           name: "AOC Kiyo",
-          description: "Webcam with built-in ring light.",
+          description:
+            "AOC Kiyo is a webcam featuring a built-in ring light that evenly illuminates your face for video calls and streaming. Offering high-definition video, adjustable brightness, and easy setup, it ensures professional-quality visuals for streaming, online meetings, and content creation even in low-light environments.",
           price: 99.99,
           stock: 40,
           imageUrl: "https://i.ibb.co/FbhyN2Kp/pngaaa-com-4839457.png",
@@ -303,7 +325,8 @@ async function main() {
         },
         {
           name: "Rexus VisionCam",
-          description: "HD webcam designed for remote work.",
+          description:
+            "Rexus VisionCam is a high-definition webcam designed for remote work, video conferencing, and online streaming. It provides clear, detailed images and accurate color reproduction, ensuring professional-looking video for work meetings or casual streaming. Its compact design makes it easy to mount and transport.",
           price: 49.99,
           stock: 75,
           imageUrl: "https://i.ibb.co/FkJzbsGs/pngaaa-com-4839386.png",
@@ -312,7 +335,8 @@ async function main() {
         },
         {
           name: "JBL StreamCam",
-          description: "Camera optimized for streaming and calls.",
+          description:
+            "JBL StreamCam is optimized for streaming and video calls, delivering high-resolution video with natural colors. With an integrated microphone and plug-and-play setup, it offers convenience and quality for content creators, online meetings, and live streaming, ensuring your audience sees and hears you clearly every time.",
           price: 89.99,
           stock: 30,
           imageUrl: "https://i.ibb.co/DPbBycxW/pngaaa-com-8297129.png",
@@ -321,7 +345,8 @@ async function main() {
         },
         {
           name: "Rexus EyeX",
-          description: "Affordable webcam with noise reduction.",
+          description:
+            "Rexus EyeX is an affordable webcam with HD resolution and noise reduction, ideal for online meetings, streaming, and remote learning. Its compact design ensures easy placement, while providing clear video and smooth performance, making it a reliable option for users looking for quality and convenience at a budget-friendly price.",
           price: 39.99,
           stock: 120,
           imageUrl: "https://i.ibb.co/1fH1t4Wt/pngaaa-com-2946337.png",

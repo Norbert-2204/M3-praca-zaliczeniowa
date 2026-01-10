@@ -3,7 +3,8 @@ import { useCart } from "@/context/CartContext";
 import { CartItemProps } from "@/utils/Types";
 
 const CheckoutPrice = ({ cartItems }: { cartItems: CartItemProps[] }) => {
-  const { selectedId } = useCart();
+  const { selectedId, cartItems: cartItem } = useCart();
+  console.log("cartItem ", cartItem);
 
   const selectedItems = cartItems.filter((item) =>
     selectedId.includes(item.id)

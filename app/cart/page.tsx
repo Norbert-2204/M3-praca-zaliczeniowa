@@ -9,8 +9,10 @@ import CartClient from "@/components/cart/CartClient";
 import { CartProvider } from "@/context/CartContext";
 import { FiltersProvider } from "@/context/FilterContext";
 import ProtectPage from "@/components/ProtectPage";
+import FetchTypes from "@/utils/FetchTypes";
 
 const Cart = async () => {
+  const { productRes } = await FetchTypes();
   const cookieStore = await cookies();
   const authCookie = cookieStore.get("auth");
 
@@ -29,6 +31,8 @@ const Cart = async () => {
 
   const cartItems: CartItemProps[] = await res.json();
 
+  const products = await productRes.json();
+
   return (
     <>
       <FiltersProvider>
@@ -40,7 +44,7 @@ const Cart = async () => {
                 <EmptyCart />
               </div>
             ) : (
-              <CartClient cartItems={cartItems} />
+              <CartClient cartItems={cartItems} products={products} />
             )}
             <Footer />
           </ProtectPage>

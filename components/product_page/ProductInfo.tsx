@@ -1,29 +1,72 @@
+import { useState } from "react";
 import Shield from "@/icons/shield";
 import Button from "../reused/Button";
+import { Product } from "@/utils/Types";
+import { Category } from "@/utils/Types";
+import { ShippingDate, formatDate } from "@/utils/ShippingDate";
+import { useFilters } from "@/context/FilterContext";
+import { useAuth } from "@/context/AuthContext";
+import { useAlert } from "@/context/AlertContext";
+import { usePathname, useRouter } from "next/navigation";
 
-const ProductInfo = () => {
+type Props = {
+  product: Product;
+  category?: Category;
+};
+
+const ProductInfo = ({ product, category }: Props) => {
+  const [expanded, setExpanded] = useState(false);
+  const { startDate, endDate } = ShippingDate();
+  const { setSelectedCategories } = useFilters();
+  const { isLoggedIn } = useAuth();
+  const { addAlert } = useAlert();
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const handleFilterClick = () => {
+    if (!isLoggedIn) {
+      addAlert("You must be logged in to see this page", "warning");
+      return;
+    }
+
+    const filterType = "category";
+    const filterId = product.categoryId;
+
+    if (!filterId) return;
+
+    if (pathname !== "/product") {
+      router.push(`/product?${filterType}=${filterId}`);
+    } else {
+      if (filterType) setSelectedCategories([filterId]);
+    }
+  };
+
   return (
-    <div className="flex flex-col gap-8">
-      <h1 className="text-[28px]">Myszka</h1>
+    <div className="flex flex-col gap-8 w-full">
+      <h1 className="text-[28px]">{product.name}</h1>
       <Button
-        desc="Mouse"
+        desc={category?.name}
         sizes="verySmall"
         bgColors="dark"
         colors="white"
         className="max-w-[66px]!"
+        onClick={handleFilterClick}
       />
-      <h2 className="text-[32px]">$39.33</h2>
+      <h2 className="text-[32px]">${product.price}</h2>
       <div className="flex flex-col">
-        <p className="">
-          The Xierra X16 mouse is a cutting-edge peripheral that combines
-          precision and comfort. Its ergonomic design fits snugly in your hand,
-          while its high-precision sensor ensures smooth and accurate{" "}
+        <p
+          className={`transition-all duration-300 overflow-hidden ${
+            expanded ? "max-h-full" : "max-h-[120px]"
+          }`}
+        >
+          {product.description}
         </p>
         <Button
           variant="ghost"
           desc="View more"
           colors="orange"
           className="self-start p-0!"
+          onClick={() => setExpanded(!expanded)}
         />
       </div>
       <div className="flex flex-col gap-3.5">
@@ -32,7 +75,9 @@ const ProductInfo = () => {
           <Shield />
           <div className="flex flex-col">
             <h3>NexusHub Courier</h3>
-            <p>Estimated arrival 30 Sep - 3 Oct</p>
+            <p className="text-nowrap">
+              Estimated arrival {formatDate(startDate)} - {formatDate(endDate)}
+            </p>
           </div>
         </div>
       </div>

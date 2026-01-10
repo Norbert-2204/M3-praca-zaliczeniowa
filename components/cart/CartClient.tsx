@@ -1,6 +1,6 @@
 "use client";
 
-import { CartItemProps } from "@/utils/Types";
+import { CartItemProps, Product } from "@/utils/Types";
 import Input from "../reused/Input";
 import CartItem from "./CartItem";
 import CheckoutPrice from "./CheckoutPrice";
@@ -8,7 +8,12 @@ import { useCart } from "@/context/CartContext";
 import { useEffect } from "react";
 import EmptyCart from "./EmptyCart";
 
-const CartClient = ({ cartItems }: { cartItems: CartItemProps[] }) => {
+interface CartClientProps {
+  products: Product[];
+  cartItems: CartItemProps[];
+}
+
+const CartClient = ({ products, cartItems }: CartClientProps) => {
   const {
     cartItems: contextItems,
     setCartItems,
@@ -35,9 +40,18 @@ const CartClient = ({ cartItems }: { cartItems: CartItemProps[] }) => {
               checked={isSelectedAll(contextItems.map((item) => item.id))}
               onChange={() => toggleAll(contextItems.map((item) => item.id))}
             />
-            {contextItems.map((cartItem) => (
-              <CartItem key={cartItem.id} {...cartItem} />
-            ))}
+            {contextItems.map((cartItem) => {
+              const product = products.find((p) => p.id === cartItem.productId);
+              if (!product) return null;
+
+              return (
+                <CartItem
+                  key={cartItem.id}
+                  cartItem={cartItem}
+                  product={product}
+                />
+              );
+            })}
           </div>
           <CheckoutPrice cartItems={contextItems} />
         </div>
