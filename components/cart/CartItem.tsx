@@ -132,7 +132,7 @@ const CartItem = ({ cartItem, product }: CartItemFullProps) => {
             <div className="flex flex-col sm:flex-row justify-between sm:items-center">
               <h2>${price}</h2>
               <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-                <Button variant="ghost" desc="Write note" />
+                <Button variant="ghost" desc="Write note" colors="orange" />
                 <hr className="block sm:hidden w-full border-[#848A97]" />
                 <div className="hidden sm:block w-0 h-6 border border-[#848A97]"></div>
                 <div className="flex gap-3.5 justify-center sm:items-center border rounded px-5 py-2.5 w-[125px] sm:w-full">

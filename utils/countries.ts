@@ -275,3 +275,9 @@ export const countries = [
   { name: "Zambia", code: "ZM", capital: "Lusaka" },
   { name: "Zimbabwe", code: "ZW", capital: "Harare" },
 ];
+
+export const countriesWithPostal = countries.map((c, i) => ({
+  ...c,
+  province: c.capital,
+  postalCode: String(i).padStart(5, "0"),
+}));

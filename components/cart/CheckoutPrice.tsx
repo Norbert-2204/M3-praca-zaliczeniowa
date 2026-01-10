@@ -1,10 +1,15 @@
+"use client";
 import Button from "../reused/Button";
 import { useCart } from "@/context/CartContext";
 import { CartItemProps } from "@/utils/Types";
+import { useRouter } from "next/navigation";
 
 const CheckoutPrice = ({ cartItems }: { cartItems: CartItemProps[] }) => {
-  const { selectedId, cartItems: cartItem } = useCart();
-  console.log("cartItem ", cartItem);
+  const router = useRouter();
+  const checkoutPage = () => {
+    router.push("/checkout");
+  };
+  const { selectedId } = useCart();
 
   const selectedItems = cartItems.filter((item) =>
     selectedId.includes(item.id)
@@ -35,7 +40,7 @@ const CheckoutPrice = ({ cartItems }: { cartItems: CartItemProps[] }) => {
         <h3 className="font-medium text-4.5">Subtotal</h3>
         <h2 className="font-medium text-[28px]">${totalPrice.toFixed(2)}</h2>
       </div>
-      <Button desc="Checkout" className="max-w-full!" />
+      <Button onClick={checkoutPage} desc="Checkout" className="max-w-full!" />
     </div>
   );
 };

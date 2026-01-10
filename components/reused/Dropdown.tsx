@@ -13,7 +13,7 @@ interface DropdownProps {
   className?: string;
   value?: string | number;
   onChange?: (value: string | number) => void;
-  variant?: "countries" | "custom";
+  variant?: "countries" | "custom" | "custom2";
   options?: Option[];
   placeholder?: string;
   size?: "small" | "medium" | "large" | "input";
@@ -28,6 +28,7 @@ interface DropdownProps {
 const VARIANTS = {
   countries: "bg-[#262626] border border-[#616674] rounded w-full",
   custom: "bg-transparent",
+  custom2: "border border-[#616674] rounded",
 };
 
 const SIZES = {
@@ -135,7 +136,7 @@ const Dropdown = ({
             </option>
           ))}
 
-        {variant === "custom" &&
+        {(variant === "custom" || variant === "custom2") &&
           options.map((opt) => (
             <option
               key={opt.value}

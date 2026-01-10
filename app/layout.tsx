@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import { AlertProvider } from "@/context/AlertContext";
+import { CartProvider } from "@/context/CartContext";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -24,7 +25,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.variable} antialiased`}>
         <AuthProvider>
-          <AlertProvider>{children}</AlertProvider>
+          <CartProvider>
+            <AlertProvider>{children}</AlertProvider>
+          </CartProvider>
         </AuthProvider>
       </body>
     </html>

@@ -6,7 +6,6 @@ import Header from "@/components/Header";
 import NotLoggedIn from "@/components/NotLoggedIn";
 import EmptyCart from "@/components/cart/EmptyCart";
 import CartClient from "@/components/cart/CartClient";
-import { CartProvider } from "@/context/CartContext";
 import { FiltersProvider } from "@/context/FilterContext";
 import ProtectPage from "@/components/ProtectPage";
 import FetchTypes from "@/utils/FetchTypes";
@@ -36,19 +35,17 @@ const Cart = async () => {
   return (
     <>
       <FiltersProvider>
-        <CartProvider>
-          <ProtectPage>
-            <Header />
-            {cartItems.length === 0 ? (
-              <div className="flex items-center justify-center flex-wrap p-10">
-                <EmptyCart />
-              </div>
-            ) : (
-              <CartClient cartItems={cartItems} products={products} />
-            )}
-            <Footer />
-          </ProtectPage>
-        </CartProvider>
+        <ProtectPage>
+          <Header />
+          {cartItems.length === 0 ? (
+            <div className="flex items-center justify-center flex-wrap p-10">
+              <EmptyCart />
+            </div>
+          ) : (
+            <CartClient cartItems={cartItems} products={products} />
+          )}
+          <Footer />
+        </ProtectPage>
       </FiltersProvider>
     </>
   );

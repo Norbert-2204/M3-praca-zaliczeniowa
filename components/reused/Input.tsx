@@ -12,11 +12,11 @@ interface InputProps {
   value?: string | number;
   checked?: boolean;
   type?: string;
-  variant?: "box" | "underline" | "checkbox";
+  variant?: "box" | "underline" | "checkbox" | "textfield";
   name?: string;
   placeholder?: string;
   error?: string;
-  sizes?: "small" | "medium" | "large" | "dropdown";
+  sizes?: "small" | "medium" | "large" | "dropdown" | "textfield";
   isError?: boolean;
   settings?: boolean;
 }
@@ -32,6 +32,7 @@ const VARIANTS = {
              after:flex after:items-center after:justify-center 
              after:text-[#262626] after:text-sm after:font-bold 
              after:opacity-0 checked:after:opacity-100`,
+  textfield: "border border-[#616674] rounded  outline-none",
 };
 
 const SIZES = {
@@ -39,6 +40,7 @@ const SIZES = {
   medium: "px-3 py-3",
   large: "px-5 py-[14px]",
   dropdown: "px-4.5 py-3.5 rounded-tl-md rounded-bl-md",
+  textfield: "p-0",
 };
 
 const Input = ({
@@ -72,6 +74,18 @@ const Input = ({
         onChange={onChange}
         className={` ${className} py-2.5 px-5 border w-[145px] rounded cursor-pointer`}
       />
+    );
+  }
+
+  if (variant === "textfield") {
+    return (
+      <label className={`flex flex-col w-full h-full p-0 ${className}`}>
+        <textarea
+          name={name}
+          placeholder={placeholder}
+          className={`${variantClasses} ${sizesClasses} h-full px-3 pt-2`}
+        />
+      </label>
     );
   }
 
@@ -135,11 +149,12 @@ const Input = ({
 
   return (
     <label
-      className={
-        settings
-          ? "flex items-center w-full justify-between"
-          : "flex flex-col gap-1 relative"
-      }
+      className={`
+        ${
+          settings
+            ? "flex items-center w-full justify-between"
+            : "flex flex-col gap-1 relative"
+        } `}
     >
       {label && <span>{label}</span>}
       <input
@@ -149,7 +164,7 @@ const Input = ({
         onChange={onChange}
         className={`${variantClasses} ${sizesClasses} ${className} ${
           settings ? "w-full" : ""
-        }`}
+        } `}
         placeholder={placeholder}
       />
       {type === "password" && (
