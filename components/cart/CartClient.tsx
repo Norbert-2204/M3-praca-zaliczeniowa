@@ -22,8 +22,10 @@ const CartClient = ({ products, cartItems }: CartClientProps) => {
   } = useCart();
 
   useEffect(() => {
-    setCartItems(cartItems);
-  }, [cartItems, setCartItems]);
+    if (contextItems.length === 0 && cartItems.length > 0) {
+      setCartItems(cartItems);
+    }
+  }, [cartItems, contextItems.length, setCartItems]);
 
   return (
     <>

@@ -8,7 +8,7 @@ import EyeClosed from "@/icons/eyeClosed";
 interface InputProps {
   label?: string;
   className?: string;
-  onChange?: ChangeEventHandler<HTMLInputElement>;
+  onChange?: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
   value?: string | number;
   checked?: boolean;
   type?: string;
@@ -82,6 +82,8 @@ const Input = ({
       <label className={`flex flex-col w-full h-full p-0 ${className}`}>
         <textarea
           name={name}
+          value={value || ""}
+          onChange={onChange}
           placeholder={placeholder}
           className={`${variantClasses} ${sizesClasses} h-full px-3 pt-2`}
         />
@@ -95,7 +97,7 @@ const Input = ({
         <input
           type="checkbox"
           name={name}
-          checked={checked}
+          checked={checked || false}
           onChange={onChange}
           className={`${variantClasses} ${className} appearance-none`}
         />

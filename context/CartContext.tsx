@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { CartItemProps } from "@/utils/Types";
 
 interface CartContextType {
@@ -20,11 +20,40 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | null>(null);
 
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
-  const [cartItems, setCartItems] = useState<CartItemProps[]>([]);
-  const [selectedId, setSelectedId] = useState<number[]>([]);
+  const [cartItems, setCartItems] = useState<CartItemProps[]>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("cartItems");
+      return saved ? JSON.parse(saved) : [];
+    }
+    return [];
+  });
+
+  const [selectedId, setSelectedId] = useState<number[]>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("selectedId");
+      return saved ? JSON.parse(saved) : [];
+    }
+    return [];
+  });
+
   const [productProtectionSelected, setProductProtectionSelected] = useState<
     number[]
   >([]);
+
+  useEffect(() => {
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  }, [cartItems]);
+
+  useEffect(() => {
+    localStorage.setItem("selectedId", JSON.stringify(selectedId));
+  }, [selectedId]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "productProtectionSelected",
+      JSON.stringify(productProtectionSelected)
+    );
+  }, [productProtectionSelected]);
 
   const toggleItem = (id: number) => {
     setSelectedId((prev) =>

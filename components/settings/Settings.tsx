@@ -61,7 +61,7 @@ const settingsSchema = z
 type RegisterForm = z.infer<typeof settingsSchema>;
 
 const Settings = () => {
-  const { user } = useAuth();
+  const { user, refreshUser } = useAuth();
   const { addAlert } = useAlert();
 
   const maskPhone = (phone?: string) => {
@@ -107,6 +107,7 @@ const Settings = () => {
       }
 
       addAlert("Profile updated successfully");
+      refreshUser();
       reset({
         firstName: result.user.firstName,
         lastName: result.user.lastName,

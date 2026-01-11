@@ -33,4 +33,5 @@ export interface CartItemProps {
   brandId: number;
   categoryId: number;
   filterType?: "category" | "brand";
+  productProtection?: boolean;
 }

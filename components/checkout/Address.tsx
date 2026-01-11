@@ -1,17 +1,47 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../reused/Button";
 import Dropdown from "../reused/Dropdown";
 import { countriesWithPostal } from "@/utils/countries";
 import Input from "../reused/Input";
+import { useAuth } from "@/context/AuthContext";
+import Link from "next/link";
+import { useCheckoutAddress } from "@/context/AddressContext";
 
 const Address = () => {
+  const { user } = useAuth();
+  const { setCheckoutAddress } = useCheckoutAddress();
   const [isSelected, setIsSelected] = useState("exist");
   const [countryCode, setCountryCode] = useState<string>("");
+  const [newAddress, setNewAddress] = useState("");
+  const [saveAsMain, setSaveAsMain] = useState(false);
+
+  const userCountry = countriesWithPostal.find((c) => c.code === user?.region);
 
   const selectedCountry = countriesWithPostal.find(
     (c) => c.code === countryCode
   );
+
+  useEffect(() => {
+    if (user?.address && user?.region && isSelected === "exist") {
+      setCheckoutAddress({
+        mode: "exist",
+        address: user.address,
+        country: user.region,
+      });
+    }
+  }, [user, isSelected, setCheckoutAddress]);
+
+  useEffect(() => {
+    if (isSelected === "new") {
+      setCheckoutAddress({
+        mode: "new",
+        address: newAddress,
+        country: countryCode,
+        saveAsMain,
+      });
+    }
+  }, [isSelected, newAddress, countryCode, saveAsMain, setCheckoutAddress]);
 
   return (
     <div className="flex w-full flex-col gap-8 p-6  border border-[#383B42] bg-[#262626] rounded">
@@ -49,24 +79,40 @@ const Address = () => {
                 className="py-2.5! px-1.5! cursor-default!"
               />
             </div>
-            <h3>Bangalau Road No 23, RT 4/RW 6, Kinajaya</h3>
+            <h3>
+              {user?.address || <Link href={"/settings"}>Update profile</Link>}
+            </h3>
           </div>
           <div className="flex flex-col sm:flex-row justify-between">
             <div className="flex flex-col gap-2">
               <h3>Country</h3>
-              <h3>palceholder</h3>
+              <h3>
+                {user?.region || <Link href={"/settings"}>Update profile</Link>}
+              </h3>
             </div>
             <div className="flex flex-col gap-2">
               <h3>Province</h3>
-              <h3>palceholder</h3>
+              <h3>
+                {userCountry?.province || (
+                  <Link href={"/settings"}>Update profile</Link>
+                )}
+              </h3>
             </div>
             <div className="flex flex-col gap-2">
               <h3>City</h3>
-              <h3>palceholder</h3>
+              <h3>
+                {userCountry?.capital || (
+                  <Link href={"/settings"}>Update profile</Link>
+                )}
+              </h3>
             </div>
             <div className="flex flex-col gap-2">
               <h3>Postal code</h3>
-              <h3>palceholder</h3>
+              <h3>
+                {userCountry?.postalCode || (
+                  <Link href={"/settings"}>Update profile</Link>
+                )}
+              </h3>
             </div>
           </div>
         </div>
@@ -126,10 +172,28 @@ const Address = () => {
               placeholder="Input complete address"
               variant="textfield"
               sizes="textfield"
+              value={newAddress}
+              onChange={(e) => setNewAddress(e.target.value)}
             />
           </div>
           <div className="flex gap-4 ">
-            <Input variant="checkbox" />
+            <Input
+              variant="checkbox"
+              checked={saveAsMain}
+              onChange={() => {
+                const newVal = !saveAsMain;
+                setSaveAsMain(newVal);
+
+                if (newVal) {
+                  setCheckoutAddress({
+                    mode: "new",
+                    address: user?.address || "",
+                    country: user?.region || "",
+                    saveAsMain: true,
+                  });
+                }
+              }}
+            />
             <h3>Make it the main address</h3>
           </div>
         </div>

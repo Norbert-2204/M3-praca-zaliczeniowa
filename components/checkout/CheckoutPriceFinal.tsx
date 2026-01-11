@@ -1,35 +1,90 @@
 "use client";
 import { useCart } from "@/context/CartContext";
 import Button from "../reused/Button";
+import { CartItemProps } from "@/utils/Types";
+import { useAuth } from "@/context/AuthContext";
 
-const CheckoutPriceFinal = () => {
-  const { selectedId, cartItems, productProtectionSelected } = useCart();
+interface CheckoutChildProps {
+  selectedItems: CartItemProps[];
+  checkoutAddress: {
+    address: string;
+    country: string;
+  };
+}
 
-  const selectedItems = cartItems.filter((item) =>
-    selectedId.includes(item.id)
-  );
+const CheckoutPriceFinal = ({
+  selectedItems,
+  checkoutAddress,
+}: CheckoutChildProps) => {
+  console.log(checkoutAddress);
+  const { productProtectionSelected, cartItems, setCartItems } = useCart();
+  const { user } = useAuth();
 
   const totalQuantity = selectedItems.reduce(
     (sum, item) => sum + item.quantity,
     0
   );
 
-  const totalPrice = selectedItems.reduce(
+  const totalProductPrice = selectedItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
   );
 
-  const productProtection = productProtectionSelected.length * 1;
+  const productProtection = selectedItems.reduce(
+    (sum, item) =>
+      productProtectionSelected.includes(item.id) ? sum + item.quantity : sum,
+    0
+  );
+
   const shippingPrice = 5;
   const shippingInsurance = 6;
   const serviceFees = 0.5;
 
   const grandTotal =
-    totalPrice +
+    totalProductPrice +
     productProtection +
     shippingPrice +
     shippingInsurance +
     serviceFees;
+
+  const handlePayNow = async () => {
+    if (!selectedItems.length) return;
+
+    if (!user?.id) {
+      alert("User not logged in");
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/order/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: user.id,
+          selectedItems,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.error || "Something went wrong");
+        return;
+      }
+
+      console.log("Order created:", data.order);
+
+      const remainingItems = cartItems.filter(
+        (item) => !selectedItems.find((sel) => sel.id === item.id)
+      );
+      setCartItems(remainingItems);
+
+      alert("Order created successfully!");
+    } catch (error) {
+      console.error(error);
+      alert("Failed to create order");
+    }
+  };
 
   return (
     <div className="flex flex-col p-6 bg-[#262626] rounded w-full max-w-[423px] gap-6 max-h-[572px] lg:self-start">
@@ -39,7 +94,9 @@ const CheckoutPriceFinal = () => {
           <h3 className="font-medium">
             Total Product Price ({totalQuantity} Item)
           </h3>
-          <h3 className="font-medium text-4.5">${totalPrice.toFixed(2)}</h3>
+          <h3 className="font-medium text-4.5">
+            ${totalProductPrice.toFixed(2)}
+          </h3>
         </div>
       </div>
       <div className="flex justify-between items center">
@@ -67,7 +124,7 @@ const CheckoutPriceFinal = () => {
         <h3 className="font-medium text-4.5">Grand total</h3>
         <h2 className="font-medium text-[28px]">${grandTotal.toFixed(2)}</h2>
       </div>
-      <Button desc="Pay now" className="max-w-full!" />
+      <Button onClick={handlePayNow} desc="Pay now" className="max-w-full!" />
     </div>
   );
 };
