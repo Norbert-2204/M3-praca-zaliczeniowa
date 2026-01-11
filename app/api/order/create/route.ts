@@ -6,9 +6,10 @@ import generateOrderNumber from "@/utils/GenerateOrderNumber";
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { userId, selectedItems } = body as {
+    const { userId, selectedItems, productProtectionSelected } = body as {
       userId: number;
       selectedItems: CartItemProps[];
+      productProtectionSelected: number[];
     };
 
     if (!selectedItems || selectedItems.length === 0) {
@@ -36,6 +37,9 @@ export async function POST(req: NextRequest) {
             productName: item.name,
             imageUrl: item.imageUrl,
             category: item.category,
+            productProtection: productProtectionSelected.includes(
+              item.productId
+            ),
           })),
         },
       },

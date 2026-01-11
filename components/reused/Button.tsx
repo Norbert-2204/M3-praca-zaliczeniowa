@@ -21,6 +21,7 @@ interface ButtonProps {
   type?: "button" | "submit";
   bgColors?: "standard" | "dark" | "black" | "none";
   colors?: "standard" | "orange" | "white";
+  children?: ReactNode;
 }
 
 const VARIANTS = {
@@ -70,6 +71,7 @@ const Button = ({
   icon,
   bgColors = "standard" as "standard" | "dark" | "black" | "none",
   colors = "standard" as "standard" | "orange" | "white",
+  children,
 }: ButtonProps) => {
   const variantClasses = VARIANTS[variant] || VARIANTS.primary;
   const bgColorsClasses = BGCOLORS[bgColors] || BGCOLORS.standard;
@@ -85,6 +87,7 @@ const Button = ({
     >
       {desc && <span>{desc}</span>}
       {icon && <span className="flex">{icon}</span>}
+      {children}
     </button>
   );
 };

@@ -3,22 +3,20 @@ import { useCart } from "@/context/CartContext";
 import Button from "../reused/Button";
 import { CartItemProps } from "@/utils/Types";
 import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
+import { useCheckoutAddress } from "@/context/AddressContext";
+import { useAlert } from "@/context/AlertContext";
 
 interface CheckoutChildProps {
   selectedItems: CartItemProps[];
-  checkoutAddress: {
-    address: string;
-    country: string;
-  };
 }
 
-const CheckoutPriceFinal = ({
-  selectedItems,
-  checkoutAddress,
-}: CheckoutChildProps) => {
-  console.log(checkoutAddress);
+const CheckoutPriceFinal = ({ selectedItems }: CheckoutChildProps) => {
   const { productProtectionSelected, cartItems, setCartItems } = useCart();
-  const { user } = useAuth();
+  const { user, refreshUser } = useAuth();
+  const router = useRouter();
+  const { addAlert } = useAlert();
+  const { checkoutAddress } = useCheckoutAddress();
 
   const totalQuantity = selectedItems.reduce(
     (sum, item) => sum + item.quantity,
@@ -48,41 +46,59 @@ const CheckoutPriceFinal = ({
     serviceFees;
 
   const handlePayNow = async () => {
-    if (!selectedItems.length) return;
-
-    if (!user?.id) {
-      alert("User not logged in");
+    if (!checkoutAddress.address || !checkoutAddress.country) {
+      addAlert("Please provide your address before proceeding", "fail");
       return;
     }
+    if (!selectedItems.length) return;
 
     try {
+      if (checkoutAddress.mode === "new" && checkoutAddress.saveAsMain) {
+        const resUpdate = await fetch("/api/user/update", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            address: checkoutAddress.address,
+            region: checkoutAddress.country,
+          }),
+        });
+
+        if (!resUpdate.ok) {
+          const data = await resUpdate.json();
+          addAlert(data.error || "Failed to save address", "fail");
+          return;
+        }
+      }
+
       const res = await fetch("/api/order/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          userId: user.id,
+          userId: user?.id,
           selectedItems,
+          productProtectionSelected: selectedItems
+            .filter((item) => productProtectionSelected.includes(item.id))
+            .map((item) => item.productId),
         }),
       });
 
       const data = await res.json();
 
       if (!res.ok) {
-        alert(data.error || "Something went wrong");
+        console.log(data.error || "Something went wrong");
+        addAlert("Something went wrong", "fail");
         return;
       }
-
-      console.log("Order created:", data.order);
 
       const remainingItems = cartItems.filter(
         (item) => !selectedItems.find((sel) => sel.id === item.id)
       );
       setCartItems(remainingItems);
-
-      alert("Order created successfully!");
+      refreshUser();
+      router.push("/checkout/success");
     } catch (error) {
       console.error(error);
-      alert("Failed to create order");
+      addAlert("Failed to create order", "fail");
     }
   };
 

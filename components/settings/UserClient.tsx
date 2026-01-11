@@ -4,7 +4,27 @@ import Transactions from "./Transactions";
 import UserProfile from "./UserProfile";
 import { useUserPanel } from "@/context/ProfileContext";
 
-const UserClient = () => {
+interface UserClientProps {
+  user: {
+    id: number;
+    name: string;
+    email: string;
+    orders: {
+      id: number;
+      orderNumber: string | null;
+      createdAt: string;
+      orderItems: {
+        id: number;
+        productName: string;
+        quantity: number;
+        priceAtPurchase: number;
+        productProtection: boolean;
+      }[];
+    }[];
+  };
+}
+
+const UserClient = ({ user }: UserClientProps) => {
   const { activePanel } = useUserPanel();
   return (
     <>
@@ -16,7 +36,9 @@ const UserClient = () => {
         } items-center  gap-12 p-10 pt-0`}
       >
         <UserProfile />
-        {activePanel === "transactions" && <Transactions />}
+        {activePanel === "transactions" && (
+          <Transactions orders={user.orders} />
+        )}
         {activePanel === "settings" && <Settings />}
       </div>
     </>
