@@ -3,10 +3,16 @@ import Button from "../reused/Button";
 import { useCart } from "@/context/CartContext";
 import { CartItemProps } from "@/utils/Types";
 import { useRouter } from "next/navigation";
+import { useAlert } from "@/context/AlertContext";
 
 const CheckoutPrice = ({ cartItems }: { cartItems: CartItemProps[] }) => {
   const router = useRouter();
+  const { addAlert } = useAlert();
   const checkoutPage = () => {
+    if (selectedItems.length === 0) {
+      addAlert("No products selected for checkout", "warning");
+      return;
+    }
     router.push("/checkout");
   };
   const { selectedId } = useCart();

@@ -4,7 +4,6 @@ import { CartItemProps } from "@/utils/Types";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import NotLoggedIn from "@/components/NotLoggedIn";
-import EmptyCart from "@/components/cart/EmptyCart";
 import CartClient from "@/components/cart/CartClient";
 import { FiltersProvider } from "@/context/FilterContext";
 import ProtectPage from "@/components/ProtectPage";
@@ -37,13 +36,7 @@ const Cart = async () => {
       <FiltersProvider>
         <ProtectPage>
           <Header />
-          {cartItems.length === 0 ? (
-            <div className="flex items-center justify-center flex-wrap p-10">
-              <EmptyCart />
-            </div>
-          ) : (
-            <CartClient cartItems={cartItems} products={products} />
-          )}
+          <CartClient cartItems={cartItems} products={products} />
           <Footer />
         </ProtectPage>
       </FiltersProvider>

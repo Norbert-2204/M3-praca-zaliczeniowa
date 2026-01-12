@@ -28,7 +28,6 @@ const SuccesPage = async () => {
     (sum, item) => sum + (item.productProtection ? item.quantity : 0),
     0
   );
-  console.log(productProtectionCost);
 
   const totalProductProtection = 1 * order.orderItems.length;
   const totalShippingPrice = 5 * order.orderItems.length;

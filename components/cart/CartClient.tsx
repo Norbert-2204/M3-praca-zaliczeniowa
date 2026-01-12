@@ -5,8 +5,9 @@ import Input from "../reused/Input";
 import CartItem from "./CartItem";
 import CheckoutPrice from "./CheckoutPrice";
 import { useCart } from "@/context/CartContext";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import EmptyCart from "./EmptyCart";
+import { useAuth } from "@/context/AuthContext";
 
 interface CartClientProps {
   products: Product[];
@@ -14,18 +15,22 @@ interface CartClientProps {
 }
 
 const CartClient = ({ products, cartItems }: CartClientProps) => {
+  const { refreshUser } = useAuth();
   const {
     cartItems: contextItems,
     setCartItems,
     toggleAll,
     isSelectedAll,
   } = useCart();
+  useEffect(() => {}, [refreshUser]);
+  const didInit = useRef(false);
 
   useEffect(() => {
-    if (contextItems.length === 0 && cartItems.length > 0) {
+    if (!didInit.current) {
       setCartItems(cartItems);
+      didInit.current = true;
     }
-  }, [cartItems, contextItems.length, setCartItems]);
+  }, [cartItems, setCartItems]);
 
   return (
     <>

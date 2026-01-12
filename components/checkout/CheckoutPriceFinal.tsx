@@ -50,7 +50,10 @@ const CheckoutPriceFinal = ({ selectedItems }: CheckoutChildProps) => {
       addAlert("Please provide your address before proceeding", "fail");
       return;
     }
-    if (!selectedItems.length) return;
+    if (!selectedItems.length) {
+      addAlert("No products selected for checkout", "fail");
+      return;
+    }
 
     try {
       if (checkoutAddress.mode === "new" && checkoutAddress.saveAsMain) {

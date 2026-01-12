@@ -3,6 +3,7 @@ import Address from "./Address";
 import CheckoutItem from "./CheckoutItem";
 import Shield from "@/icons/shield";
 import { CartItemProps } from "@/utils/Types";
+import EmptyCheckout from "./EmptyCheckout";
 
 interface CheckoutChildProps {
   selectedItems: CartItemProps[];
@@ -13,9 +14,13 @@ const Order = ({ selectedItems }: CheckoutChildProps) => {
     <div className="flex flex-col w-full gap-10">
       <div className="flex flex-col w-full flex-1 gap-4.5">
         <h2>Your Order</h2>
-        {selectedItems.map((item) => (
-          <CheckoutItem key={item.id} item={item} />
-        ))}
+        {selectedItems.length === 0 ? (
+          <EmptyCheckout />
+        ) : (
+          selectedItems.map((item) => (
+            <CheckoutItem key={item.id} item={item} />
+          ))
+        )}
       </div>
       <div className="flex flex-col w-full flex-1 gap-4.5">
         <h2>Address</h2>

@@ -46,7 +46,7 @@ const ItemCard = ({
   const { setSelectedCategories, setSelectedBrands } = useFilters();
   const router = useRouter();
   const pathname = usePathname();
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, refreshUser } = useAuth();
 
   const handleFilterClick = () => {
     if (!isLoggedIn) {
@@ -75,6 +75,7 @@ const ItemCard = ({
 
     try {
       await addToCart(id);
+      refreshUser();
       addAlert(`${item.name} added to cart!`, "success");
     } catch (error) {
       console.error("Add to cart failed", error);

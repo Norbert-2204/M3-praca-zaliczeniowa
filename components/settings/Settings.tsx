@@ -125,13 +125,10 @@ const Settings = () => {
   };
 
   const updateAvatar = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("reakcja");
     const file = e.target.files?.[0];
     if (!file) return;
-    console.log("file", file);
 
     const formData = new FormData();
-    console.log("formData: ", formData);
     formData.append("avatar", file);
 
     const res = await fetch("/api/user/avatar", {
@@ -140,11 +137,11 @@ const Settings = () => {
     });
 
     const result = await res.json();
-    console.log("result: ", result);
     if (!res.ok)
       return addAlert(result.error || "Failed to update avatar", "fail");
 
     addAlert("Avatar updated successfully");
+    refreshUser();
   };
 
   return (
@@ -173,13 +170,12 @@ const Settings = () => {
               variant="ghost"
               colors="white"
               sizes="averageReverse"
-              className="border rounded"
-              onClick={() => console.log("sprawdzam")}
+              className="border rounded cursor-default!"
             />
             <Input
               onChange={updateAvatar}
               type="file"
-              className=" cursor-pointer"
+              className="absolute z-50 top-0 left-0 opacity-0  w-full h-full cursor-default!"
             />
           </div>
         </div>

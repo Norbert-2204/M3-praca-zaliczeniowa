@@ -13,6 +13,7 @@ import { updateQuantity } from "@/utils/AddToCart";
 import deleteFromCart from "@/utils/DeleteFromCart";
 import { useFilters } from "@/context/FilterContext";
 import { usePathname, useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 
 interface CartItemFullProps {
   cartItem: CartItemProps;
@@ -22,6 +23,7 @@ interface CartItemFullProps {
 const CartItem = ({ cartItem, product }: CartItemFullProps) => {
   const { toggleItem, isSelected, updateQuantityInCart, removeItemFromCart } =
     useCart();
+  const { refreshUser } = useAuth();
 
   const { setSelectedCategories, setSelectedBrands } = useFilters();
   const router = useRouter();
@@ -82,6 +84,7 @@ const CartItem = ({ cartItem, product }: CartItemFullProps) => {
   const handleRemove = async () => {
     await deleteFromCart(id);
     removeItemFromCart(id);
+    refreshUser();
   };
 
   const handleProductDetail = () => {

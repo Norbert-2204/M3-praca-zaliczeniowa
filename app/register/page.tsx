@@ -101,7 +101,7 @@ const RegisterPage = () => {
           return;
         }
       }
-
+      console.log(result);
       reset();
       router.push("/register/thankyou");
     } catch (error) {
@@ -204,7 +204,9 @@ const RegisterPage = () => {
                       <Input
                         variant="checkbox"
                         checked={field.value}
-                        onChange={(e) => field.onChange(e.target.checked)}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          field.onChange(e.target.checked)
+                        }
                       />
                     )}
                   />

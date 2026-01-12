@@ -52,7 +52,9 @@ const Alert = ({
   const typeIcon = iconType ? ICONS[iconType] : ICONS[alertType];
 
   return (
-    <div className={`${variantClasses} ${typeClasses} ${className}`}>
+    <div
+      className={`${variantClasses} ${typeClasses} ${className} w-full sticky top-0 z-50`}
+    >
       <div className="flex gap-4 items-center">
         <div>{icon || typeIcon}</div>
         <p>{pDesc}</p>

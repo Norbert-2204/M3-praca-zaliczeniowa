@@ -22,7 +22,7 @@ const Header = () => {
   const profilePage = () => router.push("/settings");
 
   return (
-    <header className="flex flex-col px-10 py-8 gap-10 relative overflow-hidden">
+    <header className="flex flex-col px-10 py-8 gap-10 relative ">
       <div className="flex justify-between ">
         <h1
           onClick={homePage}
@@ -88,13 +88,11 @@ const Header = () => {
       )}
 
       <div
-        className={`flex flex-col gap-2 transition-all duration-300 ease-out
-              ${
-                isVisible
-                  ? "translate-x-0 opacity-100"
-                  : "translate-x-full opacity-0"
-              }
-            `}
+        className={`
+    w-full flex flex-col gap-2 transition-all duration-300 ease-out
+    sticky top-0 z-50
+    ${isVisible ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"}
+  `}
       >
         {isLoggedIn
           ? alert && (
