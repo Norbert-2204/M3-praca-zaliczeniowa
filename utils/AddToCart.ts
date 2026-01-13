@@ -1,20 +1,12 @@
 export const addToCart = async (productId: number, quantity: number = 1) => {
-  const res = await fetch("/api/cart", {
+  const res = await fetch("/api/cart/add", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      productId,
-      quantity,
-    }),
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ productId, quantity }),
   });
 
-  if (!res.ok) {
-    throw new Error("Failed to add product to cart");
-  }
-
-  return res.json();
+  const data = await res.json();
+  return { ...data, status: res.status };
 };
 
 export const updateQuantity = async (cartItemId: number, delta: number) => {

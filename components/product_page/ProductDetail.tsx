@@ -39,6 +39,18 @@ const ProductDetail = ({ product, category }: Props) => {
                     className=" rounded object-contain bg-white"
                   />
                 </div>
+                {product.stock === 0 && (
+                  <div className="absolute top-0 z-100 cursor-pointer">
+                    <div className="w-[200px] h-[200px] relative">
+                      <Image
+                        src="https://i.ibb.co/yn5QgGp1/Sold-PNG-Image.png"
+                        alt="sold"
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
               <div className="flex gap-4">
                 {productImages.map((img, index) => (

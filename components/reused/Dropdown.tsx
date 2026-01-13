@@ -151,7 +151,7 @@ const Dropdown = ({
         <p
           className={`${
             error ? "opacity-100" : "opacity-0"
-          } text-[#EF4444] text-[12px] h-5`}
+          } text-[#EF4444] text-[10px] sm:text-[12px] h-5`}
         >
           {error || ""}
         </p>

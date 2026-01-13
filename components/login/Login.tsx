@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import Button from "../reused/Button";
 import Input from "../reused/Input";
 import { useLoginStep } from "@/hooks/useLoginStep";
@@ -12,6 +13,7 @@ const Login = ({ label, placeholder }: LoginProps) => {
   const { password, setPassword, error, submit } = useLoginStep({
     type: "login",
   });
+  const [checked, setChecked] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,7 +45,11 @@ const Login = ({ label, placeholder }: LoginProps) => {
 
           <div className="flex justify-between">
             <div className="flex items-center gap-3">
-              <Input variant="checkbox" />
+              <Input
+                onChange={() => setChecked(!checked)}
+                variant="checkbox"
+                checked={checked}
+              />
               <span className="font-medium">Save password</span>
             </div>
             <p className="font-medium">Forgot your password?</p>

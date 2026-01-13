@@ -46,6 +46,15 @@ export async function POST(req: NextRequest) {
       include: { orderItems: true },
     });
 
+    for (const item of selectedItems) {
+      await prisma.product.update({
+        where: { id: item.productId },
+        data: {
+          stock: { decrement: item.quantity },
+        },
+      });
+    }
+
     await prisma.cartItem.deleteMany({
       where: {
         userId,

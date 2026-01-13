@@ -14,10 +14,7 @@ export async function GET() {
       orderBy: { createdAt: "desc" },
     });
 
-    if (!order)
-      return NextResponse.json({ error: "No orders found" }, { status: 404 });
-
-    return NextResponse.json(order);
+    return NextResponse.json(order ?? null, { status: 200 });
   } catch (err) {
     console.error(err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });

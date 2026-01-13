@@ -21,23 +21,35 @@ const DetailsAddToCart = ({ product }: Props) => {
   const subtotal = (product.price * quantity).toFixed(2);
 
   const increase = () => {
-    if (quantity < product.stock) {
-      setQuantity(quantity + 1);
-    }
+    if (quantity < product.stock) setQuantity(quantity + 1);
   };
 
   const decrease = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
-    }
+    if (quantity > 1) setQuantity(quantity - 1);
   };
 
   const handleAddToCart = async () => {
     try {
-      await addToCart(product.id, quantity);
-      addAlert(`${product.name} added to cart!`, "success");
+      const result = await addToCart(product.id, quantity);
+      if (result.status === 409 && result.addedQuantity === 0) {
+        addAlert(
+          `Cannot add more of ${product.name} to cart, stock limit reached.`,
+          "warning"
+        );
+        return;
+      }
+
+      if (result.addedQuantity < quantity) {
+        addAlert(
+          `Only ${result.addedQuantity} of ${product.name} were added to cart due to stock limit.`,
+          "warning"
+        );
+      } else {
+        addAlert(`${product.name} added to cart!`, "success");
+      }
     } catch (error) {
       console.error("Add to cart failed", error);
+      addAlert("Failed to add product to cart", "fail");
     }
   };
   return (

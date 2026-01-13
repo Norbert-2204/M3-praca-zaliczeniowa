@@ -19,8 +19,9 @@ export async function PATCH(req: Request) {
       );
     }
 
-    const cartItem = await prisma.cartItem.findFirst({
-      where: { id: cartItemId, userId },
+    const cartItem = await prisma.cartItem.findUnique({
+      where: { id: cartItemId },
+      include: { product: true },
     });
 
     if (!cartItem) {
@@ -30,7 +31,13 @@ export async function PATCH(req: Request) {
       );
     }
 
-    const newQuantity = cartItem.quantity + delta;
+    let newQuantity = cartItem.quantity + delta;
+
+    if (newQuantity > cartItem.product.stock) {
+      newQuantity = cartItem.product.stock;
+    }
+
+    // const newQuantity = cartItem.quantity + delta;
 
     if (newQuantity <= 0) {
       await prisma.cartItem.delete({

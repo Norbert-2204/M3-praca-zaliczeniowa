@@ -8,7 +8,7 @@ const ThankYouRegister = () => {
     <>
       <ProtectPage check={true}>
         <Header />
-        <div className="flex flex-col justify-center items-center py-20 px-10">
+        <div className="flex flex-col justify-center items-center pb-20 px-10">
           <div className="text-[#4ADE80]">
             <CheckCircle />
           </div>

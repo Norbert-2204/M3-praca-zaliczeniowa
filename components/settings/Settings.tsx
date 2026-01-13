@@ -213,7 +213,7 @@ const Settings = () => {
                 {...field}
                 label="Name"
                 onChange={(e) => field.onChange(e.target.value)}
-                isError={!!fieldState.error}
+                isError={true}
                 settings={true}
                 className="max-w-[400px]"
                 placeholder={user?.firstName || "First name"}
@@ -231,7 +231,7 @@ const Settings = () => {
                 onChange={(e) => field.onChange(e.target.value)}
                 className="max-w-[400px]"
                 settings={true}
-                isError={!!fieldState.error}
+                isError={true}
                 placeholder={user?.lastName || "Last name"}
                 error={fieldState.error?.message}
               />
@@ -263,7 +263,7 @@ const Settings = () => {
                 onChange={(e) => field.onChange(e.target.value)}
                 className="max-w-[400px]"
                 settings={true}
-                isError={!!fieldState.error}
+                isError={true}
                 placeholder={user?.address || "Address"}
                 error={fieldState.error?.message}
               />

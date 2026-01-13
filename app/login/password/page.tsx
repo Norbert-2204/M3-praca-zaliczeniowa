@@ -8,7 +8,7 @@ const LoginPage = () => {
     <>
       <ProtectPage check={true}>
         <Header />
-        <main className="flex flex-col justify-center items-center gap-8 py-20">
+        <main className="flex flex-col justify-center items-center gap-8 pb-20 px-10">
           <h1 className="text-4xl font-bold ">
             <span className="text-[#F29145]">Nexus</span>
             <span>Hub</span>

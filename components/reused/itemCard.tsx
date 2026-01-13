@@ -17,6 +17,7 @@ interface BaseItem {
   imageUrl: string;
   categoryId: number;
   id: number;
+  stock: number;
 }
 
 interface ItemCardProps {
@@ -74,7 +75,15 @@ const ItemCard = ({
     if (!id) return;
 
     try {
-      await addToCart(id);
+      const result = await addToCart(id);
+      console.log(result);
+      if (result.status === 409 && result.addedQuantity === 0) {
+        addAlert(
+          `Cannot add more of ${item.name} to cart, stock limit reached.`,
+          "warning"
+        );
+        return;
+      }
       refreshUser();
       addAlert(`${item.name} added to cart!`, "success");
     } catch (error) {
@@ -137,7 +146,21 @@ const ItemCard = ({
             />
           </div>
         )}
-
+        {item.stock === 0 && (
+          <div
+            onClick={handleProductDetail}
+            className="absolute z-100 cursor-pointer"
+          >
+            <div className="w-[150px] h-[150px] relative">
+              <Image
+                src="https://i.ibb.co/yn5QgGp1/Sold-PNG-Image.png"
+                alt="sold"
+                fill
+                className="object-contain"
+              />
+            </div>
+          </div>
+        )}
         {shop && (
           <Button
             variant="icon"

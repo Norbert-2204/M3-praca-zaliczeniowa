@@ -114,7 +114,7 @@ const RegisterPage = () => {
         <Header />
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col justify-center items-center px-10 py-[77px] gap-8"
+          className="flex flex-col justify-center items-center px-10 pb-[77px] gap-8"
         >
           <h1 className="text-4xl font-bold ">
             <span className="text-[#F29145]">Nexus</span>
