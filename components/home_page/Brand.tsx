@@ -7,6 +7,7 @@ interface BrandItem {
   imageUrl: string;
   categoryId: number;
   brandId: number;
+  stock: number;
 }
 
 interface BrandProps {
