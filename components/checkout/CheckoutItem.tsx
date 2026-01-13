@@ -67,7 +67,7 @@ const CheckoutItem = ({ item }: CheckoutChildProps) => {
           <div className="flex flex-col flex-1 gap-4">
             <div className="flex flex-col gap-4">
               <div className="flex">
-                <h2>{item.name}</h2>
+                <h2 className="text-lg">{item.name}</h2>
               </div>
               <Button
                 desc={"webcam"}
@@ -77,7 +77,7 @@ const CheckoutItem = ({ item }: CheckoutChildProps) => {
               />
             </div>
             <div className="flex flex-col sm:flex-row justify-between sm:items-center">
-              <h2>${item.price}</h2>
+              <h2 className="text-lg">${item.price}</h2>
               <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
                 <Button variant="ghost" desc="Write note" colors="orange" />
                 <hr className="block sm:hidden w-full border-[#848A97]" />
@@ -113,9 +113,9 @@ const CheckoutItem = ({ item }: CheckoutChildProps) => {
             checked={isProtection}
             onChange={() => toggleProductProtection(item.id)}
           />
-          <p>1$</p>
+          <p className="text-lg">1$</p>
         </div>
-        <p className="ml-[30px] ">
+        <p className="ml-[30px] text-lg">
           The claim process is easy and instant, valid for 6 months
         </p>
       </div>

@@ -8,6 +8,7 @@ import Image from "next/image";
 import Button from "../reused/Button";
 import Input from "../reused/Input";
 import Dropdown from "../reused/Dropdown";
+import { useState } from "react";
 
 const settingsSchema = z
   .object({
@@ -63,6 +64,7 @@ type RegisterForm = z.infer<typeof settingsSchema>;
 const Settings = () => {
   const { user, refreshUser } = useAuth();
   const { addAlert } = useAlert();
+  const [isUploading, setIsUploading] = useState(false);
 
   const maskPhone = (phone?: string) => {
     if (!phone) return "";
@@ -131,17 +133,30 @@ const Settings = () => {
     const formData = new FormData();
     formData.append("avatar", file);
 
-    const res = await fetch("/api/user/avatar", {
-      method: "POST",
-      body: formData,
-    });
+    try {
+      setIsUploading(true);
+      const res = await fetch("/api/user/avatar", {
+        method: "POST",
+        body: formData,
+      });
+      const result = await res.json();
+      if (res.status === 400) {
+        addAlert(
+          "Image is to large (max 1mb) or only PNG or JPEG allowed",
+          "fail"
+        );
+        return;
+      }
+      if (!res.ok) throw new Error(result.error || "Failed to update avatar");
 
-    const result = await res.json();
-    if (!res.ok)
-      return addAlert(result.error || "Failed to update avatar", "fail");
-
-    addAlert("Avatar updated successfully");
-    refreshUser();
+      addAlert("Avatar updated successfully");
+      refreshUser();
+    } catch (error) {
+      console.error(error);
+      addAlert("Failed to update avatar", "fail");
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   return (
@@ -153,15 +168,21 @@ const Settings = () => {
       </div>
       <div className="flex flex-col xl:flex-row gap-12">
         <div className="flex flex-col items-center gap-6 ">
-          <div className="rounded-full">
-            {user?.avatar && (
+          <div className="rounded-full relative w-[220px] h-[220px]">
+            {isUploading ? (
+              <div className="flex items-center justify-center w-full h-full bg-gray-700 rounded-full">
+                <span className="text-white">Uploading...</span>
+              </div>
+            ) : user?.avatar ? (
               <Image
                 src={user.avatar}
                 alt="avatar"
-                width={220}
-                height={220}
+                fill
+                sizes="(max-width: 640px) 100px, (max-width: 1024px) 150px, 220px"
                 className="object-cover rounded-full"
               />
+            ) : (
+              <div className="bg-gray-700 w-full h-full rounded-full"></div>
             )}
           </div>
           <div className="relative">

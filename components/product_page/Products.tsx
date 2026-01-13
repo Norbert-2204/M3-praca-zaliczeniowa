@@ -46,7 +46,9 @@ const Products = ({ category, products }: ProductPops) => {
 
   const handlePrevious = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (currentPage > 1) setCurrentPage((prev) => prev - 1);
+    if (currentPage > 1) {
+      setCurrentPage((prev) => prev - 1);
+    }
   };
 
   const handleQuantityChange = (val: string | number) => {
@@ -54,6 +56,10 @@ const Products = ({ category, products }: ProductPops) => {
     setQuantity(qty);
     setCurrentPage(1);
   };
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [currentPage]);
 
   return (
     <div className="flex flex-col p-10 border-l border-[#383B42] gap-12 w-full">

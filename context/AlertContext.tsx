@@ -43,7 +43,7 @@ export const AlertProvider = ({ children }: AlertProviderProps) => {
 
     timeoutRef.current = setTimeout(() => {
       setAlert(null);
-    }, 10000);
+    }, 5000);
   };
 
   const removeAlert = () => {

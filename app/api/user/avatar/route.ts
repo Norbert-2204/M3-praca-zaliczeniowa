@@ -24,10 +24,10 @@ export async function POST(req: Request) {
       );
     }
 
-    const maxSize = 2 * 1024 * 1024;
+    const maxSize = 1024 * 1024;
     if (file.size > maxSize) {
       return NextResponse.json(
-        { error: "File too large (max 2MB)" },
+        { error: "File too large (max 1MB)" },
         { status: 400 }
       );
     }

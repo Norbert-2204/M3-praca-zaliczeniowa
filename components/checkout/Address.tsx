@@ -54,7 +54,7 @@ const Address = () => {
               : "text-[#B0B0B0] border-[#383B42]"
           }`}
         >
-          <h2>Existing address</h2>
+          <h2 className="text-lg">Existing address</h2>
         </div>
         <div
           onClick={() => setIsSelected("new")}
@@ -64,14 +64,14 @@ const Address = () => {
               : "text-[#B0B0B0] border-[#383B42]"
           }`}
         >
-          <h2>New address</h2>
+          <h2 className="text-lg">New address</h2>
         </div>
       </div>
       {isSelected === "exist" ? (
         <div className="flex flex-col gap-10">
           <div className="flex flex-col gap-3">
             <div className="flex gap-4 items-center">
-              <h3>Address</h3>
+              <h3 className="text-lg">Address</h3>
               <Button
                 desc="Main address"
                 colors="white"
@@ -79,19 +79,19 @@ const Address = () => {
                 className="py-2.5! px-1.5! cursor-default!"
               />
             </div>
-            <h3>
+            <h3 className="text-lg">
               {user?.address || <Link href={"/settings"}>Update profile</Link>}
             </h3>
           </div>
           <div className="flex flex-col sm:flex-row justify-between">
             <div className="flex flex-col gap-2">
-              <h3>Country</h3>
+              <h3 className="text-lg">Country</h3>
               <h3>
                 {user?.region || <Link href={"/settings"}>Update profile</Link>}
               </h3>
             </div>
             <div className="flex flex-col gap-2">
-              <h3>Province</h3>
+              <h3 className="text-lg">Province</h3>
               <h3>
                 {userCountry?.province || (
                   <Link href={"/settings"}>Update profile</Link>
@@ -99,16 +99,16 @@ const Address = () => {
               </h3>
             </div>
             <div className="flex flex-col gap-2">
-              <h3>City</h3>
-              <h3>
+              <h3 className="text-lg">City</h3>
+              <h3 className="text-lg">
                 {userCountry?.capital || (
                   <Link href={"/settings"}>Update profile</Link>
                 )}
               </h3>
             </div>
             <div className="flex flex-col gap-2">
-              <h3>Postal code</h3>
-              <h3>
+              <h3 className="text-lg">Postal code</h3>
+              <h3 className="text-lg">
                 {userCountry?.postalCode || (
                   <Link href={"/settings"}>Update profile</Link>
                 )}
@@ -194,7 +194,7 @@ const Address = () => {
                 }
               }}
             />
-            <h3>Make it the main address</h3>
+            <h3 className="text-lg">Make it the main address</h3>
           </div>
         </div>
       )}

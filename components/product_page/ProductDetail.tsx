@@ -6,6 +6,7 @@ import ProductInfo from "./ProductInfo";
 import { Product, Category } from "@/utils/Types";
 import { useState } from "react";
 import { FiltersProvider } from "@/context/FilterContext";
+import Loading from "../reused/Loading";
 
 type Props = {
   product: Product;
@@ -34,6 +35,7 @@ const ProductDetail = ({ product, category }: Props) => {
                     src={thisImage}
                     alt={product.name}
                     fill
+                    sizes="(max-width: 640px) 100vw, 422px"
                     className=" rounded object-contain bg-white"
                   />
                 </div>
@@ -49,12 +51,17 @@ const ProductDetail = ({ product, category }: Props) => {
                         : "border-transparent"
                     }`}
                   >
-                    <Image
-                      src={img}
-                      alt={product.name}
-                      width={130}
-                      height={99}
-                    />
+                    {productImages ? (
+                      <Image
+                        src={img}
+                        alt={product.name}
+                        width={130}
+                        height={99}
+                        sizes="(max-width: 640px) 100vw, 130px"
+                      />
+                    ) : (
+                      <Loading />
+                    )}
                   </div>
                 ))}
               </div>

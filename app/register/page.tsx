@@ -101,7 +101,6 @@ const RegisterPage = () => {
           return;
         }
       }
-      console.log(result);
       reset();
       router.push("/register/thankyou");
     } catch (error) {

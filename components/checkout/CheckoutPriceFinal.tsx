@@ -88,7 +88,7 @@ const CheckoutPriceFinal = ({ selectedItems }: CheckoutChildProps) => {
       const data = await res.json();
 
       if (!res.ok) {
-        console.log(data.error || "Something went wrong");
+        console.error(data.error || "Something went wrong");
         addAlert("Something went wrong", "fail");
         return;
       }

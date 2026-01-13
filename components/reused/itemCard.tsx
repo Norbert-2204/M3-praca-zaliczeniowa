@@ -159,8 +159,10 @@ const ItemCard = ({
       )}
       {shop && (
         <div className="flex flex-col items-start justify-center gap-2">
-          <p className="whitespace-nowrap">{item.name}</p>
-          <h3>{`${currency === "USD" ? "$" : "€"}${price}`}</h3>
+          <p className="whitespace-nowrap text-lg">{item.name}</p>
+          <h3 className="text-lg">{`${
+            currency === "USD" ? "$" : "€"
+          }${price}`}</h3>
         </div>
       )}
     </div>

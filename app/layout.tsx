@@ -4,6 +4,7 @@ import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import { AlertProvider } from "@/context/AlertContext";
 import { CartProvider } from "@/context/CartContext";
+import { PaymentProvider } from "@/context/PaymentContext";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -26,7 +27,9 @@ export default function RootLayout({
       <body className={`${inter.variable} antialiased`}>
         <AuthProvider>
           <CartProvider>
-            <AlertProvider>{children}</AlertProvider>
+            <AlertProvider>
+              <PaymentProvider>{children}</PaymentProvider>
+            </AlertProvider>
           </CartProvider>
         </AuthProvider>
       </body>

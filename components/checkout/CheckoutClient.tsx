@@ -28,7 +28,6 @@ const CheckoutClient = () => {
   const selectedItems = cartItems.filter((item) =>
     selectedId.includes(item.id)
   );
-  console.log(selectedItems);
 
   const productBreadcrumbItems: BreadcrumbItem[] = selectedItems.map(
     (item) => ({

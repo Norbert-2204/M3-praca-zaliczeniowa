@@ -35,3 +35,20 @@ export interface CartItemProps {
   filterType?: "category" | "brand";
   productProtection?: boolean;
 }
+
+export interface OrderItem {
+  id: string;
+  productName: string;
+  imageUrl: string;
+  category: string;
+  priceAtPurchase: number;
+  quantity: number;
+  productProtection: boolean;
+}
+
+export interface OrderType {
+  id: string;
+  orderNumber: string;
+  createdAt: string;
+  orderItems: OrderItem[];
+}

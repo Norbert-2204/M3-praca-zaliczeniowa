@@ -42,13 +42,12 @@ const Header = () => {
             {user?.avatar ? (
               <div
                 onClick={profilePage}
-                className="rounded-full z-10 cursor-pointer"
+                className="relative rounded-full z-10 w-10 h-10 cursor-pointer"
               >
                 <Image
                   src={user.avatar}
                   alt="avatar"
-                  width={40}
-                  height={40}
+                  fill
                   className="object-cover rounded-full"
                 />
               </div>
