@@ -12,23 +12,23 @@ import ProtectPage from "@/components/ProtectPage";
 const ProductPage = async () => {
   const { categoryRes, productRes, brandRes } = await FetchTypes();
 
-  const products: Product[] = await productRes.json();
+  // const products: Product[] = await productRes.json();
 
-  const categories: Category[] = await categoryRes.json();
+  // const categories: Category[] = await categoryRes.json();
 
-  const brands: Brand[] = await brandRes.json();
+  // const brands: Brand[] = await brandRes.json();
 
   return (
     <>
       <FiltersProvider>
-        <ProductsInitializer products={products} />
+        <ProductsInitializer products={productRes} />
         <ProtectPage>
           <Header />
           <div className=" pb-7">
             <div className="flex flex-col lg:flex-row border-t justify-center border-[#383B42]">
               <CurrencyProvider>
-                <SideBar categories={categories} brands={brands} />
-                <Products products={products} category={categories} />
+                <SideBar categories={categoryRes} brands={brandRes} />
+                <Products products={productRes} category={categoryRes} />
               </CurrencyProvider>
             </div>
           </div>
