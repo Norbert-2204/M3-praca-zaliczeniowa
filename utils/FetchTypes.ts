@@ -91,20 +91,24 @@ const safeFetch = async (url: string, options?: RequestInit) => {
 };
 
 const FetchTypes = async () => {
-  const { data: categoryRes = [], error: catError } = await supabase
+  // Publiczne dane z Supabase
+  const { data: categoriesData, error: catError } = await supabase
     .from("categories")
     .select("*");
   if (catError) console.error("Categories fetch error:", catError);
+  const categoryRes = categoriesData ?? []; // <- zawsze tablica
 
-  const { data: productRes = [], error: prodError } = await supabase
+  const { data: productsData, error: prodError } = await supabase
     .from("products")
     .select("*");
   if (prodError) console.error("Products fetch error:", prodError);
+  const productRes = productsData ?? [];
 
-  const { data: brandRes = [], error: brandError } = await supabase
+  const { data: brandsData, error: brandError } = await supabase
     .from("brands")
     .select("*");
   if (brandError) console.error("Brands fetch error:", brandError);
+  const brandRes = brandsData ?? [];
 
   const cookieStore = await cookies();
   const cookieHeader = cookieStore.toString();
