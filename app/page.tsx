@@ -4,7 +4,7 @@ import Carousel from "@/components/home_page/Carousel";
 import Category from "@/components/home_page/Category";
 import Recomdendations from "@/components/home_page/Recomendations";
 import Brand from "@/components/home_page/Brand";
-import { Product } from "@/utils/Types";
+// import { Product } from "@/utils/Types";
 import FetchTypes from "@/utils/FetchTypes";
 import { FiltersProvider } from "@/context/FilterContext";
 

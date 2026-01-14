@@ -3,7 +3,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SideBar from "@/components/product_page/Sidebar";
 import Products from "@/components/product_page/Products";
-import { Product, Category, Brand } from "@/utils/Types";
+// import { Product, Category, Brand } from "@/utils/Types";
 import FetchTypes from "@/utils/FetchTypes";
 import ProductsInitializer from "@/components/product_page/ProductInitialize";
 import { CurrencyProvider } from "@/context/CurrencyContext";

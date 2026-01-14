@@ -3,7 +3,7 @@ import Footer from "@/components/Footer";
 import ProtectPage from "@/components/ProtectPage";
 import ProductDetail from "@/components/product_page/ProductDetail";
 import FetchTypes from "@/utils/FetchTypes";
-import { Category } from "@/utils/Types";
+// import { Category } from "@/utils/Types";
 
 type Props = {
   params: Promise<{ id: string }>;
