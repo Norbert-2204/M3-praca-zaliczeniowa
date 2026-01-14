@@ -1,30 +1,14 @@
-# 1. Wybieramy obraz Node.js (LTS)
 FROM node:20-bullseye
 
-# 2. Ustawiamy katalog roboczy w kontenerze
 WORKDIR /usr/src/app
 
-# 3. Instalacja build tools potrzebnych dla LightningCSS i innych paczek natywnych
-RUN apt-get update && apt-get install -y python3 make g++ bash && rm -rf /var/lib/apt/lists/*
-
-# 4. Kopiujemy package.json i package-lock.json / yarn.lock
 COPY package*.json ./
+RUN npm install
 
-# 5. Instalacja zależności (z opcją force dla wymuszenia rebuild optionalDependencies)
-RUN npm install --force
-RUN npm rebuild lightningcss
-
-# 6. Kopiujemy cały projekt
 COPY . .
 
-# 7. Generujemy Prisma Client (dla Linux + Windows)
 RUN npx prisma generate
+RUN npm run build
 
-# 8. Ustawiamy port, na którym Next.js będzie działał
 EXPOSE 3000
-
-# Enable .env file
-ENV NODE_ENV=development
-
-# 9. Komenda startowa dla development (hot reload)
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "start"]

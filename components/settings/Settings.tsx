@@ -1,0 +1,355 @@
+import { useAuth } from "@/context/AuthContext";
+import { useAlert } from "@/context/AlertContext";
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+
+import Image from "next/image";
+import Button from "../reused/Button";
+import Input from "../reused/Input";
+import Dropdown from "../reused/Dropdown";
+import { useState } from "react";
+
+const settingsSchema = z
+  .object({
+    firstName: z
+      .string()
+      .min(3, "Name must have at least 3 letters")
+      .regex(/^[^\d]*$/, "Name cannot contain numbers"),
+    lastName: z
+      .string()
+      .min(3, "Last name must have at least 3 letters")
+      .regex(/^[^\d]*$/, "Last name cannot contain numbers"),
+    email: z.string().email("Invalid email").optional(),
+    address: z.string().min(8, "Address must have at least 8 characters"),
+    phone: z
+      .string()
+      .regex(
+        /^\+\d{1,3}\d{10}$/,
+        "Please enter phone number with country code (+..)"
+      )
+      .optional(),
+    region: z.string(),
+    password: z.string().optional(),
+    newPassword: z
+      .string()
+      .max(25, "Password can't exceed 25 characters")
+      .optional()
+      .refine(
+        (val) =>
+          !val ||
+          (val.length >= 8 &&
+            /[A-Z]/.test(val) &&
+            /[a-z]/.test(val) &&
+            /\d/.test(val)),
+        {
+          message:
+            "Password must be at least 8 characters, include 1 uppercase, 1 lowercase and 1 number",
+        }
+      ),
+  })
+  .refine(
+    (data) => {
+      if (data.newPassword) return !!data.password;
+      return true;
+    },
+    {
+      message: "Current password is required to set a new password",
+      path: ["password"],
+    }
+  );
+
+type RegisterForm = z.infer<typeof settingsSchema>;
+
+const Settings = () => {
+  const { user, refreshUser } = useAuth();
+  const { addAlert } = useAlert();
+  const [isUploading, setIsUploading] = useState(false);
+
+  const maskPhone = (phone?: string) => {
+    if (!phone) return "";
+    const visibleDigits = 2;
+    const maskedLength = phone.length - visibleDigits;
+    return "*".repeat(maskedLength) + phone.slice(-visibleDigits);
+  };
+
+  const { handleSubmit, control, reset, setError } = useForm<RegisterForm>({
+    resolver: zodResolver(settingsSchema),
+    mode: "onSubmit",
+    defaultValues: {
+      firstName: user?.firstName,
+      lastName: user?.lastName,
+      email: user?.email,
+      address: user?.address,
+      phone: user?.phone,
+      region: user?.region,
+      password: "",
+      newPassword: "",
+    },
+  });
+
+  const onSubmit = async (data: z.infer<typeof settingsSchema>) => {
+    try {
+      const res = await fetch("/api/user/update", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      const result = await res.json();
+
+      if (!res.ok) {
+        if (result.error === "Invalid password") {
+          setError("password", {
+            type: "manual",
+            message: "Current password is incorrect",
+          });
+          return addAlert("Current password is incorrect", "fail");
+        }
+        return addAlert(result.error || "Something went wrong", "fail");
+      }
+
+      addAlert("Profile updated successfully");
+      refreshUser();
+      reset({
+        firstName: result.user.firstName,
+        lastName: result.user.lastName,
+        email: result.user.email,
+        address: result.user.address,
+        phone: result.user.phone,
+        region: result.user.region,
+        password: undefined,
+        newPassword: undefined,
+      });
+    } catch (error) {
+      console.error(error);
+      addAlert("Server error", "fail");
+    }
+  };
+
+  const updateAvatar = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("avatar", file);
+
+    try {
+      setIsUploading(true);
+      const res = await fetch("/api/user/avatar", {
+        method: "POST",
+        body: formData,
+      });
+      const result = await res.json();
+      if (res.status === 400) {
+        addAlert(
+          "Image is to large (max 1mb) or only PNG or JPEG allowed",
+          "fail"
+        );
+        return;
+      }
+      if (!res.ok) throw new Error(result.error || "Failed to update avatar");
+
+      addAlert("Avatar updated successfully");
+      refreshUser();
+    } catch (error) {
+      console.error(error);
+      addAlert("Failed to update avatar", "fail");
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  return (
+    <div className="flex flex-col gap-12 p-6 bg-[#262626] border border-[#383B42] w-full max-w-[972px]">
+      <div className="flex flex-col gap-2">
+        <h1 className="text-2xl">My Profile</h1>
+        <p>Organize profile info for account control and security</p>
+        <hr className="text-[#383B42] w-full" />
+      </div>
+      <div className="flex flex-col xl:flex-row gap-12">
+        <div className="flex flex-col items-center gap-6 ">
+          <div className="rounded-full relative w-[220px] h-[220px]">
+            {isUploading ? (
+              <div className="flex items-center justify-center w-full h-full bg-gray-700 rounded-full">
+                <span className="text-white">Uploading...</span>
+              </div>
+            ) : user?.avatar ? (
+              <Image
+                src={user.avatar}
+                alt="avatar"
+                fill
+                sizes="(max-width: 640px) 100px, (max-width: 1024px) 150px, 220px"
+                className="object-cover rounded-full"
+              />
+            ) : (
+              <div className="bg-gray-700 w-full h-full rounded-full"></div>
+            )}
+          </div>
+          <div className="relative">
+            <Button
+              desc="Upload photo"
+              variant="ghost"
+              colors="white"
+              sizes="averageReverse"
+              className="border rounded cursor-default!"
+            />
+            <Input
+              onChange={updateAvatar}
+              type="file"
+              className="absolute z-50 top-0 left-0 opacity-0  w-full h-full cursor-default!"
+            />
+          </div>
+        </div>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col gap-8 w-full"
+          noValidate
+        >
+          <Controller
+            name="firstName"
+            control={control}
+            render={({ field, fieldState }) => (
+              <Input
+                {...field}
+                label="Name"
+                onChange={(e) => field.onChange(e.target.value)}
+                isError={true}
+                settings={true}
+                className="max-w-[400px]"
+                placeholder={user?.firstName || "First name"}
+                error={fieldState.error?.message}
+              />
+            )}
+          />
+          <Controller
+            name="lastName"
+            control={control}
+            render={({ field, fieldState }) => (
+              <Input
+                {...field}
+                label="Last name"
+                onChange={(e) => field.onChange(e.target.value)}
+                className="max-w-[400px]"
+                settings={true}
+                isError={true}
+                placeholder={user?.lastName || "Last name"}
+                error={fieldState.error?.message}
+              />
+            )}
+          />
+          <Controller
+            name="email"
+            control={control}
+            render={({ field, fieldState }) => (
+              <Input
+                {...field}
+                label="Email"
+                className="max-w-[400px]"
+                settings={true}
+                isError={true}
+                placeholder={user?.email}
+                error={fieldState.error?.message}
+              />
+            )}
+          />
+
+          <Controller
+            name="address"
+            control={control}
+            render={({ field, fieldState }) => (
+              <Input
+                {...field}
+                label="Address"
+                onChange={(e) => field.onChange(e.target.value)}
+                className="max-w-[400px]"
+                settings={true}
+                isError={true}
+                placeholder={user?.address || "Address"}
+                error={fieldState.error?.message}
+              />
+            )}
+          />
+          <Controller
+            name="phone"
+            control={control}
+            render={({ field, fieldState }) => (
+              <Input
+                {...field}
+                label="Phone"
+                className="max-w-[400px]"
+                settings={true}
+                isError={true}
+                placeholder={maskPhone(user?.phone)}
+                error={fieldState.error?.message}
+              />
+            )}
+          />
+          <Controller
+            name="region"
+            control={control}
+            render={({ field, fieldState }) => (
+              <Dropdown
+                {...field}
+                label="Country or region"
+                variant="countries"
+                size="large"
+                error={fieldState.error?.message}
+                isError={true}
+                defaultValue={user?.region}
+                isUpdate={true}
+              />
+            )}
+          />
+          <div className="flex flex-col">
+            <div className="flex flex-col gap-4">
+              <Controller
+                name="password"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <Input
+                    {...field}
+                    label="Password"
+                    className="max-w-[400px]"
+                    settings={true}
+                    isError={true}
+                    type="password"
+                    placeholder="Password"
+                    error={fieldState.error?.message}
+                  />
+                )}
+              />
+              <Controller
+                name="newPassword"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <Input
+                    {...field}
+                    label="New Password"
+                    className="max-w-[400px]"
+                    settings={true}
+                    isError={true}
+                    type="password"
+                    placeholder="New password"
+                    error={fieldState.error?.message}
+                  />
+                )}
+              />
+            </div>
+            <div className="flex flex-col sm:flex-row gap-4 self-center sm:self-end">
+              <Button
+                desc="Reset"
+                colors="white"
+                variant="ghost"
+                className="border border-[#41444F] w-[132px]"
+                sizes="averageReverse"
+                onClick={() => reset()}
+              />
+              <Button desc="Update profile" type="submit" />
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+export default Settings;
