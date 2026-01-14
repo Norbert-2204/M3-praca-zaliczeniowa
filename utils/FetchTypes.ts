@@ -54,19 +54,20 @@ const FetchTypes = async () => {
   const cookieStore = await cookies();
   const cookieHeader = cookieStore.toString();
 
-  const [categories, products, brands, order, cart] = await Promise.all([
-    safeFetch("/api/categories"),
-    safeFetch("/api/product"),
-    safeFetch("/api/brand"),
-    safeFetch("/api/order/latest", {
-      headers: { cookie: cookieHeader },
-    }),
-    safeFetch("/api/cart", {
-      headers: { cookie: cookieHeader },
-    }),
-  ]);
+  const [categoryRes, productRes, brandRes, orderRes, cartRes] =
+    await Promise.all([
+      safeFetch("/api/categories"),
+      safeFetch("/api/product"),
+      safeFetch("/api/brand"),
+      safeFetch("/api/order/latest", {
+        headers: { cookie: cookieHeader },
+      }),
+      safeFetch("/api/cart", {
+        headers: { cookie: cookieHeader },
+      }),
+    ]);
 
-  return { categories, products, brands, order, cart };
+  return { categoryRes, productRes, brandRes, orderRes, cartRes };
 };
 
 export default FetchTypes;
