@@ -18,7 +18,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const { data: user, error } = await supabase.auth.admin.createUser({
+    const { data, error } = await supabase.auth.admin.createUser({
       email,
       password,
       user_metadata: { phone, region, avatar },
@@ -31,7 +31,7 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json(
-      { message: "User successfully registered", userId: user.id },
+      { message: "User successfully registered", userId: data.user?.id },
       { status: 201 }
     );
   } catch (error) {
