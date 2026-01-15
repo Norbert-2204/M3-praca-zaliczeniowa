@@ -9,9 +9,9 @@ import FetchTypes from "@/utils/FetchTypes";
 const Cart = async () => {
   const { productRes, cartRes } = await FetchTypes();
 
-  const cartItems: CartItemProps[] = await cartRes.json();
+  const cartItems: CartItemProps[] = cartRes;
 
-  const products = await productRes.json();
+  const products = productRes;
 
   return (
     <>

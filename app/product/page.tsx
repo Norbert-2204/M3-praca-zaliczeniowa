@@ -12,11 +12,11 @@ import ProtectPage from "@/components/ProtectPage";
 const ProductPage = async () => {
   const { categoryRes, productRes, brandRes } = await FetchTypes();
 
-  const products: Product[] = await productRes.json();
+  const products: Product[] = productRes;
 
-  const categories: Category[] = await categoryRes.json();
+  const categories: Category[] = categoryRes;
 
-  const brands: Brand[] = await brandRes.json();
+  const brands: Brand[] = brandRes;
 
   return (
     <>
