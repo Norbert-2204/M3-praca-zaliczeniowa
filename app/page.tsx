@@ -11,14 +11,14 @@ import { FiltersProvider } from "@/context/FilterContext";
 export default async function Home() {
   const { categoryRes, productRes, brandRes } = await FetchTypes();
 
-  const categories = await categoryRes.json();
+  const categories = categoryRes;
 
-  const products: Product[] = await productRes.json();
+  const products: Product[] = productRes;
   const carouselProducts = products.filter((p) =>
     [4, 6, 13, 17, 21].includes(p.id)
   );
 
-  const brands = await brandRes.json();
+  const brands = brandRes;
 
   return (
     <div>
