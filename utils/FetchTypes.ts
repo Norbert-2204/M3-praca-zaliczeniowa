@@ -29,7 +29,7 @@ const FetchTypes = async () => {
         cache: "no-store",
         headers: { cookie: cookieHeader },
       }),
-      safeFetch(`${BASE_URL}/api/order/latest`, {
+      safeFetch(`/api/order/latest`, {
         cache: "no-store",
         headers: { cookie: cookieHeader },
       }),
