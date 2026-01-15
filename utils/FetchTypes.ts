@@ -90,6 +90,17 @@ const safeFetch = async (url: string, options?: RequestInit) => {
   }
 };
 
+const safeFetch = async (url: string, options?: RequestInit) => {
+  try {
+    const res = await fetch(url, options);
+    if (!res.ok) return [];
+    return await res.json();
+  } catch (e) {
+    console.error(`Fetch failed for ${url}`, e);
+    return [];
+  }
+};
+
 const FetchTypes = async () => {
   // Publiczne dane z Supabase
   const { data: categoriesData, error: catError } = await supabase
@@ -113,14 +124,20 @@ const FetchTypes = async () => {
   const cookieStore = await cookies();
   const cookieHeader = cookieStore.toString();
 
-  const [cartRes, orderRes] = await Promise.all([
-    safeFetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/cart`, {
-      headers: { cookie: cookieHeader },
-    }),
-    safeFetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/order/latest`, {
-      headers: { cookie: cookieHeader },
-    }),
-  ]);
+  const [categoryRes, productRes, brandRes, cartRes, orderRes] =
+    await Promise.all([
+      safeFetch("/api/categories", { cache: "no-store" }),
+      safeFetch("/api/product", { cache: "no-store" }),
+      safeFetch("/api/brand", { cache: "no-store" }),
+      safeFetch("/api/cart", {
+        cache: "no-store",
+        headers: { cookie: cookieHeader },
+      }),
+      safeFetch("/api/order/latest", {
+        cache: "no-store",
+        headers: { cookie: cookieHeader },
+      }),
+    ]);
 
   return { categoryRes, productRes, brandRes, cartRes, orderRes };
 };
