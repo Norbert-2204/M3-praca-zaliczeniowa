@@ -1,5 +1,7 @@
 import { cookies } from "next/headers";
 
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL;
+
 const safeFetch = async (url: string, options?: RequestInit) => {
   try {
     const res = await fetch(url, options);
@@ -17,14 +19,14 @@ const FetchTypes = async () => {
 
   const [categoryRes, productRes, brandRes, cartRes, orderRes] =
     await Promise.all([
-      safeFetch("/api/categories", { cache: "no-store" }),
-      safeFetch("/api/product", { cache: "no-store" }),
-      safeFetch("/api/brand", { cache: "no-store" }),
-      safeFetch("/api/cart", {
+      safeFetch(`${BASE_URL}/api/categories`, { cache: "no-store" }),
+      safeFetch(`${BASE_URL}/api/product`, { cache: "no-store" }),
+      safeFetch(`${BASE_URL}/api/brand`, { cache: "no-store" }),
+      safeFetch(`${BASE_URL}/api/cart`, {
         cache: "no-store",
         headers: { cookie: cookieHeader },
       }),
-      safeFetch("/api/order/latest", {
+      safeFetch(`${BASE_URL}/api/order/latest`, {
         cache: "no-store",
         headers: { cookie: cookieHeader },
       }),
