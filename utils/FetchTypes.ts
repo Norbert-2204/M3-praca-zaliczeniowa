@@ -22,10 +22,10 @@ const FetchTypes = async () => {
 
   const [categoryRes, productRes, brandRes, cartRes, orderRes] =
     await Promise.all([
-      safeFetch(`${BASE_URL}/api/categories`, { cache: "no-store" }),
-      safeFetch(`${BASE_URL}/api/product`, { cache: "no-store" }),
-      safeFetch(`${BASE_URL}/api/brand`, { cache: "no-store" }),
-      safeFetch(`${BASE_URL}/api/cart`, {
+      safeFetch(`/api/categories`, { cache: "no-store" }),
+      safeFetch(`/api/product`, { cache: "no-store" }),
+      safeFetch(`/api/brand`, { cache: "no-store" }),
+      safeFetch(`/api/cart`, {
         cache: "no-store",
         headers: { cookie: cookieHeader },
       }),
