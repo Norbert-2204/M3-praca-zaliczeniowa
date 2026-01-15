@@ -1,38 +1,36 @@
 import { cookies } from "next/headers";
 
+const safeFetch = async (url: string, options?: RequestInit) => {
+  try {
+    const res = await fetch(url, options);
+    if (!res.ok) return [];
+    return await res.json();
+  } catch (e) {
+    console.error(`Fetch failed for ${url}`, e);
+    return [];
+  }
+};
+
 const FetchTypes = async () => {
   const cookieStore = await cookies();
   const cookieHeader = cookieStore.toString();
 
-  const [categoryRes, productRes, brandRes, orderRes, cartRes] =
+  const [categoryRes, productRes, brandRes, cartRes, orderRes] =
     await Promise.all([
-      fetch(`/api/categories`, { cache: "no-store" }),
-      fetch(`/api/product`, { cache: "no-store" }),
-      fetch(`/api/brand`, { cache: "no-store" }),
-      fetch(`/api/order/latest`, {
+      safeFetch("/api/categories", { cache: "no-store" }),
+      safeFetch("/api/product", { cache: "no-store" }),
+      safeFetch("/api/brand", { cache: "no-store" }),
+      safeFetch("/api/cart", {
         cache: "no-store",
         headers: { cookie: cookieHeader },
-      }).then(async (res) => {
-        if (!res.ok) return { json: async () => null, ok: true };
-        return res;
       }),
-      fetch(`/api/cart`, {
+      safeFetch("/api/order/latest", {
         cache: "no-store",
         headers: { cookie: cookieHeader },
-      }).then(async (res) => {
-        if (!res.ok) return { json: async () => null, ok: true };
-        return res;
       }),
-      ,
     ]);
 
-  if (!categoryRes.ok) throw new Error("Failed to fetch categories");
-  if (!productRes.ok) throw new Error("Failed to fetch products");
-  if (!brandRes.ok) throw new Error("Failed to fetch brands");
-  if (!orderRes.ok) throw new Error("Failed to fetch orders");
-  if (!cartRes.ok) throw new Error("Failed to fetch cart");
-
-  return { categoryRes, productRes, brandRes, orderRes, cartRes };
+  return { categoryRes, productRes, brandRes, cartRes, orderRes };
 };
 
 export default FetchTypes;
