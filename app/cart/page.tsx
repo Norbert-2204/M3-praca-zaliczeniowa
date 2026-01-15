@@ -11,14 +11,14 @@ const Cart = async () => {
 
   const cartItems: CartItemProps[] = await cartRes.json();
 
-  // const products = await productRes.json();
+  const products = await productRes.json();
 
   return (
     <>
       <FiltersProvider>
         <ProtectPage>
           <Header />
-          <CartClient cartItems={cartItems} products={productRes} />
+          <CartClient cartItems={cartItems} products={products} />
           <Footer />
         </ProtectPage>
       </FiltersProvider>
