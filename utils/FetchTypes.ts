@@ -4,7 +4,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL;
 
 const safeFetch = async (url: string, options?: RequestInit) => {
   try {
-    const res = await fetch(url, options);
+    const res = await fetch(`${BASE_URL}${url}`, options);
     if (!res.ok) return [];
     return await res.json();
   } catch (e) {
@@ -19,14 +19,14 @@ const FetchTypes = async () => {
 
   const [categoryRes, productRes, brandRes, cartRes, orderRes] =
     await Promise.all([
-      safeFetch(`${BASE_URL}/api/categories`, { cache: "no-store" }),
-      safeFetch(`${BASE_URL}/api/product`, { cache: "no-store" }),
-      safeFetch(`${BASE_URL}/api/brand`, { cache: "no-store" }),
-      safeFetch(`${BASE_URL}/api/cart`, {
+      safeFetch(`/api/categories`, { cache: "no-store" }),
+      safeFetch(`/api/product`, { cache: "no-store" }),
+      safeFetch(`/api/brand`, { cache: "no-store" }),
+      safeFetch(`/api/cart`, {
         cache: "no-store",
         headers: { cookie: cookieHeader },
       }),
-      safeFetch(`${BASE_URL}/api/order/latest`, {
+      safeFetch(`/api/order/latest`, {
         cache: "no-store",
         headers: { cookie: cookieHeader },
       }),
