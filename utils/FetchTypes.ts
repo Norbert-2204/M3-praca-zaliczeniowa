@@ -1,22 +1,35 @@
 import { cookies } from "next/headers";
+import { headers } from "next/headers";
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL;
+// const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL;
 
-const safeFetch = async (url: string, options?: RequestInit) => {
+const getBaseUrl = async () => {
+  const h = await headers();
+  const host = h.get("host");
+  const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
+
+  return `${protocol}://${host}`;
+};
+
+const safeFetch = async (path: string, options?: RequestInit) => {
   try {
-    const res = await fetch(`${url}`, options);
-    console.log("res", res);
+    const baseUrl = await getBaseUrl();
+    const url = `${baseUrl}${path}`;
 
-    if (!res || typeof res.json !== "function") return [];
+    const res = await fetch(url, options);
 
-    if (!res.ok) return [];
+    if (!res.ok) {
+      console.error("Fetch not ok:", url, res.status);
+      return [];
+    }
 
-    return (await res.json()) || [];
+    return await res.json();
   } catch (e) {
-    console.error(`Fetch failed for ${url}`, e);
+    console.error(`Fetch failed for ${path}`, e);
     return [];
   }
 };
+
 const FetchTypes = async () => {
   const cookieStore = await cookies();
   const cookieHeader = cookieStore.toString();
