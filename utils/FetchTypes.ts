@@ -4,7 +4,8 @@ const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL;
 
 const safeFetch = async (url: string, options?: RequestInit) => {
   try {
-    const res = await fetch(`${BASE_URL}${url}`, options);
+    const res = await fetch(`${url}`, options);
+    console.log("res", res);
 
     if (!res || typeof res.json !== "function") return [];
 
