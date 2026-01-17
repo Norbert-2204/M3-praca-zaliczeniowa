@@ -56,3 +56,17 @@ export interface OrderType {
   createdAt: string;
   orderItems: OrderItem[];
 }
+
+export interface CategoryDto {
+  id: number;
+  name: string;
+  description: string | null;
+  image: string | null;
+  exploreInfo: string | null;
+}
+
+export interface BrandDto {
+  id: number;
+  name: string;
+  imageUrl: string | null;
+}
