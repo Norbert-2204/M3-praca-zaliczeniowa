@@ -64,9 +64,7 @@
 
 const safeFetch = async (path: string) => {
   try {
-    const res = await fetch(path, {
-      cache: "no-store",
-    });
+    const res = await fetch(path);
     console.log("Fetching:", path, "Status:", res.status);
 
     if (!res.ok) {

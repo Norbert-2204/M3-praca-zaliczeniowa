@@ -5,9 +5,5 @@ export default function PublicLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <>
-      <AlertProvider>{children}</AlertProvider>
-    </>
-  );
+  return <>{children}</>;
 }
