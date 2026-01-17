@@ -14,11 +14,15 @@ export interface Product {
 export interface Category {
   id: number;
   name: string;
+  exploreInfo: string;
+  imageUrl: string;
+  description: string;
 }
 
 export interface Brand {
   id: number;
   name: string;
+  imageUrl: string;
 }
 
 export interface CartItemProps {

@@ -31,7 +31,7 @@ const ProductDetailPage = async ({ params }: Props) => {
 
   const product = await res.json();
 
-  const categories: Category[] = await categoryRes.json();
+  const categories: Category[] = categoryRes;
   const category = categories.find((cat) => cat.id === product.categoryId);
 
   return (

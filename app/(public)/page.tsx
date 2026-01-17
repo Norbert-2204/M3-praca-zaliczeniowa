@@ -19,9 +19,6 @@ export default async function Home() {
   );
 
   const brands = brandRes;
-  console.log("Brands on Home Page:", brands);
-  console.log("Categories on Home Page:", categories);
-  console.log("Products on Home Page:", products);
 
   return (
     <div>

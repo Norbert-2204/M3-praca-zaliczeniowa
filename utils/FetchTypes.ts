@@ -1,55 +1,94 @@
-import { cookies } from "next/headers";
-import { headers } from "next/headers";
+// import { cookies } from "next/headers";
+// import { headers } from "next/headers";
 
-// const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL;
+// const getBaseUrl = async () => {
+// const h = await headers();
+// const host = h.get("host");
+// const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
 
-const getBaseUrl = async () => {
-  const h = await headers();
-  const host = h.get("host");
-  const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
+// return `${protocol}://${host}`;
+//   return "https://ecommerce-ie32769y3-norberts-projects-db3d64fd.vercel.app/";
+// };
 
-  return `${protocol}://${host}`;
-};
+// const safeFetch = async (path: string, options?: RequestInit) => {
+//   try {
+//     const baseUrl = await getBaseUrl();
+//     const url = `${baseUrl}${path}`;
 
-const safeFetch = async (path: string, options?: RequestInit) => {
+//     const res = await fetch(url, options);
+
+//     if (!res.ok) {
+//       console.log("res", res);
+//       console.error("Fetch not ok:", url, res.status);
+//       if (res.status === 401) {
+//         console.log("Unauthorized access:", res);
+//       }
+//       return [];
+//     }
+
+//     return await res.json();
+//   } catch (e) {
+//     console.error(`Fetch failed for ${path}`, e);
+//     return [];
+//   }
+// };
+
+// const FetchTypes = async () => {
+// const cookieStore = await cookies();
+// const cookieHeader = cookieStore.toString();
+
+// const [categoryRes, productRes, brandRes] = await Promise.all([
+//   safeFetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/categories`, {
+//     cache: "no-store",
+//   }),
+//   safeFetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/product`, {
+//     cache: "no-store",
+//   }),
+//   safeFetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/brand`, {
+//     cache: "no-store",
+//   }),
+// safeFetch(`/api/cart`, {
+//   cache: "no-store",
+//   headers: { cookie: cookieHeader },
+// }),
+// safeFetch(`/api/order/latest`, {
+//   cache: "no-store",
+//   headers: { cookie: cookieHeader },
+// }),
+// ]);
+
+//   return { categoryRes, productRes, brandRes };
+// };
+
+// export default FetchTypes;
+
+const safeFetch = async (path: string) => {
   try {
-    const baseUrl = await getBaseUrl();
-    const url = `${baseUrl}${path}`;
-
-    const res = await fetch(url, options);
+    const res = await fetch(path, {
+      cache: "no-store",
+    });
+    console.log("Fetching:", path, "Status:", res.status);
 
     if (!res.ok) {
-      console.error("Fetch not ok:", url, res.status);
+      console.error(`Fetch failed: ${path}`, res.status);
       return [];
     }
 
-    return await res.json();
+    return res.json();
   } catch (e) {
-    console.error(`Fetch failed for ${path}`, e);
+    console.error(`Fetch error: ${path}`, e);
     return [];
   }
 };
 
 const FetchTypes = async () => {
-  const cookieStore = await cookies();
-  const cookieHeader = cookieStore.toString();
+  const [categoryRes, productRes, brandRes] = await Promise.all([
+    safeFetch("/api/categories"),
+    safeFetch("/api/product"),
+    safeFetch("/api/brand"),
+  ]);
 
-  const [categoryRes, productRes, brandRes, cartRes, orderRes] =
-    await Promise.all([
-      safeFetch(`/api/categories`, { cache: "no-store" }),
-      safeFetch(`/api/product`, { cache: "no-store" }),
-      safeFetch(`/api/brand`, { cache: "no-store" }),
-      safeFetch(`/api/cart`, {
-        cache: "no-store",
-        headers: { cookie: cookieHeader },
-      }),
-      safeFetch(`/api/order/latest`, {
-        cache: "no-store",
-        headers: { cookie: cookieHeader },
-      }),
-    ]);
-
-  return { categoryRes, productRes, brandRes, cartRes, orderRes };
+  return { categoryRes, productRes, brandRes };
 };
 
 export default FetchTypes;

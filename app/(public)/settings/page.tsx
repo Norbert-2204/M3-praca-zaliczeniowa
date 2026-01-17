@@ -3,8 +3,8 @@ import Header from "@/components/Header";
 import ProtectPage from "@/components/ProtectPage";
 import UserClient from "@/components/settings/UserClient";
 import { UserPanelProvider } from "@/context/ProfileContext";
-import { getUserId } from "../lib/getId";
-import { prisma } from "../lib/prisma";
+import { getUserId } from "../../lib/getId";
+import { prisma } from "../../lib/prisma";
 
 interface OrderItem {
   id: number;

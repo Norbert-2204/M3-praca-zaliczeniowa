@@ -8,6 +8,7 @@ import FetchTypes from "@/utils/FetchTypes";
 import ProductsInitializer from "@/components/product_page/ProductInitialize";
 import { CurrencyProvider } from "@/context/CurrencyContext";
 import ProtectPage from "@/components/ProtectPage";
+import { Suspense } from "react";
 
 const ProductPage = async () => {
   const { categoryRes, productRes, brandRes } = await FetchTypes();
@@ -27,8 +28,10 @@ const ProductPage = async () => {
           <div className=" pb-7">
             <div className="flex flex-col lg:flex-row border-t justify-center border-[#383B42]">
               <CurrencyProvider>
-                <SideBar categories={categories} brands={brands} />
-                <Products products={products} category={categories} />
+                <Suspense>
+                  <SideBar categories={categories} brands={brands} />
+                  <Products products={products} category={categories} />
+                </Suspense>
               </CurrencyProvider>
             </div>
           </div>

@@ -5,9 +5,11 @@ import CartClient from "@/components/cart/CartClient";
 import { FiltersProvider } from "@/context/FilterContext";
 import ProtectPage from "@/components/ProtectPage";
 import FetchTypes from "@/utils/FetchTypes";
+import fetchAuthData from "@/utils/AuthFetch";
 
 const Cart = async () => {
-  const { productRes, cartRes } = await FetchTypes();
+  const { productRes } = await FetchTypes();
+  const { cartRes } = await fetchAuthData();
 
   const cartItems: CartItemProps[] = cartRes;
 
