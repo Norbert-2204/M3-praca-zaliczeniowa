@@ -36,11 +36,9 @@ const ProductDetailPage = async ({ params }: Props) => {
 
   return (
     <>
-      <ProtectPage>
-        <Header />
-        <ProductDetail product={product} category={category} />
-        <Footer />
-      </ProtectPage>
+      <Header />
+      <ProductDetail product={product} category={category} />
+      <Footer />
     </>
   );
 };

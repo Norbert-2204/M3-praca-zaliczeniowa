@@ -75,7 +75,6 @@ const baseUrl = getBaseUrl();
 const safeFetch = async (path: string) => {
   try {
     const res = await fetch(`${baseUrl}${path}`);
-    console.log("Fetching:", path, "Status:", res.status);
 
     if (!res.ok) {
       console.error(`Fetch failed: ${path}`, res.status);
