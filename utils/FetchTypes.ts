@@ -36,7 +36,7 @@ const safeFetch = async (path: string) => {
   try {
     const url = typeof window === "undefined" ? path : `${getBaseUrl()}${path}`;
 
-    const res = await fetch(url, { cache: "no-store" });
+    const res = await fetch(url);
 
     if (!res.ok) {
       console.error(`Fetch failed: ${path}`, res.status);
