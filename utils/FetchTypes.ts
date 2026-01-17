@@ -10,22 +10,40 @@ const getBaseUrl = () => {
   return "http://localhost:3000";
 };
 
-const baseUrl = getBaseUrl();
+// const baseUrl = getBaseUrl();
+
+// const safeFetch = async (path: string) => {
+//   try {
+//     const res = await fetch(`${baseUrl}${path}`);
+//     console.log("base url:", baseUrl);
+//     console.log("path:", path);
+//     console.log("NEXT_PUBLIC_SITE_URL:", process.env.NEXT_PUBLIC_SITE_URL);
+//     console.log("VERCEL_URL:", process.env.VERCEL_URL);
+
+//     if (!res.ok) {
+//       console.error(`Fetch failed: ${path}`, res.status);
+//       return [];
+//     }
+
+//     return res.json();
+//   } catch (e) {
+//     console.error(`Fetch error: ${path}`, e);
+//     return [];
+//   }
+// };
 
 const safeFetch = async (path: string) => {
   try {
-    const res = await fetch(`${baseUrl}${path}`);
-    console.log("base url:", baseUrl);
-    console.log("path:", path);
-    console.log("NEXT_PUBLIC_SITE_URL:", process.env.NEXT_PUBLIC_SITE_URL);
-    console.log("VERCEL_URL:", process.env.VERCEL_URL);
+    const url = typeof window === "undefined" ? path : `${getBaseUrl()}${path}`;
+
+    const res = await fetch(url, { cache: "no-store" });
 
     if (!res.ok) {
       console.error(`Fetch failed: ${path}`, res.status);
       return [];
     }
 
-    return res.json();
+    return await res.json();
   } catch (e) {
     console.error(`Fetch error: ${path}`, e);
     return [];
