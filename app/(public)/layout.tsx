@@ -9,7 +9,9 @@ export default function PublicLayout({
 }) {
   return (
     <>
-      <Suspense fallback={<Loading />}>{children}</Suspense>
+      <Suspense fallback={<Loading />}>
+        <AlertProvider>{children}</AlertProvider>
+      </Suspense>
     </>
   );
 }
