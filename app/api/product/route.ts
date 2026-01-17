@@ -18,5 +18,6 @@ export async function GET(req: Request) {
     },
     orderBy: { createdAt: "desc" },
   });
+  console.log("API PRODUCT CALLED");
   return NextResponse.json(products);
 }
