@@ -17,11 +17,9 @@ const ProductDetailPage = async ({ params }: Props) => {
     return <p>Invalid product ID</p>;
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-
   const { categoryRes } = await FetchTypes();
 
-  const res = await fetch(`${baseUrl}/api/product/${productId}`, {
+  const res = await fetch(`$/api/product/${productId}`, {
     cache: "no-store",
   });
 

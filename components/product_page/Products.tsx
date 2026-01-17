@@ -115,10 +115,8 @@ const Products = ({ category, products }: ProductPops) => {
                 key={p.id}
                 item={p}
                 shop={true}
-                price={convertPrice(p.price)}
                 currency={currency}
-                itemName={categoryName}
-                id={p.id}
+                categoryName={categoryName}
                 bg={true}
               />
             );
