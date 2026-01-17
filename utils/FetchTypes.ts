@@ -62,9 +62,19 @@
 
 // export default FetchTypes;
 
+const getBaseUrl = () => {
+  if (process.env.NEXT_PUBLIC_SITE_URL) {
+    return `https://${process.env.NEXT_PUBLIC_SITE_URL}`;
+  }
+
+  return "http://localhost:3000";
+};
+
+const baseUrl = getBaseUrl();
+
 const safeFetch = async (path: string) => {
   try {
-    const res = await fetch(path);
+    const res = await fetch(`${baseUrl}${path}`);
     console.log("Fetching:", path, "Status:", res.status);
 
     if (!res.ok) {
