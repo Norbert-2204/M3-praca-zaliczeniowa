@@ -34,7 +34,7 @@ const getBaseUrl = () => {
 
 const safeFetch = async (path: string) => {
   try {
-    const url = typeof window === "undefined" ? path : `${getBaseUrl()}${path}`;
+    const url = `${getBaseUrl()}${path}`;
 
     const res = await fetch(url);
 
