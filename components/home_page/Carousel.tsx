@@ -79,7 +79,7 @@ const Carousel = ({ categories, products }: FullProps) => {
               >
                 <div className="flex flex-col gap-6 max-w-[450px] text-center sm:text-left ">
                   <h2 className="text-[32px]">{capitalize(cat.name)}</h2>
-                  <p className="text-[#E7E7E7]">
+                  <p className="text-[#E7E7E7] max-w[250px]">
                     {capitalize(cat.exploreInfo)}
                   </p>
                   <div className="flex justify-center xl:justify-start">
