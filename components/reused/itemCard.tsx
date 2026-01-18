@@ -52,11 +52,6 @@ const ItemCard = ({
   };
 
   const handleFilterClick = () => {
-    if (!isLoggedIn) {
-      addAlert("You must be logged in to see this page", "warning");
-      return;
-    }
-
     const filterId =
       filterType === "category"
         ? isProduct(item)
@@ -88,7 +83,7 @@ const ItemCard = ({
       if (result.status === 409 && result.addedQuantity === 0) {
         addAlert(
           `Cannot add more of ${item.name} to cart, stock limit reached.`,
-          "warning"
+          "warning",
         );
         return;
       }
@@ -101,10 +96,6 @@ const ItemCard = ({
   };
 
   const handleBrandClick = (brandId: number) => {
-    if (!isLoggedIn) {
-      addAlert("You must be logged in see this page", "warning");
-      return;
-    }
     router.push(`/product?brand=${brandId}`);
   };
 
@@ -115,32 +106,27 @@ const ItemCard = ({
 
   return (
     <div
-      className={`flex flex-col px-4 pb-5 pt-4 ${
+      className={`flex flex-col px-4 pb-5 pt-4 justify-center bg-[#262626] border border-[#383B42] rounded
+      ${
         isBrand(item)
-          ? "gap-7 items-center w-[220px] h-[190px]"
+          ? "gap-4 items-center w-[220px] h-[210px] cursor-pointer"
           : "gap-4.5 items-start w-[220px] lg:w-[300px] h-auto"
-      } justify-center bg-[#262626] border border-[#383B42] rounded`}
+      }`}
+      onClick={isBrand(item) ? () => handleBrandClick(item.id) : undefined}
     >
       <div
-        className={`relative flex items-center justify-center shrink-0 ${
-          isBrand(item) ? "w-[110px] h-[57px]" : "w-full h-40"
-        }
-         ${bg ? "bg-white" : "bg-[#262626]"}
-         `}
+        className={`relative flex items-center justify-center shrink-0
+        ${isBrand(item) ? "w-[180px] h-[110px]" : "w-full h-40"}
+        ${bg ? "bg-white" : "bg-[#262626]"}`}
       >
-        <div
-          onClick={isBrand(item) ? () => handleBrandClick(item.id) : undefined}
-          className="w-[220px] h-[190px] absolute z-10 -top-9 cursor-pointer"
-        ></div>
-
         {isBrand(item) ? (
           <Image
             loading="eager"
             src={item.imageUrl || imageError}
             alt={item.name}
-            width={220}
-            height={180}
-            className="w-full h-full object-contain"
+            width={180}
+            height={110}
+            className="object-contain"
           />
         ) : (
           <div
@@ -159,10 +145,7 @@ const ItemCard = ({
         )}
 
         {isProduct(item) && item.stock === 0 && (
-          <div
-            onClick={handleProductDetail}
-            className="absolute z-100 cursor-pointer"
-          >
+          <div className="absolute z-50 cursor-pointer">
             <div className="w-[150px] h-[150px] relative">
               <Image
                 src="https://i.ibb.co/yn5QgGp1/Sold-PNG-Image.png"
@@ -179,7 +162,7 @@ const ItemCard = ({
             variant="icon"
             icon={<ShopCartIcon className="text-[#FCFCFC]" />}
             onClick={handleAddToCart}
-            className=" absolute left-4 top-4 rounded p-4 z-100"
+            className=" absolute left-4 top-4 rounded p-4 z-50"
             bgColors="black"
           />
         )}
@@ -199,9 +182,7 @@ const ItemCard = ({
       {shop && isProduct(item) && (
         <div className="flex flex-col items-start justify-center gap-2">
           <p className="whitespace-nowrap text-lg">{item.name}</p>
-          <h3 className="text-lg">{`${currency === "USD" ? "$" : "€"}${
-            item.price
-          }`}</h3>
+          <h3 className="text-lg">{`${currency === "USD" ? "$" : "€"}${item.price}`}</h3>
         </div>
       )}
     </div>
