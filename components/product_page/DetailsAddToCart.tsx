@@ -9,7 +9,6 @@ import MinusSmall from "@/icons/minusSmall";
 import OkArrow from "@/icons/okArrow";
 import { useAlert } from "@/context/AlertContext";
 import { useAuth } from "@/context/AuthContext";
-import { is } from "zod/locales";
 
 type Props = {
   product: Product;
