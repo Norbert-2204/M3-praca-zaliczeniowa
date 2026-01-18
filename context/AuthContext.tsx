@@ -26,6 +26,7 @@ interface AuthContextType {
   user: User | null;
   setUser: (user: User | null) => void;
   isLoggedIn: boolean;
+  isLoading: boolean;
   logout: () => void;
   refreshUser: () => Promise<void>;
 }
@@ -34,6 +35,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const logout = () => {
     setUser(null);
@@ -47,6 +49,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         if (data.user) setUser(data.user);
       } catch (err) {
         console.error("Failed to fetch user:", err);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchUser();
@@ -68,6 +72,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         user,
         setUser,
         isLoggedIn: !!user,
+        isLoading,
         logout,
         refreshUser,
       }}
