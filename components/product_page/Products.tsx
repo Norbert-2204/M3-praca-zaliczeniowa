@@ -21,7 +21,7 @@ const Products = ({ category, products }: ProductPops) => {
   const [quantity, setQuantity] = useState(9);
   const [currentPage, setCurrentPage] = useState(1);
   const { setProducts, filteredProducts, setSort } = useFilters();
-  const { currency } = useCurrency();
+  const { currency, convertPrice } = useCurrency();
   const totalPages = Math.ceil(filteredProducts.length / quantity);
 
   useEffect(() => {
@@ -117,6 +117,7 @@ const Products = ({ category, products }: ProductPops) => {
                 shop={true}
                 currency={currency}
                 categoryName={categoryName}
+                convertPrice={convertPrice}
                 bg={true}
               />
             );
