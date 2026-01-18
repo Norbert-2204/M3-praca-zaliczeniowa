@@ -42,7 +42,7 @@ export interface CartItemProps {
 }
 
 export interface OrderItem {
-  id: string;
+  id: number;
   productName: string;
   imageUrl: string;
   category: string;
@@ -52,8 +52,8 @@ export interface OrderItem {
 }
 
 export interface OrderType {
-  id: string;
-  orderNumber: string;
+  id: number;
+  orderNumber: string | null;
   createdAt: string;
   orderItems: OrderItem[];
 }

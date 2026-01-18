@@ -10,7 +10,7 @@ import { Product, Category, Brand } from "@/utils/Types";
 import FetchTypes from "@/utils/FetchTypes";
 import ProductsInitializer from "@/components/product_page/ProductInitialize";
 import { CurrencyProvider } from "@/context/CurrencyContext";
-import ProtectPage from "@/components/ProtectPage";
+import Loading from "@/components/reused/Loading";
 
 const ProductPage = () => {
   const [loading, setLoading] = useState(true);
@@ -32,7 +32,7 @@ const ProductPage = () => {
     fetchData();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Loading />;
 
   return (
     <FiltersProvider>
