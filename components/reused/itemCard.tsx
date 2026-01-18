@@ -9,6 +9,7 @@ import ShopCartIcon from "@/icons/ShopCart";
 import { addToCart } from "@/utils/AddToCart";
 import { useAlert } from "@/context/AlertContext";
 import { useAuth } from "@/context/AuthContext";
+import { useCurrency } from "@/context/CurrencyContext";
 import { Product, Brand } from "@/utils/Types";
 
 const imageError = "https://i.ibb.co/twJkJxGK/pngaaa-com-5273700.png";
@@ -39,6 +40,7 @@ const ItemCard = ({
   const router = useRouter();
   const pathname = usePathname();
   const { isLoggedIn, refreshUser } = useAuth();
+  const { convertPrice } = useCurrency();
 
   const imgSrc = "imageUrl" in item ? item.imageUrl : imageError;
   const imgAlt = "name" in item ? item.name : "brand";
@@ -190,9 +192,9 @@ const ItemCard = ({
       {shop && isProduct(item) && (
         <div className="flex flex-col items-start justify-center gap-2">
           <p className="whitespace-nowrap text-lg">{item.name}</p>
-          <h3 className="text-lg">{`${currency === "USD" ? "$" : "€"}${
-            item.price
-          }`}</h3>
+          <h3 className="text-lg">{`${currency === "USD" ? "$" : "€"}${convertPrice(
+            item.price,
+          )}`}</h3>
         </div>
       )}
     </div>
