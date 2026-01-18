@@ -39,7 +39,6 @@ const ItemCard = ({
   const router = useRouter();
   const pathname = usePathname();
   const { isLoggedIn, refreshUser } = useAuth();
-  console.log("item name", item.name);
 
   const imgSrc = "imageUrl" in item ? item.imageUrl : imageError;
   const imgAlt = "name" in item ? item.name : "brand";
@@ -107,27 +106,32 @@ const ItemCard = ({
 
   return (
     <div
-      className={`flex flex-col px-4 pb-5 pt-4 justify-center bg-[#262626] border border-[#383B42] rounded
-      ${
+      className={`flex flex-col px-4 pb-5 pt-4 ${
         brand
-          ? "gap-4 items-center w-[220px] h-[210px] cursor-pointer"
+          ? "gap-7 items-center w-[220px] h-[190px]"
           : "gap-4.5 items-start w-[220px] lg:w-[300px] h-auto"
-      }`}
-      onClick={brand ? () => handleBrandClick(item.id) : undefined}
+      } justify-center bg-[#262626] border border-[#383B42] rounded`}
     >
       <div
-        className={`relative flex items-center justify-center shrink-0
-        ${brand ? "w-[180px] h-[110px]" : "w-full h-40"}
-        ${bg ? "bg-white" : "bg-[#262626]"}`}
+        className={`relative flex items-center justify-center shrink-0 ${
+          brand ? "w-[110px] h-[57px]" : "w-full h-40"
+        }
+         ${bg ? "bg-white" : "bg-[#262626]"}
+         `}
       >
-        {isBrand(item) ? (
+        <div
+          onClick={isBrand(item) ? () => handleBrandClick(item.id) : undefined}
+          className="w-[220px] h-[190px] absolute z-10 -top-9 cursor-pointer"
+        ></div>
+
+        {brand ? (
           <Image
             loading="eager"
             src={item.imageUrl || imageError}
             alt={item.name}
-            width={180}
-            height={110}
-            className="object-contain"
+            width={220}
+            height={180}
+            className="w-full h-full object-contain"
           />
         ) : (
           <div
@@ -146,7 +150,10 @@ const ItemCard = ({
         )}
 
         {isProduct(item) && item.stock === 0 && (
-          <div className="absolute z-50 cursor-pointer">
+          <div
+            onClick={handleProductDetail}
+            className="absolute z-100 cursor-pointer"
+          >
             <div className="w-[150px] h-[150px] relative">
               <Image
                 src="https://i.ibb.co/yn5QgGp1/Sold-PNG-Image.png"
@@ -163,13 +170,13 @@ const ItemCard = ({
             variant="icon"
             icon={<ShopCartIcon className="text-[#FCFCFC]" />}
             onClick={handleAddToCart}
-            className=" absolute left-4 top-4 rounded p-4 z-50"
+            className=" absolute left-4 top-4 rounded p-4 z-100"
             bgColors="black"
           />
         )}
       </div>
 
-      {isBrand(item) && <p className="text-[20px]">{item.name}</p>}
+      {brand && <p className="text-[20px]">{item.name}</p>}
 
       {shop && (
         <Button
@@ -183,7 +190,9 @@ const ItemCard = ({
       {shop && isProduct(item) && (
         <div className="flex flex-col items-start justify-center gap-2">
           <p className="whitespace-nowrap text-lg">{item.name}</p>
-          <h3 className="text-lg">{`${currency === "USD" ? "$" : "€"}${item.price}`}</h3>
+          <h3 className="text-lg">{`${currency === "USD" ? "$" : "€"}${
+            item.price
+          }`}</h3>
         </div>
       )}
     </div>
