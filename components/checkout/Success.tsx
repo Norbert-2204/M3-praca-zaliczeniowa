@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { OrderType } from "@/utils/Types";
 import { usePayment } from "@/context/PaymentContext";
+import Loading from "../reused/Loading";
 
 interface SuccessProps {
   order: OrderType;
@@ -13,14 +14,17 @@ interface SuccessProps {
 
 const Success = ({ order }: SuccessProps) => {
   const { paymentMethod } = usePayment();
+
+  if (!paymentMethod) return <Loading />;
+
   const totalProductPrice = order.orderItems.reduce(
     (sum, item) => sum + item.priceAtPurchase * item.quantity,
-    0
+    0,
   );
 
   const productProtectionCost = order.orderItems.reduce(
     (sum, item) => sum + (item.productProtection ? item.quantity : 0),
-    0
+    0,
   );
 
   const totalProductProtection = 1 * order.orderItems.length;
@@ -108,7 +112,7 @@ const Success = ({ order }: SuccessProps) => {
                     Total Product Price (
                     {order.orderItems.reduce(
                       (sum, item) => sum + item.quantity,
-                      0
+                      0,
                     )}{" "}
                     Items)
                   </h2>

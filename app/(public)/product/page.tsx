@@ -37,18 +37,16 @@ const ProductPage = () => {
   return (
     <FiltersProvider>
       <ProductsInitializer products={products} />
-      <ProtectPage>
-        <Header />
-        <div className="pb-7">
-          <div className="flex flex-col lg:flex-row border-t justify-center border-[#383B42]">
-            <CurrencyProvider>
-              <SideBar categories={categories} brands={brands} />
-              <Products products={products} category={categories} />
-            </CurrencyProvider>
-          </div>
+      <Header />
+      <div className="pb-7">
+        <div className="flex flex-col lg:flex-row border-t justify-center border-[#383B42]">
+          <CurrencyProvider>
+            <SideBar categories={categories} brands={brands} />
+            <Products products={products} category={categories} />
+          </CurrencyProvider>
         </div>
-        <Footer />
-      </ProtectPage>
+      </div>
+      <Footer />
     </FiltersProvider>
   );
 };
