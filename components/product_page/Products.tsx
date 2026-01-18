@@ -34,7 +34,7 @@ const Products = ({ category, products }: ProductPops) => {
 
   const paginatedProducts = filteredProducts.slice(
     (currentPage - 1) * quantity,
-    currentPage * quantity
+    currentPage * quantity,
   );
 
   const handleNext = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -108,17 +108,16 @@ const Products = ({ category, products }: ProductPops) => {
         <div className="flex flex-wrap gap-12">
           {paginatedProducts.map((p) => {
             const categoryName = category.find(
-              (cat) => cat.id === p.categoryId
+              (cat) => cat.id === p.categoryId,
             )?.name;
             return (
               <ItemCard
                 key={p.id}
                 item={p}
                 shop={true}
-                price={convertPrice(p.price)}
                 currency={currency}
-                itemName={categoryName}
-                id={p.id}
+                categoryName={categoryName}
+                convertPrice={convertPrice}
                 bg={true}
               />
             );
@@ -144,7 +143,7 @@ const Products = ({ category, products }: ProductPops) => {
                   onClick={() => setCurrentPage(Number(page))}
                   className="text-[#FCFCFC] w-11 h-11"
                 />
-              )
+              ),
             )}
           </div>
           <div className="flex gap-8">

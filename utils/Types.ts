@@ -16,6 +16,7 @@ export interface Category {
   name: string;
   exploreInfo: string;
   imageUrl: string;
+  image: string;
   description: string;
 }
 
@@ -41,7 +42,7 @@ export interface CartItemProps {
 }
 
 export interface OrderItem {
-  id: string;
+  id: number;
   productName: string;
   imageUrl: string;
   category: string;
@@ -51,22 +52,31 @@ export interface OrderItem {
 }
 
 export interface OrderType {
-  id: string;
-  orderNumber: string;
+  id: number;
+  orderNumber: string | null;
   createdAt: string;
   orderItems: OrderItem[];
 }
 
-export interface CategoryDto {
+export type FetchTypesResult = {
+  categoryRes: Category[];
+  productRes: Product[];
+  brandRes: Brand[];
+};
+
+export interface ProductItem {
+  type: "product";
   id: number;
   name: string;
-  description: string | null;
-  image: string | null;
-  exploreInfo: string | null;
+  imageUrl: string;
+  categoryId: number;
+  stock: number;
+  price: number;
 }
 
-export interface BrandDto {
+export interface BrandItem {
+  type: "brand";
   id: number;
   name: string;
-  imageUrl: string | null;
+  imageUrl: string;
 }

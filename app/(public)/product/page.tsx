@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { FiltersProvider } from "@/context/FilterContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -7,38 +10,45 @@ import { Product, Category, Brand } from "@/utils/Types";
 import FetchTypes from "@/utils/FetchTypes";
 import ProductsInitializer from "@/components/product_page/ProductInitialize";
 import { CurrencyProvider } from "@/context/CurrencyContext";
-import ProtectPage from "@/components/ProtectPage";
-import { Suspense } from "react";
+import Loading from "@/components/reused/Loading";
 
-const ProductPage = async () => {
-  const { categoryRes, productRes, brandRes } = await FetchTypes();
+const ProductPage = () => {
+  const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [brands, setBrands] = useState<Brand[]>([]);
 
-  const products: Product[] = productRes;
+  useEffect(() => {
+    const fetchData = async () => {
+      const { categoryRes, productRes, brandRes } = await FetchTypes();
 
-  const categories: Category[] = categoryRes;
+      setProducts(productRes);
+      setCategories(categoryRes);
+      setBrands(brandRes);
 
-  const brands: Brand[] = brandRes;
+      setLoading(false);
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) return <Loading />;
 
   return (
-    <>
-      <FiltersProvider>
-        <ProductsInitializer products={products} />
-        <ProtectPage>
-          <Header />
-          <div className=" pb-7">
-            <div className="flex flex-col lg:flex-row border-t justify-center border-[#383B42]">
-              <CurrencyProvider>
-                <Suspense>
-                  <SideBar categories={categories} brands={brands} />
-                  <Products products={products} category={categories} />
-                </Suspense>
-              </CurrencyProvider>
-            </div>
-          </div>
-          <Footer />
-        </ProtectPage>
-      </FiltersProvider>
-    </>
+    <FiltersProvider>
+      <ProductsInitializer products={products} />
+      <Header />
+      <div className="pb-7">
+        <div className="flex flex-col lg:flex-row border-t justify-center border-[#383B42]">
+          <CurrencyProvider>
+            <SideBar categories={categories} brands={brands} />
+            <Products products={products} category={categories} />
+          </CurrencyProvider>
+        </div>
+      </div>
+      <Footer />
+    </FiltersProvider>
   );
 };
+
 export default ProductPage;

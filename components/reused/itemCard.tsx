@@ -9,39 +9,32 @@ import ShopCartIcon from "@/icons/ShopCart";
 import { addToCart } from "@/utils/AddToCart";
 import { useAlert } from "@/context/AlertContext";
 import { useAuth } from "@/context/AuthContext";
+import { Product, Brand } from "@/utils/Types";
 
 const imageError = "https://i.ibb.co/twJkJxGK/pngaaa-com-5273700.png";
 
-interface BaseItem {
-  name: string;
-  imageUrl: string;
-  categoryId: number;
-  id: number;
-  stock: number;
-}
+type ItemCardItem = Product | Brand;
 
 interface ItemCardProps {
-  item: BaseItem;
-  id?: number;
+  item: ItemCardItem;
   shop?: boolean;
-  itemName?: string;
-  price?: number;
   brand?: boolean;
   bg?: boolean;
   currency?: string;
   filterType?: "category" | "brand";
+  categoryName?: string;
+  convertPrice?: (price: number) => number;
 }
 
 const ItemCard = ({
   item,
   shop = false,
-  itemName,
-  brand = false,
-  price,
-  id,
   bg = false,
   currency = "USD",
   filterType = "category",
+  categoryName,
+  brand = false,
+  convertPrice,
 }: ItemCardProps) => {
   const { addAlert } = useAlert();
   const { setSelectedCategories, setSelectedBrands } = useFilters();
@@ -49,13 +42,24 @@ const ItemCard = ({
   const pathname = usePathname();
   const { isLoggedIn, refreshUser } = useAuth();
 
-  const handleFilterClick = () => {
-    if (!isLoggedIn) {
-      addAlert("You must be logged in to see this page", "warning");
-      return;
-    }
+  const imgSrc = "imageUrl" in item ? item.imageUrl : imageError;
+  const imgAlt = "name" in item ? item.name : "brand";
 
-    const filterId = filterType === "category" ? item.categoryId : item.id;
+  const isProduct = (item: ItemCardItem): item is Product => {
+    return (item as Product).price !== undefined;
+  };
+
+  const isBrand = (item: ItemCardItem): item is Brand => {
+    return !("price" in item);
+  };
+
+  const handleFilterClick = () => {
+    const filterId =
+      filterType === "category"
+        ? isProduct(item)
+          ? item.categoryId
+          : undefined
+        : item.id;
 
     if (!filterId) return;
 
@@ -68,43 +72,42 @@ const ItemCard = ({
   };
 
   const handleAddToCart = async () => {
+    if (!isProduct(item)) return;
+
     if (!isLoggedIn) {
       addAlert("You must be logged in to add items to your cart", "warning");
       return;
     }
-    if (!id) return;
 
     try {
-      const result = await addToCart(id);
-      console.log(result);
+      const result = await addToCart(item.id);
+
       if (result.status === 409 && result.addedQuantity === 0) {
         addAlert(
           `Cannot add more of ${item.name} to cart, stock limit reached.`,
-          "warning"
+          "warning",
         );
         return;
       }
+
       refreshUser();
       addAlert(`${item.name} added to cart!`, "success");
     } catch (error) {
       console.error("Add to cart failed", error);
     }
   };
+
   const handleBrandClick = (brandId: number) => {
-    if (!isLoggedIn) {
-      addAlert("You must be logged in see this page", "warning");
-      return;
-    }
     router.push(`/product?brand=${brandId}`);
   };
 
   const handleProductDetail = () => {
-    router.push(`/product/${id}`);
+    if (!isProduct(item)) return;
+    router.push(`/product/${item.id}`);
   };
 
   return (
     <div
-      key={id}
       className={`flex flex-col px-4 pb-5 pt-4 ${
         brand
           ? "gap-7 items-center w-[220px] h-[190px]"
@@ -119,9 +122,10 @@ const ItemCard = ({
          `}
       >
         <div
-          onClick={brand ? () => handleBrandClick(item.id) : undefined}
+          onClick={isBrand(item) ? () => handleBrandClick(item.id) : undefined}
           className="w-[220px] h-[190px] absolute z-10 -top-9 cursor-pointer"
         ></div>
+
         {brand ? (
           <Image
             loading="eager"
@@ -138,15 +142,16 @@ const ItemCard = ({
           >
             <Image
               loading="eager"
-              src={item.imageUrl || imageError}
-              alt={item.name}
+              src={imgSrc || imageError}
+              alt={imgAlt}
               fill
               sizes="(max-width: 183px)"
               className="object-contain"
             />
           </div>
         )}
-        {item.stock === 0 && (
+
+        {isProduct(item) && item.stock === 0 && (
           <div
             onClick={handleProductDetail}
             className="absolute z-100 cursor-pointer"
@@ -161,7 +166,8 @@ const ItemCard = ({
             </div>
           </div>
         )}
-        {shop && (
+
+        {shop && isProduct(item) && (
           <Button
             variant="icon"
             icon={<ShopCartIcon className="text-[#FCFCFC]" />}
@@ -171,24 +177,29 @@ const ItemCard = ({
           />
         )}
       </div>
+
       {brand && <p className="text-[20px]">{item.name}</p>}
+
       {shop && (
         <Button
-          desc={itemName}
+          desc={isProduct(item) ? categoryName : "Brand"}
           sizes="verySmall"
           bgColors="dark"
           onClick={handleFilterClick}
         />
       )}
-      {shop && (
+
+      {shop && isProduct(item) && (
         <div className="flex flex-col items-start justify-center gap-2">
           <p className="whitespace-nowrap text-lg">{item.name}</p>
-          <h3 className="text-lg">{`${
-            currency === "USD" ? "$" : "€"
-          }${price}`}</h3>
+          <h3 className="text-lg">
+            {currency === "USD" ? "$" : "€"}
+            {convertPrice ? convertPrice(item.price) : item.price}
+          </h3>
         </div>
       )}
     </div>
   );
 };
+
 export default ItemCard;

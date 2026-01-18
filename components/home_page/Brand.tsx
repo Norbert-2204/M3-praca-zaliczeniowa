@@ -1,14 +1,6 @@
 import Slider from "../reused/Slider";
 import ItemCard from "../reused/itemCard";
-
-interface BrandItem {
-  id: number;
-  name: string;
-  imageUrl: string;
-  categoryId: number;
-  brandId: number;
-  stock: number;
-}
+import { BrandItem } from "@/utils/Types";
 
 interface BrandProps {
   brands: BrandItem[];

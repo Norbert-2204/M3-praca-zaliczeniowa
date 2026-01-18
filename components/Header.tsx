@@ -81,6 +81,7 @@ const Header = () => {
             <Link href="/" className="text-[#F29145]">
               Home
             </Link>
+            <Link href="/product">Product</Link>
           </nav>
           <hr className="text-[#383B42]" />
         </div>

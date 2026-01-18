@@ -20,6 +20,7 @@ const Recomdendations = ({ products, categories }: ProductProps) => {
       ids.add(products[randIndex].id);
     }
     const selected = products.filter((p) => ids.has(p.id));
+
     setTimeout(() => {
       setRandomProducts(selected);
     }, 0);
@@ -30,7 +31,6 @@ const Recomdendations = ({ products, categories }: ProductProps) => {
       <div className="flex flex-col gap-8 px-10">
         <h2 className="text-[28px]">Recomendation</h2>
         <div className="flex gap-8">
-          {/* placeholdery */}
           {Array.from({ length: 6 }).map((_, idx) => (
             <div
               key={idx}
@@ -41,6 +41,7 @@ const Recomdendations = ({ products, categories }: ProductProps) => {
       </div>
     );
   }
+
   return (
     <div className="flex flex-col gap-8 px-10">
       <Slider title="Recomendation" shop={true}>
@@ -54,9 +55,7 @@ const Recomdendations = ({ products, categories }: ProductProps) => {
               key={product.id}
               item={product}
               shop={true}
-              itemName={categoryName}
-              price={product.price}
-              id={product.id}
+              categoryName={categoryName}
               bg={true}
             />
           );
@@ -65,4 +64,5 @@ const Recomdendations = ({ products, categories }: ProductProps) => {
     </div>
   );
 };
+
 export default Recomdendations;
