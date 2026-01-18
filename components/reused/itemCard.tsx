@@ -32,6 +32,7 @@ const ItemCard = ({
   currency = "USD",
   filterType = "category",
   categoryName,
+  brand = false,
 }: ItemCardProps) => {
   const { addAlert } = useAlert();
   const { setSelectedCategories, setSelectedBrands } = useFilters();
@@ -48,7 +49,7 @@ const ItemCard = ({
   };
 
   const isBrand = (item: ItemCardItem): item is Brand => {
-    return "brandId" in item && !("price" in item);
+    return !("price" in item);
   };
 
   const handleFilterClick = () => {
@@ -108,15 +109,15 @@ const ItemCard = ({
     <div
       className={`flex flex-col px-4 pb-5 pt-4 justify-center bg-[#262626] border border-[#383B42] rounded
       ${
-        isBrand(item)
+        brand
           ? "gap-4 items-center w-[220px] h-[210px] cursor-pointer"
           : "gap-4.5 items-start w-[220px] lg:w-[300px] h-auto"
       }`}
-      onClick={isBrand(item) ? () => handleBrandClick(item.id) : undefined}
+      onClick={brand ? () => handleBrandClick(item.id) : undefined}
     >
       <div
         className={`relative flex items-center justify-center shrink-0
-        ${isBrand(item) ? "w-[180px] h-[110px]" : "w-full h-40"}
+        ${brand ? "w-[180px] h-[110px]" : "w-full h-40"}
         ${bg ? "bg-white" : "bg-[#262626]"}`}
       >
         {isBrand(item) ? (
