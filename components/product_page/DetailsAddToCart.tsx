@@ -8,6 +8,8 @@ import ShopCartIcon from "@/icons/ShopCart";
 import MinusSmall from "@/icons/minusSmall";
 import OkArrow from "@/icons/okArrow";
 import { useAlert } from "@/context/AlertContext";
+import { useAuth } from "@/context/AuthContext";
+import { is } from "zod/locales";
 
 type Props = {
   product: Product;
@@ -17,6 +19,7 @@ const DetailsAddToCart = ({ product }: Props) => {
   const [quantity, setQuantity] = useState(1);
   const [colorType, setColorType] = useState("black");
   const { addAlert } = useAlert();
+  const { isLoggedIn } = useAuth();
 
   const subtotal = (product.price * quantity).toFixed(2);
 
@@ -30,11 +33,16 @@ const DetailsAddToCart = ({ product }: Props) => {
 
   const handleAddToCart = async () => {
     try {
+      if (!isLoggedIn) {
+        addAlert("You need to be logged in to add products to cart", "warning");
+        return;
+      }
+
       const result = await addToCart(product.id, quantity);
       if (result.status === 409 && result.addedQuantity === 0) {
         addAlert(
-          `Cannot add more of ${product.name} to cart, stock limit reached.`,
-          "warning"
+          `Cannot add more of ${product.name} to cart, stock limit reached or empty.`,
+          "warning",
         );
         return;
       }
@@ -42,7 +50,7 @@ const DetailsAddToCart = ({ product }: Props) => {
       if (result.addedQuantity < quantity) {
         addAlert(
           `Only ${result.addedQuantity} of ${product.name} were added to cart due to stock limit.`,
-          "warning"
+          "warning",
         );
       } else {
         addAlert(`${product.name} added to cart!`, "success");
