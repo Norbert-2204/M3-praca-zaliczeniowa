@@ -84,7 +84,7 @@ const ItemCard = ({
 
       if (result.status === 409 && result.addedQuantity === 0) {
         addAlert(
-          `Cannot add more of ${item.name} to cart, stock limit reached.`,
+          `Cannot add more of ${item.name} to cart, stock limit reached or empty.`,
           "warning",
         );
         return;
