@@ -78,7 +78,6 @@ const fetchAuthData = async () => {
       headers: { cookie: cookieHeader },
     }),
   ]);
-  console.log("test");
 
   return { cartRes, orderRes };
 };
