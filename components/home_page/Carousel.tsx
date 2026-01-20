@@ -90,7 +90,7 @@ const Carousel = ({ categories, products }: FullProps) => {
                     />
                   </div>
                 </div>
-                <div className="relative w-full min-h-[250px] max-w-[300px] xl:max-w-[450px] md:aspect-3/5 ">
+                <div className="relative w-full min-h-[100px] max-w-[300px] xl:max-w-[450px] md:aspect-3/5 ">
                   <Image
                     src={products[idx].imageUrl}
                     alt={`category-${idx}`}
