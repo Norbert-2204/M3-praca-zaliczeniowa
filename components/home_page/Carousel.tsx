@@ -49,7 +49,7 @@ const Carousel = ({ categories, products }: FullProps) => {
   return (
     <div>
       <div className="px-6 xl:px-10 flex flex-col items-center">
-        <div className="relative px-4 sm:px-0 flex flex-col dm:flex-row w-full h-[452px] overflow-hidden bg-[#222327] rounded border border-[#383B42]">
+        <div className="relative px-4 sm:px-0 flex flex-col dm:flex-row w-full sm:h-[452px] overflow-hidden bg-[#222327] rounded border border-[#383B42]">
           <Button
             variant="iconBig"
             onClick={prev}
@@ -63,7 +63,7 @@ const Carousel = ({ categories, products }: FullProps) => {
             className="absolute right-0 top-1/2 -translate-y-1/2 z-10"
           />
           <div
-            className="flex h-[452px] flex-col sm:flex-row transition-transform duration-500 ease-in-out"
+            className="flex h-[452px] flex-col-reverse sm:flex-row transition-transform duration-500 ease-in-out"
             style={{ transform: `translateX(-${currentIndex * 100}%)` }}
           >
             {categories.map((cat, idx) => (
@@ -90,7 +90,7 @@ const Carousel = ({ categories, products }: FullProps) => {
                     />
                   </div>
                 </div>
-                <div className="relative w-full min-h-[100px] max-w-[300px] xl:max-w-[450px] md:aspect-3/5 ">
+                <div className="relative w-full max-w-[300px] xl:max-w-[450px] md:aspect-3/5 ">
                   <Image
                     src={products[idx].imageUrl}
                     alt={`category-${idx}`}

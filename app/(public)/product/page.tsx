@@ -39,7 +39,7 @@ const ProductPage = () => {
       <ProductsInitializer products={products} />
       <Header />
       <div className="pb-7">
-        <div className="flex flex-col lg:flex-row border-t justify-center border-[#383B42]">
+        <div className="flex flex-col lg:flex-row border-t justify-center items-center lg:items-stretch border-[#383B42]">
           <CurrencyProvider>
             <SideBar categories={categories} brands={brands} />
             <Products products={products} category={categories} />
