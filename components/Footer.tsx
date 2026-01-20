@@ -10,7 +10,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="px-15 py-[140px] bg-[#222327] flex flex-col sm:flex-row  justify-center xl:justify-between items-center xl:items-start gap-8 xl:gap-0 ">
+    <footer className="px-15 py-[140px] bg-[#222327] flex flex-col xl:flex-row  justify-center xl:justify-between items-center xl:items-start gap-8 xl:gap-0 ">
       <div className="flex flex-col gap-6 justify-between sm:justify-start items-start">
         <h1 className="text-4xl font-bold ">
           <span className="text-[#F29145]">Nexus</span>
@@ -31,7 +31,7 @@ const Footer = () => {
           ))}
         </div>
       </div>
-      <nav className="flex flex-col flex-wrap justify-center gap-1 lg:flex-row">
+      <nav className="flex flex-wrap justify-center gap-1">
         <div className="flex flex-col gap-8">
           <h2 className="text-[20px] font-bold">Company</h2>
           <div className="flex flex-col gap-4 w-[191px]">
