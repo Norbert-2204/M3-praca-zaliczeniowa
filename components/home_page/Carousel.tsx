@@ -63,7 +63,7 @@ const Carousel = ({ categories, products }: FullProps) => {
             className="absolute right-0 top-1/2 -translate-y-1/2 z-10"
           />
           <div
-            className="flex h-[452px] transition-transform duration-500 ease-in-out"
+            className="flex h-[452px] flex-col sm:flex-row transition-transform duration-500 ease-in-out"
             style={{ transform: `translateX(-${currentIndex * 100}%)` }}
           >
             {categories.map((cat, idx) => (
@@ -77,9 +77,9 @@ const Carousel = ({ categories, products }: FullProps) => {
                 px-6 xl:px-[120px]
               "
               >
-                <div className="flex flex-col p-6 sm:p-0 gap-6 max-w-[450px] text-center sm:text-left ">
+                <div className="flex flex-col gap-6 max-w-[450px] text-center sm:text-left ">
                   <h2 className="text-[32px]">{capitalize(cat.name)}</h2>
-                  <p className="text-[#E7E7E7] ">
+                  <p className="text-[#E7E7E7]">
                     {capitalize(cat.exploreInfo)}
                   </p>
                   <div className="flex justify-center xl:justify-start">
@@ -90,7 +90,7 @@ const Carousel = ({ categories, products }: FullProps) => {
                     />
                   </div>
                 </div>
-                <div className="relative h-[250px] xl:h-auto w-full max-w-[300px] xl:max-w-[450px] md:aspect-3/5 ">
+                <div className="relative w-full min-h-[250px] max-w-[300px] xl:max-w-[450px] md:aspect-3/5 ">
                   <Image
                     src={products[idx].imageUrl}
                     alt={`category-${idx}`}
