@@ -63,7 +63,7 @@ const Carousel = ({ categories, products }: FullProps) => {
             className="absolute right-0 top-1/2 -translate-y-1/2 z-10"
           />
           <div
-            className="flex h-[452px] flex-col-reverse sm:flex-row transition-transform duration-500 ease-in-out"
+            className="flex h-[452px] flex-col sm:flex-row transition-transform duration-500 ease-in-out"
             style={{ transform: `translateX(-${currentIndex * 100}%)` }}
           >
             {categories.map((cat, idx) => (
