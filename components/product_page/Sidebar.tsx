@@ -98,7 +98,7 @@ const SideBar = ({ categories, brands }: SideBarProps) => {
         desc={visible ? "Hide filters" : "Show filters"}
         onClick={() => setVisible(!visible)}
         className="block lg:hidden"
-        sizes="average"
+        sizes="small"
       />
       <div
         className={`p-4 sm:p-10 flex flex-col gap-10 ${visible ? "block" : "hidden"} lg:block`}
