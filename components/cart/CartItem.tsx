@@ -92,7 +92,7 @@ const CartItem = ({ cartItem, product }: CartItemFullProps) => {
   };
 
   return (
-    <div className="flex flex-col xl:flex-row gap-6 w-full ">
+    <div className="flex flex-col lg:flex-row gap-6 w-full ">
       <Input
         variant="checkbox"
         checked={isSelected(id)}

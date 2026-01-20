@@ -31,7 +31,7 @@ const Footer = () => {
           ))}
         </div>
       </div>
-      <nav className="flex flex-col justify-center gap-1 lg:flex-row">
+      <nav className="flex flex-wrap justify-center gap-1">
         <div className="flex flex-col gap-8">
           <h2 className="text-[20px] font-bold">Company</h2>
           <div className="flex flex-col gap-4 w-[191px]">

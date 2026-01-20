@@ -59,7 +59,10 @@ const Slider = ({ title, children }: SliderProps) => {
         )}
       </div>
 
-      <div ref={containerRef} className="overflow-hidden">
+      <div
+        ref={containerRef}
+        className="overflow-x-auto overflow-y-hidden scrollbar-hide"
+      >
         <div className={`flex transition-transform duration-300 gap-8 `}>
           {React.Children.map(children, (child, idx) => (
             <div key={idx} className={`shrink-0 `}>

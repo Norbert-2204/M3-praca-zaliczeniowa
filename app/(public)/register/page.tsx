@@ -25,11 +25,11 @@ const registerSchema = z
       .string()
       .min(
         8,
-        "Create a password which has at least 8 characters and includes at least 1 upper case letter. 1 lower case letter and 1 number."
+        "Create a password which has at least 8 characters and includes at least 1 upper case letter. 1 lower case letter and 1 number.",
       )
       .regex(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/,
-        "Password must be at least 8 characters, include 1 uppercase letter, 1 lowercase letter and 1 number"
+        "Password must be at least 8 characters, include 1 uppercase letter, 1 lowercase letter and 1 number",
       )
       .max(25, "Password cant exceed 25 characters"),
     confirmPassword: z.string().min(1, "Please confirm password"),
@@ -74,7 +74,7 @@ const RegisterPage = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email: data.email,
+          email: data.email.toLowerCase(),
           phone: data.phone,
           password: data.password,
           region: data.region,

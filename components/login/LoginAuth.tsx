@@ -38,7 +38,7 @@ const Login = ({ label, placeholder }: LoginProps) => {
         <div className="flex flex-col gap-8">
           <div>
             <Input
-              value={identifier}
+              value={identifier.toLowerCase()}
               onChange={(e) => setIdentifier(e.target.value)}
               label={label}
               placeholder={placeholder}
