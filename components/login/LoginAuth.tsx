@@ -39,7 +39,7 @@ const Login = ({ label, placeholder }: LoginProps) => {
           <div>
             <Input
               value={identifier}
-              onChange={(e) => setIdentifier(e.target.value)}
+              onChange={(e) => setIdentifier(e.target.value.toLowerCase())}
               label={label}
               placeholder={placeholder}
               error={error}

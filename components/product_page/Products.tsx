@@ -62,7 +62,7 @@ const Products = ({ category, products }: ProductPops) => {
   }, [currentPage]);
 
   return (
-    <div className="flex flex-col p-10 border-l border-[#383B42] gap-12 w-full">
+    <div className="flex flex-col items-center sm:items-stretch p-10 border-l border-[#383B42] gap-12 w-full">
       <div className="flex flex-col md:flex-row items-center md:items-start gap-15">
         <div className="flex justify-center items-center gap-4">
           <h2 className="text-nowrap text-xl font-semibold">Sort by</h2>
