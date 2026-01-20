@@ -38,8 +38,8 @@ const Login = ({ label, placeholder }: LoginProps) => {
         <div className="flex flex-col gap-8">
           <div>
             <Input
-              value={identifier}
-              onChange={(e) => setIdentifier(e.target.value.toLowerCase())}
+              value={identifier.toLowerCase()}
+              onChange={(e) => setIdentifier(e.target.value)}
               label={label}
               placeholder={placeholder}
               error={error}
