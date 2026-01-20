@@ -10,7 +10,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="px-15 py-[140px] bg-[#222327] flex flex-col xl:flex-row  justify-center xl:justify-between items-center xl:items-start gap-8 xl:gap-0 ">
+    <footer className="px-15 py-[140px] bg-[#222327] flex flex-col sm:flex-row  justify-center xl:justify-between items-center xl:items-start gap-8 xl:gap-0 ">
       <div className="flex flex-col gap-6 justify-between sm:justify-start items-start">
         <h1 className="text-4xl font-bold ">
           <span className="text-[#F29145]">Nexus</span>
